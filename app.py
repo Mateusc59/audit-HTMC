@@ -1,8 +1,8 @@
 from flask import Flask, send_from_directory, request, jsonify, send_file
 import os
 from datetime import datetime
-from xhtml2pdf import pisa
-from io import BytesIO
+from playwright.sync_api import sync_playwright
+import tempfile
 
 app = Flask(__name__, static_folder='.', static_url_path='')
 
@@ -16,7 +16,7 @@ def serve_file(path):
 
 @app.route('/generate-pdf', methods=['POST'])
 def generate_pdf():
-    """Generate PDF using xhtml2pdf (no API key needed)"""
+    """Generate PDF using Playwright - renders EXACT HTML"""
     try:
         data = request.json
         html_content = data.get('htmlContent', '')
@@ -26,12 +26,12 @@ def generate_pdf():
         if not html_content:
             return jsonify({'error': 'No HTML content'}), 400
         
-        # Get CSS - inline it
+        # Get CSS
         css_path = os.path.join(os.path.dirname(__file__), 'styles.css')
         with open(css_path, 'r', encoding='utf-8') as f:
             css_content = f.read()
         
-        # Build complete HTML with inlined CSS
+        # Build complete HTML
         full_html = f'''
         <!DOCTYPE html>
         <html>
@@ -42,13 +42,12 @@ def generate_pdf():
                 
                 @page {{
                     size: A4;
-                    margin: 0mm;
+                    margin: 0;
                 }}
                 
                 body {{
                     margin: 0;
                     padding: 0;
-                    font-family: Arial, Helvetica, sans-serif;
                 }}
             </style>
         </head>
@@ -58,18 +57,52 @@ def generate_pdf():
         </html>
         '''
         
-        # Generate PDF
+        # Create temp HTML file
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.html', delete=False, encoding='utf-8') as temp_html:
+            temp_html.write(full_html)
+            temp_html_path = temp_html.name
+        
+        # Output PDF path
         pdf_path = f'/tmp/audit_{company_name.replace(" ", "_")}_{lang}.pdf'
         
-        with open(pdf_path, 'w+b') as pdf_file:
-            pisa_status = pisa.CreatePDF(
-                full_html.encode('utf-8'),
-                dest=pdf_file,
-                encoding='utf-8'
-            )
+        try:
+            # Launch Playwright
+            with sync_playwright() as p:
+                # Launch browser
+                browser = p.chromium.launch(
+                    headless=True,
+                    args=[
+                        '--no-sandbox',
+                        '--disable-setuid-sandbox',
+                        '--disable-dev-shm-usage',
+                        '--disable-gpu'
+                    ]
+                )
+                
+                page = browser.new_page()
+                
+                # Load HTML
+                page.goto(f'file://{temp_html_path}', wait_until='networkidle')
+                
+                # Generate PDF
+                page.pdf(
+                    path=pdf_path,
+                    format='A4',
+                    print_background=True,
+                    margin={
+                        'top': '0mm',
+                        'right': '0mm',
+                        'bottom': '0mm',
+                        'left': '0mm'
+                    }
+                )
+                
+                browser.close()
         
-        if pisa_status.err:
-            return jsonify({'error': 'PDF generation failed'}), 500
+        finally:
+            # Clean up temp file
+            if os.path.exists(temp_html_path):
+                os.unlink(temp_html_path)
         
         # Send file
         filename = f"Audit_{company_name.replace(' ', '_')}_{lang.upper()}_{datetime.now().strftime('%Y%m%d')}.pdf"
