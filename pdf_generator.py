@@ -68,13 +68,8 @@ def generate_audit_pdf_from_html(html_content, lang='fr'):
     # Generate PDF path
     output_path = f"/tmp/audit_{lang}.pdf"
     
-    # Create PDF with WeasyPrint
-    HTML(string=full_html).write_pdf(output_path)
+    # Create PDF with WeasyPrint - CORRECT SYNTAX
+    html_obj = HTML(string=full_html)
+    html_obj.write_pdf(output_path)
     
     return output_path
-
-def generate_audit_pdf(data, lang='fr'):
-    """Generate PDF - will be called with HTML from frontend"""
-    # This is just a fallback, the real generation happens in app.py
-    # where we receive the HTML directly from the frontend
-    pass
