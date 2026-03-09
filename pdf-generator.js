@@ -168,7 +168,27 @@ function translateTextNodes(element) {
         'Prochaine étape': 'Pròxima etapa',
         'minutes pour vous le présenter': 'minuts per presentar-vos-ho',
         'GRATUIT': 'GRATUÏT',
-        'SANS ENGAGEMENT': 'SENSE COMPROMÍS'
+        'SANS ENGAGEMENT': 'SENSE COMPROMÍS',
+        'Mon entreprise à contacter': 'La meva empresa per contactar',
+        
+        // Nombres et caractères spéciaux
+        '1-2': '1-2',
+        '3-4': '3-4',
+        '2-3': '2-3',
+        '4-6': '4-6',
+        '70-80%': '70-80%',
+        '5-10': '5-10',
+        '20-30': '20-30',
+        '40-80%': '40-80%',
+        '3-7%': '3-7%',
+        '50-100%': '50-100%',
+        '15k€': '15k€',
+        '30k€': '30k€',
+        '50k€': '50k€',
+        '60k€': '60k€',
+        '200k€': '200k€',
+        '15 000€': '15 000€',
+        '5 000€': '5 000€'
     };
     
     // Utiliser TreeWalker pour parcourir seulement les text nodes

@@ -114,7 +114,7 @@ function generateAuditHTML(data) {
             </div>
 
             <!-- Section supplémentaire pour remplir page 1 -->
-            <div style="background: linear-gradient(135deg, #f0f0f0 0%, #e8e8e8 100%); padding: 20px; border-radius: 10px; margin-top: 25px;">
+            <div style="background: linear-gradient(135deg, #FFF8E6 0%, #FFE8B3 100%); padding: 20px; border-radius: 10px; margin-top: 25px;">
                 <h3 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 12px; text-align: center;">💡 Pourquoi c'est urgent ?</h3>
                 <p style="font-size: 0.85rem; line-height: 1.5; margin-bottom: 10px;">
                     Chaque jour qui passe, vous perdez des clients potentiels qui vont chez vos concurrents. Un site optimisé commence à générer des résultats en 2-4 semaines. Votre retour sur investissement se mesure en mois, pas en années.
@@ -132,6 +132,19 @@ function generateAuditHTML(data) {
                     <li style="font-size: 0.8rem; margin: 6px 0;">✓ Un site lent perd 40% de visiteurs en 3 secondes</li>
                     <li style="font-size: 0.8rem; margin: 6px 0;">✓ 90% des clients lisent les avis avant de choisir</li>
                 </ul>
+            </div>
+
+            <div style="margin-top: 20px; padding: 15px 0; border-top: 3px solid var(--accent); display: flex; align-items: center; justify-content: space-between;">
+                <div style="text-align: left;">
+                    <p style="font-weight: 700; font-size: 0.95rem; margin-bottom: 3px;">HTMC AGENCY</p>
+                    <p style="font-size: 0.75rem;">Mon entreprise à contacter</p>
+                </div>
+                <div style="text-align: center; flex: 1;">
+                    <p style="font-size: 0.8rem;">✉️ contact@htmcagency.com</p>
+                    <p style="font-size: 0.8rem;">🌐 htmcagency.com</p>
+                    <p style="font-size: 0.8rem;">📞 +33 7 69 16 56 34</p>
+                </div>
+                <img src="logohtmc.png" style="width: 80px; height: auto; object-fit: contain;">
             </div>
         </div>
 
@@ -209,15 +222,23 @@ function generateAuditHTML(data) {
                 </div>
             </div>
 
-            <div style="background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%); color: white; padding: 28px; border-radius: 12px; text-align: center; margin-top: 25px;">
-                <h3 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 15px;">Prochaine étape</h3>
-                <p style="font-size: 1rem; margin: 10px 0;">15 minutes pour vous le présenter ?</p>
-                <p style="font-size: 0.9rem; margin-top: 12px; font-weight: 600;">GRATUIT • SANS ENGAGEMENT</p>
+            <div style="background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%); color: white; padding: 20px; border-radius: 12px; text-align: center; margin-top: 25px;">
+                <h3 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 10px;">Prochaine étape</h3>
+                <p style="font-size: 0.95rem; margin: 8px 0;">15 minutes pour vous le présenter ?</p>
+                <p style="font-size: 0.85rem; margin-top: 8px; font-weight: 600;">GRATUIT • SANS ENGAGEMENT</p>
             </div>
 
-            <div style="margin-top: 25px; padding-top: 20px; border-top: 3px solid var(--accent); text-align: center; font-size: 0.85rem;">
-                <p style="font-weight: 700; font-size: 1rem; margin-bottom: 5px;">HTMC AGENCY</p>
-                <p>contact@htmcagency.com | +33 7 69 16 56 34</p>
+            <div style="margin-top: 20px; padding: 15px 0; border-top: 3px solid var(--accent); display: flex; align-items: center; justify-content: space-between;">
+                <div style="text-align: left;">
+                    <p style="font-weight: 700; font-size: 0.95rem; margin-bottom: 3px;">HTMC AGENCY</p>
+                    <p style="font-size: 0.75rem;">Mon entreprise à contacter</p>
+                </div>
+                <div style="text-align: center; flex: 1;">
+                    <p style="font-size: 0.8rem;">✉️ contact@htmcagency.com</p>
+                    <p style="font-size: 0.8rem;">🌐 htmcagency.com</p>
+                    <p style="font-size: 0.8rem;">📞 +33 7 69 16 56 34</p>
+                </div>
+                <img src="logohtmc.png" style="width: 80px; height: auto; object-fit: contain;">
             </div>
         </div>
     `;
