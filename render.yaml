@@ -4,10 +4,12 @@ services:
     env: python
     plan: free
     buildCommand: |
-      apt-get update
-      apt-get install -y libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz0b libffi-dev libjpeg-dev libopenjp2-7-dev
       pip install -r requirements.txt
+      playwright install chromium
+      playwright install-deps chromium
     startCommand: gunicorn app:app
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.7
+      - key: PLAYWRIGHT_BROWSERS_PATH
+        value: /tmp/playwright
