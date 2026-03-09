@@ -20,15 +20,20 @@ def generate_pdf():
     try:
         data = request.json
         
-        # Get language
+        # Get HTML content from frontend
+        html_content = data.get('htmlContent', '')
         lang = data.get('language', 'fr')
+        company_name = data.get('companyName', 'Audit')
         
-        # Generate PDF
-        pdf_path = generate_audit_pdf(data, lang)
+        if not html_content:
+            return jsonify({'error': 'No HTML content provided'}), 400
+        
+        # Generate PDF from HTML
+        from pdf_generator import generate_audit_pdf_from_html
+        pdf_path = generate_audit_pdf_from_html(html_content, lang)
         
         # Send file
-        company_name = data.get('companyName', 'Audit').replace(' ', '_')
-        filename = f"Audit_{company_name}_{lang.upper()}_{datetime.now().strftime('%Y%m%d')}.pdf"
+        filename = f"Audit_{company_name.replace(' ', '_')}_{lang.upper()}_{datetime.now().strftime('%Y%m%d')}.pdf"
         
         return send_file(
             pdf_path,
@@ -39,6 +44,8 @@ def generate_pdf():
         
     except Exception as e:
         print(f"Error generating PDF: {str(e)}")
+        import traceback
+        traceback.print_exc()
         return jsonify({'error': str(e)}), 500
 
 @app.route('/health')
