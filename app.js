@@ -66,10 +66,6 @@ function initializeEventListeners() {
     // Generate button
     document.getElementById('generateBtn').addEventListener('click', generateAudit);
 
-    // Download buttons
-    document.getElementById('downloadBtnFR').addEventListener('click', () => downloadPDF('fr'));
-    document.getElementById('downloadBtnCA').addEventListener('click', () => downloadPDF('ca'));
-
     // New audit button
     document.getElementById('newAuditBtn').addEventListener('click', resetForm);
 }
@@ -145,8 +141,33 @@ function generateAudit() {
             screenshot: screenshotData
         };
 
-        const html = generateAuditHTML(data);
-        document.getElementById('pdfContent').innerHTML = html;
+        // Générer version FR
+        const htmlFR = generateAuditHTML(data);
+        
+        // Générer version CA (traduite)
+        const htmlCA = generateAuditHTML(data);
+        
+        // Créer les deux containers
+        const pdfContentContainer = document.getElementById('pdfContent');
+        pdfContentContainer.innerHTML = `
+            <div class="pdf-version-container">
+                <h2 style="text-align: center; font-size: 1.5rem; font-weight: 900; margin: 30px 0 20px; color: var(--primary);">
+                    📄 VERSION FRANÇAISE
+                </h2>
+                <div id="pdfContentFR">${htmlFR}</div>
+            </div>
+            
+            <div class="pdf-version-container" style="margin-top: 80px;">
+                <h2 style="text-align: center; font-size: 1.5rem; font-weight: 900; margin: 30px 0 20px; color: var(--primary);">
+                    📄 VERSIÓ CATALANA
+                </h2>
+                <div id="pdfContentCA">${htmlCA}</div>
+            </div>
+        `;
+        
+        // Traduire la version CA
+        const caContainer = document.getElementById('pdfContentCA');
+        translateTextNodes(caContainer);
 
         document.getElementById('loading').classList.remove('active');
         document.getElementById('result').classList.add('active');

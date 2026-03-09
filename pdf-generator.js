@@ -156,7 +156,21 @@ function translateTextNodes(element) {
         
         'Solutions proposées': 'Solucions proposades',
         
-        // Nouvelle section page 2
+        // Solutions spécifiques
+        'Optimisation des CTA et parcours de conversion': 'Optimització dels CTAs i recorregut de conversió',
+        'Formulaire de devis simplifié (3-4 champs max)': 'Formulari de pressupost simplificat (3-4 camps màx)',
+        'SEO local + optimisation Google My Business': 'SEO local + optimització Google My Business',
+        'Campagnes Google Ads ciblées pour générer des leads': 'Campanyes Google Ads orientades a generar leads',
+        'Portfolio visuel avec projets avant/après': 'Portafoli visual amb projectes abans/després',
+        'Système de témoignages et avis clients': 'Sistema de testimonis i ressenyes de clients',
+        'Refonte complète orientée conversion': 'Redisseny complet orientat a conversió',
+        'Chat en direct ou chatbot pour capturer leads': 'Xat en directe o chatbot per capturar leads',
+        'Landing pages spécifiques par service': 'Landing pages específiques per servei',
+        'Tracking et analytics pour optimiser conversions': 'Seguiment i analytics per optimitzar conversions',
+        'Retargeting / Remarketing pour récupérer visiteurs': 'Retargeting / Remarketing per recuperar visitants',
+        'Email marketing et automation pour nurturer leads': 'Email marketing i automatització per nodrir leads',
+        
+        // Section "Ce qui change"
         'Ce qui change dès maintenant': 'El que canvia des d\'ara',
         'Semaine': 'Setmana',
         'Audit complet + stratégie définie': 'Auditoria completa + estratègia definida',

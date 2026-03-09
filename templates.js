@@ -135,16 +135,14 @@ function generateAuditHTML(data) {
             </div>
 
             <div style="margin-top: 20px; padding: 15px 0; border-top: 3px solid var(--accent); display: flex; align-items: center; justify-content: space-between;">
-                <div style="text-align: left;">
-                    <p style="font-weight: 700; font-size: 0.95rem; margin-bottom: 3px;">HTMC AGENCY</p>
-                    <p style="font-size: 0.75rem;">Mon entreprise à contacter</p>
+                <div style="text-align: left; flex: 1;">
+                    <p style="font-weight: 700; font-size: 1rem; margin-bottom: 0;">HTMC AGENCY</p>
                 </div>
                 <div style="text-align: center; flex: 1;">
-                    <p style="font-size: 0.8rem;">✉️ contact@htmcagency.com</p>
-                    <p style="font-size: 0.8rem;">🌐 htmcagency.com</p>
-                    <p style="font-size: 0.8rem;">📞 +33 7 69 16 56 34</p>
+                    <p style="font-size: 0.8rem; margin: 0;">contact@htmcagency.com</p>
+                    <p style="font-size: 0.8rem; margin: 0;">htmcagency.com | +33 7 69 16 56 34</p>
                 </div>
-                <img src="logohtmc.png" style="width: 80px; height: auto; object-fit: contain;">
+                <img src="logohtmc.png" style="width: 70px; height: auto; object-fit: contain;">
             </div>
         </div>
 
@@ -229,16 +227,14 @@ function generateAuditHTML(data) {
             </div>
 
             <div style="margin-top: 20px; padding: 15px 0; border-top: 3px solid var(--accent); display: flex; align-items: center; justify-content: space-between;">
-                <div style="text-align: left;">
-                    <p style="font-weight: 700; font-size: 0.95rem; margin-bottom: 3px;">HTMC AGENCY</p>
-                    <p style="font-size: 0.75rem;">Mon entreprise à contacter</p>
+                <div style="text-align: left; flex: 1;">
+                    <p style="font-weight: 700; font-size: 1rem; margin-bottom: 0;">HTMC AGENCY</p>
                 </div>
                 <div style="text-align: center; flex: 1;">
-                    <p style="font-size: 0.8rem;">✉️ contact@htmcagency.com</p>
-                    <p style="font-size: 0.8rem;">🌐 htmcagency.com</p>
-                    <p style="font-size: 0.8rem;">📞 +33 7 69 16 56 34</p>
+                    <p style="font-size: 0.8rem; margin: 0;">contact@htmcagency.com</p>
+                    <p style="font-size: 0.8rem; margin: 0;">htmcagency.com | +33 7 69 16 56 34</p>
                 </div>
-                <img src="logohtmc.png" style="width: 80px; height: auto; object-fit: contain;">
+                <img src="logohtmc.png" style="width: 70px; height: auto; object-fit: contain;">
             </div>
         </div>
     `;
