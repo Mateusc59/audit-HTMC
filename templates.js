@@ -27,7 +27,7 @@ function generateAuditHTML(data) {
     ` : '';
 
     return `
-        <div class="pdf-page">
+        <div class="pdf-page" style="position: relative;"
             ${logoTopHTML}
             <div class="pdf-header">
                 <div class="pdf-header-side">HTMC AGENCY</div>
@@ -112,9 +112,15 @@ function generateAuditHTML(data) {
                     <p style="font-size: 0.8rem; margin-top: 4px; line-height: 1.4;">Répondre aux questions clés : Disponibilité ? Démarches administratives ? Particuliers et entreprises ? Devis gratuit ?</p>
                 </div>
             </div>
+
+            <!-- Footer page 1 -->
+            <div style="position: absolute; bottom: 8mm; left: 8mm; right: 8mm; padding-top: 15px; border-top: 3px solid var(--accent); text-align: center; font-size: 0.85rem;">
+                <p style="font-weight: 700; font-size: 1rem; margin-bottom: 5px;">HTMC AGENCY</p>
+                <p>contact@htmcagency.com | +33 7 69 16 56 34</p>
+            </div>
         </div>
 
-        <div class="pdf-page">
+        <div class="pdf-page" style="position: relative;"
             ${logoTopHTML}
             
             <h2 style="font-size: 1.4rem; font-weight: 900; margin-bottom: 25px; text-align: center;">
@@ -175,7 +181,8 @@ function generateAuditHTML(data) {
                 <p style="font-size: 0.9rem; margin-top: 12px; font-weight: 600;">GRATUIT • SANS ENGAGEMENT</p>
             </div>
 
-            <div style="margin-top: 40px; padding-top: 20px; border-top: 3px solid var(--accent); text-align: center; font-size: 0.85rem;">
+            <!-- Footer page 2 -->
+            <div style="position: absolute; bottom: 8mm; left: 8mm; right: 8mm; padding-top: 15px; border-top: 3px solid var(--accent); text-align: center; font-size: 0.85rem;">
                 <p style="font-weight: 700; font-size: 1rem; margin-bottom: 5px;">HTMC AGENCY</p>
                 <p>contact@htmcagency.com | +33 7 69 16 56 34</p>
             </div>
