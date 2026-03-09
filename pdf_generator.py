@@ -1,29 +1,27 @@
-from xhtml2pdf import pisa
-from io import BytesIO
+from reportlab.lib.pagesizes import A4
+from reportlab.lib import colors
+from reportlab.lib.units import mm
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak
+from reportlab.lib.enums import TA_CENTER, TA_LEFT
 import os
-
-def get_css():
-    """Load CSS from file"""
-    css_path = os.path.join(os.path.dirname(__file__), 'static', 'style.css')
-    with open(css_path, 'r', encoding='utf-8') as f:
-        return f.read()
 
 # Traductions Catalan
 TRANSLATIONS_CA = {
-    'VOTRE ENTREPRISE MÉRITE UN SITE WEB A LA HAUTEUR': 'LA VOSTRA EMPRESA MEREIX UN LLOC WEB A L\'ALÇADA',
+    'VOTRE ENTREPRISE MÉRITE UN SITE WEB À LA HAUTEUR': 'LA VOSTRA EMPRESA MEREIX UN LLOC WEB A L\'ALÇADA',
     'Auditoria de votre entreprise': 'Auditoria de la vostra empresa',
     'Pour transformer': 'Per transformar',
     'votre expertise': 'la vostra experiència',
     'ans d\'expérience': 'anys d\'experiència',
     'en plus de contrats': 'en més contractes',
     'doit :': 'ha de:',
-    'doit aussi :': 'també ha de:',
     'Vous avez': 'Teniu',
     'mais votre site web reflète-t-il vraiment cette expertise': 'però el vostre lloc web reflecteix realment aquesta experiència',
     'Montrer la valeur réelle': 'Mostrar el valor real',
     'Convertir chaque visite en vente concrète': 'Convertir cada visita en venda concreta',
     'Assurer la confiance avec le portfolio': 'Assegurar la confiança amb el portafoli',
     'Le site de': 'El lloc de',
+    'doit aussi :': 'també ha de:',
     'Être optimisé mobile': 'Estar optimitzat mòbil',
     'Être optimisé Google': 'Estar optimitzat Google',
     'Être bien élaboré': 'Estar ben elaborat',
@@ -50,24 +48,67 @@ TRANSLATIONS_CA = {
 }
 
 def translate_text(text, lang):
-    """Translate text to Catalan if needed"""
+    """Translate text to Catalan"""
     if lang != 'ca':
         return text
-    
     for fr, ca in sorted(TRANSLATIONS_CA.items(), key=lambda x: len(x[0]), reverse=True):
         text = text.replace(fr, ca)
-    
     return text
 
 def generate_audit_pdf(data, lang='fr'):
-    """Generate PDF from audit data"""
+    """Generate PDF with ReportLab"""
     
-    # Get data
     company = data.get('companyName', 'Entreprise')
     years = data.get('years', '')
     location = data.get('location', '')
     problems = data.get('problems', [])
     solutions = data.get('solutions', [])
+    
+    # Output path
+    output_path = f"/tmp/audit_{company.replace(' ', '_')}_{lang}.pdf"
+    
+    # Create PDF
+    doc = SimpleDocTemplate(
+        output_path,
+        pagesize=A4,
+        topMargin=15*mm,
+        bottomMargin=15*mm,
+        leftMargin=15*mm,
+        rightMargin=15*mm
+    )
+    
+    # Styles
+    styles = getSampleStyleSheet()
+    
+    title_style = ParagraphStyle(
+        'CustomTitle',
+        parent=styles['Heading1'],
+        fontSize=18,
+        textColor=colors.HexColor('#1a1a1a'),
+        alignment=TA_CENTER,
+        spaceAfter=10,
+        fontName='Helvetica-Bold'
+    )
+    
+    heading_style = ParagraphStyle(
+        'CustomHeading',
+        parent=styles['Heading2'],
+        fontSize=14,
+        textColor=colors.HexColor('#D4A574'),
+        spaceAfter=8,
+        fontName='Helvetica-Bold'
+    )
+    
+    body_style = ParagraphStyle(
+        'CustomBody',
+        parent=styles['Normal'],
+        fontSize=11,
+        leading=16,
+        spaceAfter=8
+    )
+    
+    # Story
+    story = []
     
     # Title
     if years and location:
@@ -75,166 +116,92 @@ def generate_audit_pdf(data, lang='fr'):
     else:
         title = "VOTRE ENTREPRISE MÉRITE UN SITE WEB À LA HAUTEUR"
     
-    # Build HTML
-    problems_html = ''.join([f'<li>❌ {p}</li>' for p in problems[:5]])
-    solutions_html = ''.join([f'<li>✅ {s}</li>' for s in solutions[:5]])
+    title = translate_text(title, lang)
     
-    html = f'''
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="utf-8">
-        <style>
-            @page {{
-                size: A4;
-                margin: 15mm;
-            }}
-            
-            body {{
-                font-family: Arial, sans-serif;
-                color: #1a1a1a;
-                line-height: 1.6;
-            }}
-            
-            .header {{
-                background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-                color: white;
-                padding: 30px;
-                margin: -15mm -15mm 20px -15mm;
-                border-left: 5px solid #D4A574;
-            }}
-            
-            .company-name {{
-                color: #D4A574;
-                font-size: 1.5rem;
-                font-weight: bold;
-            }}
-            
-            h1 {{
-                font-size: 1.3rem;
-                color: #1a1a1a;
-                margin-top: 20px;
-            }}
-            
-            h2 {{
-                font-size: 1.1rem;
-                color: #D4A574;
-                margin-top: 15px;
-            }}
-            
-            ul {{
-                list-style: none;
-                padding-left: 0;
-            }}
-            
-            li {{
-                margin: 8px 0;
-                font-size: 0.9rem;
-            }}
-            
-            .benefit-box {{
-                background: #FFF8E6;
-                padding: 15px;
-                border-radius: 8px;
-                border-left: 4px solid #D4A574;
-                margin: 15px 0;
-            }}
-            
-            .cta-box {{
-                background: linear-gradient(135deg, #D4A574 0%, #B8935F 100%);
-                color: white;
-                padding: 20px;
-                text-align: center;
-                border-radius: 10px;
-                margin-top: 30px;
-            }}
-            
-            .footer {{
-                margin-top: 30px;
-                padding-top: 15px;
-                border-top: 3px solid #D4A574;
-                text-align: center;
-                font-size: 0.9rem;
-            }}
-        </style>
-    </head>
-    <body>
-        <div class="header">
-            <h1 style="color: white; margin: 0;">{title}</h1>
-            <p style="margin: 10px 0 0 0;">Auditoria de votre entreprise</p>
-            <p class="company-name">{company}</p>
-        </div>
-        
-        <h1>Pour transformer votre expertise en plus de contrats, {company} doit :</h1>
-        
-        <h2>💬 Montrer la valeur réelle</h2>
-        <p>Les visiteurs doivent comprendre que {company} n'est pas comme les autres. Votre expertise doit être évidente.</p>
-        
-        <h2>👆 Convertir chaque visite en vente concrète</h2>
-        <p>Avec des CTA optimisés et un formulaire simple, doublez vos contacts. Nos clients passent de 5-10 à 20-30 contacts/mois.</p>
-        
-        <h2>🏆 Assurer la confiance avec le portfolio</h2>
-        <p>Photos de projets réels avant/après. Les clients veulent des preuves concrètes.</p>
-        
-        <h1>Le site de {company} doit aussi :</h1>
-        <ul>
-            <li><b>1. Être optimisé mobile</b> - 70% des recherches se font sur mobile</li>
-            <li><b>2. Être optimisé Google</b> - Apparaître dans les recherches locales</li>
-            <li><b>3. Être bien élaboré</b> - Répondre aux questions clés des clients</li>
-        </ul>
-        
-        <div style="page-break-before: always;"></div>
-        
-        <h1>{company} et son site web aujourd'hui :</h1>
-        
-        <ul>
-            {problems_html}
-        </ul>
-        
-        <h2>Si ces critères sont remplis, {company} aura :</h2>
-        
-        <div class="benefit-box">
-            <p><b>📈 +40-80% de devis</b> - Présence optimisée = machine à leads</p>
-            <p><b>💰 Conversion 3-7%</b> - 30-70 visiteurs sur 1000 contactent</p>
-            <p><b>🎯 Contrats +50-100%</b> - Projets 15k€, 30k€, 50k€+</p>
-        </div>
-        
-        <div class="benefit-box">
-            <h3 style="color: #D4A574; margin-top: 0;">💰 Focus Conversion</h3>
-            <p><b>Problème :</b> Sur 1000 visiteurs, seulement 5-10 vous contactent (0,5-1%). Les 990+ autres partent = 99% de perte.</p>
-            <p><b>Objectif :</b> Passer à 30-70 contacts sur 1000 (3-7%). Comment ? CTA visibles, formulaire 3 champs, chat live.</p>
-            <p><b>ROI :</b> +60k€ à +200k€ CA annuel supplémentaire.</p>
-        </div>
-        
-        <h2>Solutions proposées :</h2>
-        <ul>
-            {solutions_html}
-        </ul>
-        
-        <div class="cta-box">
-            <h3 style="margin: 0 0 10px 0;">Prochaine étape</h3>
-            <p style="margin: 5px 0;">15 minutes pour vous le présenter ?</p>
-            <p style="margin: 5px 0; font-size: 0.9rem;"><b>GRATUIT • SANS ENGAGEMENT</b></p>
-        </div>
-        
-        <div class="footer">
-            <p style="font-weight: bold;">HTMC AGENCY</p>
-            <p>contact@htmcagency.com | +33 7 69 16 56 34</p>
-        </div>
-    </body>
-    </html>
-    '''
+    story.append(Paragraph(title, title_style))
+    story.append(Paragraph(translate_text(f"Auditoria de votre entreprise<br/><b>{company}</b>", lang), body_style))
+    story.append(Spacer(1, 10*mm))
     
-    # Translate if Catalan
-    html = translate_text(html, lang)
+    # Intro
+    intro = translate_text(f"Pour transformer votre expertise en plus de contrats, <b>{company}</b> doit :", lang)
+    story.append(Paragraph(intro, body_style))
+    story.append(Spacer(1, 5*mm))
     
-    # Generate PDF
-    output_path = f"/tmp/audit_{company.replace(' ', '_')}_{lang}.pdf"
+    # Sections
+    sections = [
+        (translate_text("💬 Montrer la valeur réelle", lang), 
+         translate_text(f"Les visiteurs doivent comprendre que {company} n'est pas comme les autres.", lang)),
+        (translate_text("👆 Convertir chaque visite en vente concrète", lang), 
+         translate_text("Avec des CTA optimisés, doublez vos contacts. Nos clients passent de 5-10 à 20-30 contacts/mois.", lang)),
+        (translate_text("🏆 Assurer la confiance avec le portfolio", lang), 
+         translate_text("Photos de projets réels. Les clients veulent des preuves concrètes.", lang))
+    ]
     
-    with open(output_path, "w+b") as pdf_file:
-        pisa_status = pisa.CreatePDF(html, dest=pdf_file)
+    for title_sec, content in sections:
+        story.append(Paragraph(f"<b>{title_sec}</b>", heading_style))
+        story.append(Paragraph(content, body_style))
+        story.append(Spacer(1, 3*mm))
     
-    if pisa_status.err:
-        raise Exception(f"PDF generation error: {pisa_status.err}")
+    # Liste
+    story.append(Paragraph(translate_text(f"<b>Le site de {company} doit aussi :</b>", lang), heading_style))
+    items = [
+        translate_text("<b>1. Être optimisé mobile</b> - 70% des recherches se font sur mobile", lang),
+        translate_text("<b>2. Être optimisé Google</b> - Apparaître dans les recherches locales", lang),
+        translate_text("<b>3. Être bien élaboré</b> - Répondre aux questions clés", lang)
+    ]
+    for item in items:
+        story.append(Paragraph(item, body_style))
+    
+    # Page 2
+    story.append(PageBreak())
+    
+    story.append(Paragraph(translate_text(f"<b>{company} et son site web aujourd'hui :</b>", lang), title_style))
+    story.append(Spacer(1, 5*mm))
+    
+    # Problems
+    for problem in problems[:5]:
+        story.append(Paragraph(f"❌ {translate_text(problem, lang)}", body_style))
+    
+    story.append(Spacer(1, 8*mm))
+    
+    # Benefits
+    story.append(Paragraph(translate_text(f"<b>Si ces critères sont remplis, {company} aura :</b>", lang), heading_style))
+    benefits = [
+        translate_text("📈 <b>+40-80% de devis</b> - Présence optimisée = machine à leads", lang),
+        translate_text("💰 <b>Conversion 3-7%</b> - 30-70 visiteurs sur 1000 contactent", lang),
+        translate_text("🎯 <b>Contrats +50-100%</b> - Projets 15k€, 30k€, 50k€+", lang)
+    ]
+    for benefit in benefits:
+        story.append(Paragraph(benefit, body_style))
+    
+    story.append(Spacer(1, 8*mm))
+    
+    # Focus
+    story.append(Paragraph(translate_text("<b>💰 Focus Conversion</b>", lang), heading_style))
+    story.append(Paragraph(translate_text("<b>Problème :</b> Sur 1000 visiteurs, 5-10 contactent = 99% de perte.", lang), body_style))
+    story.append(Paragraph(translate_text("<b>Objectif :</b> Passer à 3-7% avec CTA visibles, formulaire simplifié.", lang), body_style))
+    story.append(Paragraph(translate_text("<b>ROI :</b> +60k€ à +200k€ CA annuel supplémentaire.", lang), body_style))
+    
+    story.append(Spacer(1, 8*mm))
+    
+    # Solutions
+    story.append(Paragraph(translate_text("<b>Solutions proposées :</b>", lang), heading_style))
+    for solution in solutions[:5]:
+        story.append(Paragraph(f"✅ {translate_text(solution, lang)}", body_style))
+    
+    story.append(Spacer(1, 10*mm))
+    
+    # CTA
+    story.append(Paragraph(translate_text("<b>Prochaine étape</b>", lang), heading_style))
+    story.append(Paragraph(translate_text("15 minutes pour vous le présenter ?", lang), body_style))
+    story.append(Paragraph(translate_text("<b>GRATUIT • SANS ENGAGEMENT</b>", lang), body_style))
+    
+    story.append(Spacer(1, 5*mm))
+    
+    # Footer
+    story.append(Paragraph("<b>HTMC AGENCY</b><br/>contact@htmcagency.com | +33 7 69 16 56 34", body_style))
+    
+    # Build
+    doc.build(story)
     
     return output_path
