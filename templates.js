@@ -27,7 +27,7 @@ function generateAuditHTML(data) {
     ` : '';
 
     return `
-        <div class="pdf-page" style="position: relative;"
+        <div class="pdf-page">
             ${logoTopHTML}
             <div class="pdf-header">
                 <div class="pdf-header-side">HTMC AGENCY</div>
@@ -113,14 +113,29 @@ function generateAuditHTML(data) {
                 </div>
             </div>
 
-            <!-- Footer page 1 -->
-            <div style="position: absolute; bottom: 8mm; left: 8mm; right: 8mm; padding-top: 15px; border-top: 3px solid var(--accent); text-align: center; font-size: 0.85rem;">
-                <p style="font-weight: 700; font-size: 1rem; margin-bottom: 5px;">HTMC AGENCY</p>
-                <p>contact@htmcagency.com | +33 7 69 16 56 34</p>
+            <!-- Section supplémentaire pour remplir page 1 -->
+            <div style="background: linear-gradient(135deg, #f0f0f0 0%, #e8e8e8 100%); padding: 20px; border-radius: 10px; margin-top: 25px;">
+                <h3 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 12px; text-align: center;">💡 Pourquoi c'est urgent ?</h3>
+                <p style="font-size: 0.85rem; line-height: 1.5; margin-bottom: 10px;">
+                    Chaque jour qui passe, vous perdez des clients potentiels qui vont chez vos concurrents. Un site optimisé commence à générer des résultats en 2-4 semaines. Votre retour sur investissement se mesure en mois, pas en années.
+                </p>
+                <p style="font-size: 0.85rem; line-height: 1.5;">
+                    <strong>Le coût de l'inaction :</strong> Si vous générez actuellement 5 devis/mois et qu'un site optimisé pourrait vous en apporter 20-30, vous perdez potentiellement 15-25 opportunités chaque mois. Sur un an, c'est 180-300 clients perdus.
+                </p>
+            </div>
+
+            <div style="margin-top: 25px; padding: 18px; background: linear-gradient(135deg, #FFF8E6 0%, #FFE8B3 100%); border-left: 5px solid var(--accent); border-radius: 8px;">
+                <h4 style="font-size: 0.95rem; font-weight: 800; margin-bottom: 8px;">📊 Les chiffres clés de votre secteur :</h4>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="font-size: 0.8rem; margin: 6px 0;">✓ 85% des clients cherchent en ligne avant de contacter</li>
+                    <li style="font-size: 0.8rem; margin: 6px 0;">✓ 70% des recherches se font sur mobile</li>
+                    <li style="font-size: 0.8rem; margin: 6px 0;">✓ Un site lent perd 40% de visiteurs en 3 secondes</li>
+                    <li style="font-size: 0.8rem; margin: 6px 0;">✓ 90% des clients lisent les avis avant de choisir</li>
+                </ul>
             </div>
         </div>
 
-        <div class="pdf-page" style="position: relative;"
+        <div class="pdf-page">
             ${logoTopHTML}
             
             <h2 style="font-size: 1.4rem; font-weight: 900; margin-bottom: 25px; text-align: center;">
@@ -181,8 +196,7 @@ function generateAuditHTML(data) {
                 <p style="font-size: 0.9rem; margin-top: 12px; font-weight: 600;">GRATUIT • SANS ENGAGEMENT</p>
             </div>
 
-            <!-- Footer page 2 -->
-            <div style="position: absolute; bottom: 8mm; left: 8mm; right: 8mm; padding-top: 15px; border-top: 3px solid var(--accent); text-align: center; font-size: 0.85rem;">
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 3px solid var(--accent); text-align: center; font-size: 0.85rem;">
                 <p style="font-weight: 700; font-size: 1rem; margin-bottom: 5px;">HTMC AGENCY</p>
                 <p>contact@htmcagency.com | +33 7 69 16 56 34</p>
             </div>
