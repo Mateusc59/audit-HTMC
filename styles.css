@@ -364,7 +364,7 @@ textarea {
 @media print {
     @page {
         size: A4 portrait;
-        margin: 0 !important;
+        margin: 0mm !important;
     }
     
     * {
@@ -373,18 +373,18 @@ textarea {
         color-adjust: exact !important;
     }
     
-    html {
+    html, body {
         margin: 0 !important;
         padding: 0 !important;
+        width: 100%;
+        height: 100%;
     }
     
     body {
-        margin: 0 !important;
-        padding: 0 !important;
         background: white !important;
         overflow: visible !important;
-        font-size: 9.5pt;
-        line-height: 1.25;
+        font-size: 9pt;
+        line-height: 1.2;
     }
     
     .container {
@@ -425,106 +425,110 @@ textarea {
         width: 100% !important;
     }
     
-    /* Chaque page = exactement 1 page A4 */
+    /* Pages - CRITICAL pour éviter page blanche */
     .pdf-page {
         page-break-after: always !important;
-        page-break-before: avoid !important;
+        page-break-before: auto !important;
         page-break-inside: avoid !important;
+        break-after: page !important;
         box-shadow: none !important;
-        padding: 8mm 10mm !important;
+        padding: 6mm 8mm !important;
         margin: 0 !important;
         width: 210mm !important;
         height: auto !important;
-        min-height: 297mm !important;
+        min-height: 0 !important;
         max-height: none !important;
         background: white !important;
         position: relative;
         border: none !important;
         overflow: visible !important;
+        display: block !important;
     }
     
-    .pdf-page::after {
-        display: none !important;
+    /* Forcer la première page à commencer en haut */
+    .pdf-page:first-child {
+        margin-top: 0 !important;
+        padding-top: 6mm !important;
     }
     
+    /* Pas de page break après la dernière */
     .pdf-page:last-child {
         page-break-after: avoid !important;
+        break-after: avoid !important;
+    }
+    
+    /* Cacher le séparateur */
+    .pdf-page::after {
+        content: none !important;
+        display: none !important;
     }
     
     .pdf-header {
         background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%) !important;
         -webkit-print-color-adjust: exact !important;
-        padding: 20px 20px 20px 60px !important;
-        margin: -8mm -10mm 12px -10mm !important;
+        padding: 18px 18px 18px 55px !important;
+        margin: -6mm -8mm 10px -8mm !important;
     }
     
     .pdf-header-side {
         background: #D4A574 !important;
         -webkit-print-color-adjust: exact !important;
-        width: 40px !important;
+        width: 35px !important;
     }
     
     .pdf-header-logo {
-        width: 100px !important;
-        height: 100px !important;
+        width: 90px !important;
+        height: 90px !important;
         object-fit: contain !important;
-        max-width: 100px !important;
-        max-height: 100px !important;
     }
     
     .pdf-title {
-        font-size: 1.2rem !important;
-        line-height: 1.3 !important;
+        font-size: 1.1rem !important;
+        line-height: 1.2 !important;
     }
     
     .pdf-logo {
-        width: 80px !important;
+        width: 70px !important;
         height: auto !important;
-        max-height: 40px !important;
+        max-height: 35px !important;
         object-fit: contain !important;
     }
     
-    /* Réduire tous les espacements pour tenir sur 2 pages */
+    /* Réduire espacement */
     h2, h3, h4 {
-        margin-top: 6px !important;
-        margin-bottom: 4px !important;
-        font-size: 1rem !important;
+        margin-top: 5px !important;
+        margin-bottom: 3px !important;
+        font-size: 0.95rem !important;
     }
     
     p {
-        margin-bottom: 5px !important;
-        font-size: 9pt !important;
-        line-height: 1.25 !important;
+        margin-bottom: 4px !important;
+        font-size: 8.5pt !important;
+        line-height: 1.2 !important;
     }
     
     div[style*="margin: 30px"] {
-        margin: 10px 0 !important;
-    }
-    
-    div[style*="margin: 25px"] {
         margin: 8px 0 !important;
     }
     
-    div[style*="margin: 20px"] {
+    div[style*="margin: 25px"] {
         margin: 6px 0 !important;
     }
     
-    div[style*="padding: 30px"] {
-        padding: 12px !important;
+    div[style*="margin: 20px"] {
+        margin: 5px 0 !important;
     }
     
-    div[style*="padding: 25px"] {
+    div[style*="padding: 30px"] {
         padding: 10px !important;
     }
     
-    div[style*="padding: 20px"] {
+    div[style*="padding: 25px"] {
         padding: 8px !important;
     }
     
-    /* Optimisation spécifique pour page 2 */
-    .pdf-page:nth-child(2) {
-        min-height: auto !important;
-        height: auto !important;
+    div[style*="padding: 20px"] {
+        padding: 6px !important;
     }
 }
 
