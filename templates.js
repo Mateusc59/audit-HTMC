@@ -186,17 +186,36 @@ function generateAuditHTML(data) {
             </div>
 
             <h2 style="font-size: 1.3rem; font-weight: 900; margin: 30px 0 18px;">Solutions proposées :</h2>
-            <ul style="list-style: none; padding: 0; margin-bottom: 30px;">
+            <ul style="list-style: none; padding: 0; margin-bottom: 25px;">
                 ${solutionsHTML}
             </ul>
 
-            <div style="background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%); color: white; padding: 28px; border-radius: 12px; text-align: center; margin-top: 30px;">
+            <!-- Section bonus pour remplir page 2 -->
+            <div style="background: linear-gradient(135deg, #f8f8f8 0%, #ececec 100%); padding: 18px; border-radius: 10px; margin: 20px 0;">
+                <h4 style="font-size: 1rem; font-weight: 800; margin-bottom: 10px; text-align: center;">🚀 Ce qui change dès maintenant</h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px;">
+                    <div style="font-size: 0.8rem;">
+                        <strong>✓ Semaine 1-2 :</strong> Audit complet + stratégie définie
+                    </div>
+                    <div style="font-size: 0.8rem;">
+                        <strong>✓ Semaine 3-4 :</strong> Premiers résultats mesurables
+                    </div>
+                    <div style="font-size: 0.8rem;">
+                        <strong>✓ Mois 2-3 :</strong> Doublement des contacts qualifiés
+                    </div>
+                    <div style="font-size: 0.8rem;">
+                        <strong>✓ Mois 4-6 :</strong> ROI positif et croissance continue
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%); color: white; padding: 28px; border-radius: 12px; text-align: center; margin-top: 25px;">
                 <h3 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 15px;">Prochaine étape</h3>
                 <p style="font-size: 1rem; margin: 10px 0;">15 minutes pour vous le présenter ?</p>
                 <p style="font-size: 0.9rem; margin-top: 12px; font-weight: 600;">GRATUIT • SANS ENGAGEMENT</p>
             </div>
 
-            <div style="margin-top: 30px; padding-top: 20px; border-top: 3px solid var(--accent); text-align: center; font-size: 0.85rem;">
+            <div style="margin-top: 25px; padding-top: 20px; border-top: 3px solid var(--accent); text-align: center; font-size: 0.85rem;">
                 <p style="font-weight: 700; font-size: 1rem; margin-bottom: 5px;">HTMC AGENCY</p>
                 <p>contact@htmcagency.com | +33 7 69 16 56 34</p>
             </div>
