@@ -145,9 +145,6 @@ function generateAudit() {
             screenshot: screenshotData
         };
 
-        // Sauvegarder globalement pour PDF
-        window.currentAuditData = data;
-
         const html = generateAuditHTML(data);
         document.getElementById('pdfContent').innerHTML = html;
 

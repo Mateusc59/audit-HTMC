@@ -1,88 +1,105 @@
-# Générateur d'Audits HTMC - Version Python Flask
+# Générateur d'Audits - HTMC Agency
 
-Version stable et professionnelle avec génération PDF côté serveur.
+## 📦 Installation
 
-## 🚀 Avantages
+### Option 1 : Simple (sans serveur)
+1. Double-cliquez sur `index.html`
+2. Ça s'ouvre dans votre navigateur
+3. C'est tout ! ✅
 
-- ✅ PDFs parfaits à chaque fois (pas de problème navigateur)
-- ✅ Marges et dimensions exactes
-- ✅ Traduction 100% fiable
-- ✅ Pas de page blanche
-- ✅ Contrôle total sur le design
+### Option 2 : Avec serveur local (recommandé)
 
-## 📦 Installation locale
-
+#### Avec Python :
 ```bash
-# 1. Installer les dépendances
-pip install -r requirements.txt
+# Dans le dossier du projet
+python3 -m http.server 8000
+```
+Puis ouvrir : http://localhost:8000
 
-# 2. Lancer l'application
-python app.py
+#### Avec Node.js :
+```bash
+# Installer live-server globalement
+npm install -g live-server
 
-# 3. Ouvrir dans le navigateur
-http://localhost:5000
+# Lancer
+live-server
 ```
 
-## 🌐 Déploiement gratuit
+#### Avec VS Code :
+1. Installer l'extension "Live Server"
+2. Clic droit sur `index.html`
+3. Sélectionner "Open with Live Server"
 
-### Option 1 : Render.com (Recommandé)
-1. Créer compte sur render.com
-2. New → Web Service
-3. Connecter ce repo Git
-4. Build Command: `pip install -r requirements.txt`
-5. Start Command: `gunicorn app:app`
-6. Deploy !
-
-### Option 2 : Railway.app
-1. Créer compte sur railway.app
-2. New Project → Deploy from GitHub
-3. Sélectionner ce repo
-4. Auto-détecte Python
-5. Deploy !
-
-### Option 3 : PythonAnywhere
-1. Créer compte sur pythonanywhere.com (gratuit)
-2. Upload les fichiers
-3. Configurer Web app
-4. Done !
-
-## 📁 Structure
+## 📁 Structure des fichiers
 
 ```
-audit-python/
-├── app.py              # Application Flask
-├── pdf_generator.py    # Génération PDF avec ReportLab
-├── requirements.txt    # Dépendances
-├── templates/
-│   └── index.html     # Interface web
-├── static/
-│   ├── style.css      # Styles
-│   └── app.js         # JavaScript
-└── README.md          # Ce fichier
+audit-project/
+├── index.html          # Page principale
+├── styles.css          # Tous les styles
+├── data.js             # Problèmes et solutions
+├── templates.js        # Génération HTML de l'audit
+├── pdf-generator.js    # Téléchargement PDF
+├── app.js              # Logique principale
+└── README.md           # Ce fichier
 ```
 
-## 🎨 Fonctionnalités
+## 🎯 Comment utiliser
 
-- Formulaire complet (même design qu'avant)
-- 7 problèmes + 6 solutions à cocher
-- Auto-remplissage par secteur
-- Génération PDF FR + CA
-- Téléchargement direct
-- Responsive design
+1. **Remplir le formulaire** : Nom, secteur, localisation, etc.
+2. **Cliquer "Auto-remplir"** : Remplit automatiquement selon le secteur
+3. **Cocher problèmes/solutions** : Personnaliser selon le client
+4. **Générer l'audit** : PDF professionnel généré
 
-## 🔧 Personnalisation
+## 📥 Téléchargement PDF
 
-### Modifier les traductions
-Éditer `TRANSLATIONS` dans `pdf_generator.py`
+### Méthode actuelle (la plus fiable) :
+1. Cliquer sur "🖨️ Imprimer / PDF"
+2. Dans la fenêtre d'impression, choisir "Enregistrer en PDF"
+3. Nommer et sauvegarder
 
-### Ajouter problèmes/solutions
-Éditer `PROBLEMS` et `SOLUTIONS` dans `static/app.js`
+### Pour améliorer (à faire ensemble) :
+- Décommenter le code dans `pdf-generator.js`
+- Ajouter la bibliothèque html2pdf.js
+- Implémenter la traduction catalane complète
 
-### Modifier le design PDF
-Éditer la fonction `generate_audit_pdf()` dans `pdf_generator.py`
+## 🔧 Améliorations à faire
 
-## 📞 Support
+### Priorités :
+- [ ] Téléchargement PDF automatique FR/CA
+- [ ] Traduction catalane complète
+- [ ] Ajuster la taille du PDF (pleine page)
+- [ ] Réduire légèrement le texte si nécessaire
+
+### Nice to have :
+- [ ] Prévisualisation en temps réel
+- [ ] Sauvegarde des audits
+- [ ] Templates multiples
+- [ ] Export Word
+
+## 💡 Notes pour développement
+
+### Pour tester les modifications :
+1. Modifier les fichiers dans VS Code
+2. Sauvegarder (Ctrl+S)
+3. Rafraîchir le navigateur (F5)
+4. Voir les changements immédiatement
+
+### Fichiers à modifier selon le besoin :
+- **Design/CSS** → `styles.css`
+- **Contenu de l'audit** → `templates.js`
+- **Problèmes/Solutions** → `data.js`
+- **Logique** → `app.js`
+- **PDF** → `pdf-generator.js`
+
+## 🐛 Problèmes connus
+
+1. **Téléchargement PDF** : Utiliser Ctrl+P pour l'instant
+2. **Traduction catalane** : Partielle, à compléter
+3. **Taille PDF** : À ajuster pour pleine page
+
+## 📞 Contact
 
 HTMC Agency
 - Email: contact@htmcagency.com
 - Tél: +33 7 69 16 56 34
+- Web: htmcagency.com
