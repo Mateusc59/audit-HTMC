@@ -383,8 +383,8 @@ textarea {
         padding: 0 !important;
         background: white !important;
         overflow: visible !important;
-        font-size: 10pt;
-        line-height: 1.3;
+        font-size: 9.5pt;
+        line-height: 1.25;
     }
     
     .container {
@@ -431,16 +431,16 @@ textarea {
         page-break-before: avoid !important;
         page-break-inside: avoid !important;
         box-shadow: none !important;
-        padding: 10mm 12mm !important;
+        padding: 8mm 10mm !important;
         margin: 0 !important;
         width: 210mm !important;
-        height: 297mm !important;
+        height: auto !important;
         min-height: 297mm !important;
-        max-height: 297mm !important;
+        max-height: none !important;
         background: white !important;
         position: relative;
         border: none !important;
-        overflow: hidden !important;
+        overflow: visible !important;
     }
     
     .pdf-page::after {
@@ -454,58 +454,77 @@ textarea {
     .pdf-header {
         background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%) !important;
         -webkit-print-color-adjust: exact !important;
-        padding: 25px 25px 25px 70px !important;
-        margin: -10mm -12mm 15px -12mm !important;
+        padding: 20px 20px 20px 60px !important;
+        margin: -8mm -10mm 12px -10mm !important;
     }
     
     .pdf-header-side {
         background: #D4A574 !important;
         -webkit-print-color-adjust: exact !important;
-        width: 45px !important;
+        width: 40px !important;
     }
     
     .pdf-header-logo {
-        width: 120px !important;
-        height: 120px !important;
+        width: 100px !important;
+        height: 100px !important;
+        object-fit: contain !important;
+        max-width: 100px !important;
+        max-height: 100px !important;
     }
     
     .pdf-title {
-        font-size: 1.3rem !important;
+        font-size: 1.2rem !important;
+        line-height: 1.3 !important;
     }
     
     .pdf-logo {
-        width: 90px !important;
-        height: 45px !important;
+        width: 80px !important;
+        height: auto !important;
+        max-height: 40px !important;
+        object-fit: contain !important;
     }
     
     /* Réduire tous les espacements pour tenir sur 2 pages */
     h2, h3, h4 {
-        margin-top: 8px !important;
-        margin-bottom: 6px !important;
+        margin-top: 6px !important;
+        margin-bottom: 4px !important;
+        font-size: 1rem !important;
     }
     
     p {
-        margin-bottom: 6px !important;
+        margin-bottom: 5px !important;
+        font-size: 9pt !important;
+        line-height: 1.25 !important;
     }
     
     div[style*="margin: 30px"] {
-        margin: 15px 0 !important;
-    }
-    
-    div[style*="margin: 25px"] {
-        margin: 12px 0 !important;
-    }
-    
-    div[style*="margin: 20px"] {
         margin: 10px 0 !important;
     }
     
+    div[style*="margin: 25px"] {
+        margin: 8px 0 !important;
+    }
+    
+    div[style*="margin: 20px"] {
+        margin: 6px 0 !important;
+    }
+    
+    div[style*="padding: 30px"] {
+        padding: 12px !important;
+    }
+    
     div[style*="padding: 25px"] {
-        padding: 15px !important;
+        padding: 10px !important;
     }
     
     div[style*="padding: 20px"] {
-        padding: 12px !important;
+        padding: 8px !important;
+    }
+    
+    /* Optimisation spécifique pour page 2 */
+    .pdf-page:nth-child(2) {
+        min-height: auto !important;
+        height: auto !important;
     }
 }
 
