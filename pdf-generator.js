@@ -31,7 +31,7 @@ function downloadPDF(lang) {
         <head>
             <meta charset="utf-8">
             <title>Audit HTMC - ${lang.toUpperCase()}</title>
-            <link rel="stylesheet" href="${cssHref}">
+            <link rel="stylesheet" href="styles.css">
             <style>
                 @page {
                     size: A4;
@@ -43,9 +43,23 @@ function downloadPDF(lang) {
                     padding: 0;
                 }
                 
+                .pdf-page {
+                    min-height: 297mm !important;
+                    height: auto !important;
+                }
+                
                 @media print {
                     .instructions, .print-button {
                         display: none !important;
+                    }
+                    
+                    .pdf-page {
+                        page-break-after: always;
+                        page-break-inside: avoid;
+                    }
+                    
+                    .pdf-page:last-child {
+                        page-break-after: avoid;
                     }
                 }
                 
@@ -137,6 +151,12 @@ function translateHTML(html) {
         // HEADER
         'VOTRE ENTREPRISE MÉRITE UN SITE WEB A LA HAUTEUR': 'LA VOSTRA EMPRESA MEREIX UN LLOC WEB A L\'ALÇADA',
         'VOTRE ENTREPRISE MÉRITE UN SITE WEB À LA HAUTEUR': 'LA VOSTRA EMPRESA MEREIX UN LLOC WEB A L\'ALÇADA',
+        
+        // Ces traductions manquaient !
+        'Votre site web aujourd\'hui :': 'El vostre lloc web avui:',
+        'Entreprise établie avec expérience locale, équipe qualifiée': 'Empresa establerta amb experiència local, equip qualificat',
+        'années d\'expérience à': 'anys d\'experiència a',
+        'andorra': 'Andorra',
         
         // Phrases longues d'abord
         'Vous avez': 'Teniu',
