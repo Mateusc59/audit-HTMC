@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, send_file, jsonify
-from pdf_generator import generate_audit_pdf
 import os
 import json
 from datetime import datetime
