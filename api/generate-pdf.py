@@ -1,33 +1,27 @@
-from flask import Flask, send_from_directory, request, jsonify, send_file
-import os
-from datetime import datetime
 from playwright.sync_api import sync_playwright
 import tempfile
+import os
+import json
+from urllib.parse import unquote
 
-app = Flask(__name__, static_folder='.', static_url_path='')
-
-@app.route('/')
-def index():
-    return send_from_directory('.', 'index.html')
-
-@app.route('/<path:path>')
-def serve_file(path):
-    return send_from_directory('.', path)
-
-@app.route('/generate-pdf', methods=['POST'])
-def generate_pdf():
-    """Generate PDF using Playwright - renders EXACT HTML"""
+def handler(event, context):
+    """Vercel serverless function to generate PDF"""
+    
     try:
-        data = request.json
-        html_content = data.get('htmlContent', '')
-        lang = data.get('language', 'fr')
-        company_name = data.get('companyName', 'Audit')
+        # Parse request body
+        body = json.loads(event.get('body', '{}'))
+        html_content = body.get('htmlContent', '')
+        lang = body.get('language', 'fr')
+        company_name = body.get('companyName', 'Audit')
         
         if not html_content:
-            return jsonify({'error': 'No HTML content'}), 400
+            return {
+                'statusCode': 400,
+                'body': json.dumps({'error': 'No HTML content'})
+            }
         
-        # Get CSS
-        css_path = os.path.join(os.path.dirname(__file__), 'styles.css')
+        # Get CSS from public folder
+        css_path = os.path.join(os.path.dirname(__file__), '..', 'public', 'styles.css')
         with open(css_path, 'r', encoding='utf-8') as f:
             css_content = f.read()
         
@@ -68,20 +62,16 @@ def generate_pdf():
         try:
             # Launch Playwright
             with sync_playwright() as p:
-                # Launch browser
                 browser = p.chromium.launch(
                     headless=True,
                     args=[
                         '--no-sandbox',
                         '--disable-setuid-sandbox',
-                        '--disable-dev-shm-usage',
-                        '--disable-gpu'
+                        '--disable-dev-shm-usage'
                     ]
                 )
                 
                 page = browser.new_page()
-                
-                # Load HTML
                 page.goto(f'file://{temp_html_path}', wait_until='networkidle')
                 
                 # Generate PDF
@@ -100,26 +90,32 @@ def generate_pdf():
                 browser.close()
         
         finally:
-            # Clean up temp file
             if os.path.exists(temp_html_path):
                 os.unlink(temp_html_path)
         
-        # Send file
-        filename = f"Audit_{company_name.replace(' ', '_')}_{lang.upper()}_{datetime.now().strftime('%Y%m%d')}.pdf"
+        # Read PDF and return as base64
+        with open(pdf_path, 'rb') as f:
+            pdf_data = f.read()
         
-        return send_file(
-            pdf_path,
-            mimetype='application/pdf',
-            as_attachment=True,
-            download_name=filename
-        )
+        import base64
+        pdf_base64 = base64.b64encode(pdf_data).decode('utf-8')
+        
+        return {
+            'statusCode': 200,
+            'headers': {
+                'Content-Type': 'application/pdf',
+                'Content-Disposition': f'attachment; filename="Audit_{company_name}_{lang}.pdf"'
+            },
+            'body': pdf_base64,
+            'isBase64Encoded': True
+        }
         
     except Exception as e:
         print(f"Error: {str(e)}")
         import traceback
         traceback.print_exc()
-        return jsonify({'error': str(e)}), 500
-
-if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 8080))
-    app.run(host='0.0.0.0', port=port)
+        
+        return {
+            'statusCode': 500,
+            'body': json.dumps({'error': str(e)})
+        }
