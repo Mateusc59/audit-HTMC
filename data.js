@@ -1,35 +1,113 @@
-// DONNÉES: Problèmes et Solutions
+// DONNÉES: Problèmes et Solutions (Bilingue FR/CA)
 
 const PROBLEMS = [
-    { value: "Site qui ne génère presque aucun lead ni devis", label: "📉 Pas de leads/devis" },
-    { value: "Taux de conversion très faible (visiteurs qui ne deviennent pas clients)", label: "💔 Conversion faible" },
-    { value: "Boutons d'appel à l'action (CTA) peu visibles ou absents", label: "🎯 CTA invisibles" },
-    { value: "Pas trouvable sur Google (SEO local faible)", label: "🔍 Invisible Google" },
-    { value: "Pas de Google My Business ou mal optimisé", label: "📍 Pas de GMB" },
-    { value: "Contenu centré sur l'entreprise, pas sur les besoins clients", label: "📄 Pas client-centré" },
-    { value: "Pas de témoignages clients ni avis visibles", label: "⭐ Pas d'avis clients" },
-    { value: "Portfolio ou projets réalisés peu mis en valeur", label: "🖼️ Pas de portfolio" },
-    { value: "Design obsolète qui ne inspire pas confiance", label: "🕰️ Design vieillot" },
-    { value: "Site non responsive (pas adapté mobile)", label: "📱 Pas mobile" },
-    { value: "Formulaire de contact trop long ou complexe", label: "📝 Formulaire compliqué" },
-    { value: "Site lent à charger (perte de visiteurs)", label: "🐌 Lenteur" },
-    { value: "Manque de preuves sociales et crédibilité", label: "🏆 Pas de crédibilité" },
-    { value: "Pas de suivi des performances (analytics)", label: "📊 Pas de tracking" }
+    { 
+        value: { fr: "Site qui ne génère presque aucun lead ni devis", ca: "Lloc que gairebé no genera cap lead ni pressupost" },
+        label: { fr: "📉 Pas de leads/devis", ca: "📉 Sense leads/pressupostos" }
+    },
+    { 
+        value: { fr: "Taux de conversion très faible (visiteurs qui ne deviennent pas clients)", ca: "Taxa de conversió molt baixa (visitants que no es converteixen en clients)" },
+        label: { fr: "💔 Conversion faible", ca: "💔 Conversió baixa" }
+    },
+    { 
+        value: { fr: "Boutons d'appel à l'action (CTA) peu visibles ou absents", ca: "Botons de crida a l'acció (CTA) poc visibles o absents" },
+        label: { fr: "🎯 CTA invisibles", ca: "🎯 CTAs invisibles" }
+    },
+    { 
+        value: { fr: "Pas trouvable sur Google (SEO local faible)", ca: "No es pot trobar a Google (SEO local feble)" },
+        label: { fr: "🔍 Invisible Google", ca: "🔍 Invisible a Google" }
+    },
+    { 
+        value: { fr: "Pas de Google My Business ou mal optimisé", ca: "Sense Google My Business o mal optimitzat" },
+        label: { fr: "📍 Pas de GMB", ca: "📍 Sense GMB" }
+    },
+    { 
+        value: { fr: "Contenu centré sur l'entreprise, pas sur les besoins clients", ca: "Contingut centrat en l'empresa, no en les necessitats dels clients" },
+        label: { fr: "📄 Pas client-centré", ca: "📄 No centrat en el client" }
+    },
+    { 
+        value: { fr: "Pas de témoignages clients ni avis visibles", ca: "Sense testimonis de clients ni ressenyes visibles" },
+        label: { fr: "⭐ Pas d'avis clients", ca: "⭐ Sense ressenyes" }
+    },
+    { 
+        value: { fr: "Portfolio ou projets réalisés peu mis en valeur", ca: "Portafoli o projectes realitzats poc valorats" },
+        label: { fr: "🖼️ Pas de portfolio", ca: "🖼️ Sense portafoli" }
+    },
+    { 
+        value: { fr: "Design obsolète qui ne inspire pas confiance", ca: "Disseny obsolet que no inspira confiança" },
+        label: { fr: "🕰️ Design vieillot", ca: "🕰️ Disseny vell" }
+    },
+    { 
+        value: { fr: "Site non responsive (pas adapté mobile)", ca: "Lloc no responsiu (no adaptat a mòbil)" },
+        label: { fr: "📱 Pas mobile", ca: "📱 No mòbil" }
+    },
+    { 
+        value: { fr: "Formulaire de contact trop long ou complexe", ca: "Formulari de contacte massa llarg o complex" },
+        label: { fr: "📝 Formulaire compliqué", ca: "📝 Formulari complicat" }
+    },
+    { 
+        value: { fr: "Site lent à charger (perte de visiteurs)", ca: "Lloc lent a carregar (pèrdua de visitants)" },
+        label: { fr: "🐌 Lenteur", ca: "🐌 Lentitud" }
+    },
+    { 
+        value: { fr: "Manque de preuves sociales et crédibilité", ca: "Manca de proves socials i credibilitat" },
+        label: { fr: "🏆 Pas de crédibilité", ca: "🏆 Sense credibilitat" }
+    },
+    { 
+        value: { fr: "Pas de suivi des performances (analytics)", ca: "Sense seguiment del rendiment (analytics)" },
+        label: { fr: "📊 Pas de tracking", ca: "📊 Sense seguiment" }
+    }
 ];
 
 const SOLUTIONS = [
-    { value: "Optimisation des CTA et parcours de conversion", label: "🎯 CTA optimisés" },
-    { value: "Formulaire de devis simplifié (3-4 champs max)", label: "📝 Devis simplifié" },
-    { value: "SEO local + optimisation Google My Business", label: "🔍 SEO local" },
-    { value: "Campagnes Google Ads ciblées pour générer des leads", label: "💰 Google Ads" },
-    { value: "Portfolio visuel avec projets avant/après", label: "📸 Portfolio" },
-    { value: "Système de témoignages et avis clients", label: "⭐ Avis clients" },
-    { value: "Refonte complète orientée conversion", label: "🎨 Refonte pro" },
-    { value: "Chat en direct ou chatbot pour capturer leads", label: "💬 Chat live" },
-    { value: "Landing pages spécifiques par service", label: "📄 Landing pages" },
-    { value: "Tracking et analytics pour optimiser conversions", label: "📊 Analytics" },
-    { value: "Retargeting / Remarketing pour récupérer visiteurs", label: "🔄 Retargeting" },
-    { value: "Email marketing et automation pour nurturer leads", label: "📧 Email marketing" }
+    { 
+        value: { fr: "Optimisation des CTA et parcours de conversion", ca: "Optimització dels CTAs i recorregut de conversió" },
+        label: { fr: "🎯 CTA optimisés", ca: "🎯 CTAs optimitzats" }
+    },
+    { 
+        value: { fr: "Formulaire de devis simplifié (3-4 champs max)", ca: "Formulari de pressupost simplificat (3-4 camps màx)" },
+        label: { fr: "📝 Devis simplifié", ca: "📝 Pressupost simplificat" }
+    },
+    { 
+        value: { fr: "SEO local + optimisation Google My Business", ca: "SEO local + optimització Google My Business" },
+        label: { fr: "🔍 SEO local", ca: "🔍 SEO local" }
+    },
+    { 
+        value: { fr: "Campagnes Google Ads ciblées pour générer des leads", ca: "Campanyes Google Ads orientades a generar leads" },
+        label: { fr: "💰 Google Ads", ca: "💰 Google Ads" }
+    },
+    { 
+        value: { fr: "Portfolio visuel avec projets avant/après", ca: "Portafoli visual amb projectes abans/després" },
+        label: { fr: "📸 Portfolio", ca: "📸 Portafoli" }
+    },
+    { 
+        value: { fr: "Système de témoignages et avis clients", ca: "Sistema de testimonis i ressenyes de clients" },
+        label: { fr: "⭐ Avis clients", ca: "⭐ Ressenyes" }
+    },
+    { 
+        value: { fr: "Refonte complète orientée conversion", ca: "Redisseny complet orientat a conversió" },
+        label: { fr: "🎨 Refonte pro", ca: "🎨 Redisseny pro" }
+    },
+    { 
+        value: { fr: "Chat en direct ou chatbot pour capturer leads", ca: "Xat en directe o chatbot per capturar leads" },
+        label: { fr: "💬 Chat live", ca: "💬 Xat en directe" }
+    },
+    { 
+        value: { fr: "Landing pages spécifiques par service", ca: "Landing pages específiques per servei" },
+        label: { fr: "📄 Landing pages", ca: "📄 Landing pages" }
+    },
+    { 
+        value: { fr: "Tracking et analytics pour optimiser conversions", ca: "Seguiment i analytics per optimitzar conversions" },
+        label: { fr: "📊 Analytics", ca: "📊 Analytics" }
+    },
+    { 
+        value: { fr: "Retargeting / Remarketing pour récupérer visiteurs", ca: "Retargeting / Remarketing per recuperar visitants" },
+        label: { fr: "🔄 Retargeting", ca: "🔄 Retargeting" }
+    },
+    { 
+        value: { fr: "Email marketing et automation pour nurturer leads", ca: "Email marketing i automatització per nodrir leads" },
+        label: { fr: "📧 Email marketing", ca: "📧 Email marketing" }
+    }
 ];
 
 const INDUSTRY_TEMPLATES = {

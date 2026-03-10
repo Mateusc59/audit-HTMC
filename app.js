@@ -16,8 +16,8 @@ function initializeCheckboxes() {
         const label = document.createElement('label');
         label.className = 'checkbox-label';
         label.innerHTML = `
-            <input type="checkbox" class="problem-checkbox" value="${problem.value}" id="problem-${index}">
-            <span>${problem.label}</span>
+            <input type="checkbox" class="problem-checkbox" value="${problem.value.fr}" data-value-ca="${problem.value.ca}" id="problem-${index}">
+            <span>${problem.label.fr}</span>
         `;
         problemsContainer.appendChild(label);
     });
@@ -28,8 +28,8 @@ function initializeCheckboxes() {
         const label = document.createElement('label');
         label.className = 'checkbox-label';
         label.innerHTML = `
-            <input type="checkbox" class="solution-checkbox" value="${solution.value}" id="solution-${index}">
-            <span>${solution.label}</span>
+            <input type="checkbox" class="solution-checkbox" value="${solution.value.fr}" data-value-ca="${solution.value.ca}" id="solution-${index}">
+            <span>${solution.label.fr}</span>
         `;
         solutionsContainer.appendChild(label);
     });
