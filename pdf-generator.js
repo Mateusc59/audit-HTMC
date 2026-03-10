@@ -281,13 +281,21 @@ function translateTextNodes(element) {
         '5 000€': '5 000€'
     };
     
-    // MÉTHODE ULTRA AGRESSIVE : remplacer directement dans le HTML
+    // MÉTHODE ULTRA AGRESSIVE mais SANS casser les images
     let html = element.innerHTML;
     
-    // Trier par longueur (plus long d'abord) pour éviter les remplacements partiels
+    // 1. PROTÉGER les images en remplaçant temporairement les src
+    const imagePlaceholders = [];
+    html = html.replace(/<img[^>]*src="([^"]*)"[^>]*>/gi, (match, src) => {
+        const placeholder = `___IMAGE_PLACEHOLDER_${imagePlaceholders.length}___`;
+        imagePlaceholders.push(match); // Sauvegarder la balise img complète
+        return placeholder;
+    });
+    
+    // 2. Trier par longueur (plus long d'abord) pour éviter les remplacements partiels
     const sortedTranslations = Object.entries(translations).sort((a, b) => b[0].length - a[0].length);
     
-    // Remplacer TOUT
+    // 3. Remplacer TOUT le texte français
     sortedTranslations.forEach(([fr, ca]) => {
         // Échapper les caractères spéciaux pour regex
         const escapedFr = fr.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -295,6 +303,12 @@ function translateTextNodes(element) {
         html = html.replace(regex, ca);
     });
     
-    // Réinjecter le HTML traduit
+    // 4. RESTAURER les images
+    imagePlaceholders.forEach((imgTag, index) => {
+        const placeholder = `___IMAGE_PLACEHOLDER_${index}___`;
+        html = html.replace(placeholder, imgTag);
+    });
+    
+    // 5. Réinjecter le HTML traduit avec les images intactes
     element.innerHTML = html;
 }
