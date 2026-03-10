@@ -23,7 +23,37 @@ function downloadPDF(lang) {
 }
 
 function translateTextNodes(element) {
+    // MEGA DICTIONNAIRE - TOUT en catalan
     const translations = {
+        // TOUTES les phrases des problèmes (COMPLÈTES)
+        'Site qui ne génère presque aucun lead ni devis': 'Lloc que gairebé no genera cap lead ni pressupost',
+        'Taux de conversion très faible (visiteurs qui ne deviennent pas clients)': 'Taxa de conversió molt baixa (visitants que no es converteixen en clients)',
+        "Boutons d'appel à l'action (CTA) peu visibles ou absents": "Botons de crida a l'acció (CTA) poc visibles o absents",
+        'Pas trouvable sur Google (SEO local faible)': 'No es pot trobar a Google (SEO local feble)',
+        'Pas de Google My Business ou mal optimisé': 'Sense Google My Business o mal optimitzat',
+        "Contenu centré sur l'entreprise, pas sur les besoins clients": "Contingut centrat en l'empresa, no en les necessitats dels clients",
+        'Pas de témoignages clients ni avis visibles': 'Sense testimonis de clients ni ressenyes visibles',
+        'Portfolio ou projets réalisés peu mis en valeur': 'Portafoli o projectes realitzats poc valorats',
+        "Design obsolète qui ne inspire pas confiance": "Disseny obsolet que no inspira confiança",
+        'Site non responsive (pas adapté mobile)': 'Lloc no responsiu (no adaptat a mòbil)',
+        'Formulaire de contact trop long ou complexe': 'Formulari de contacte massa llarg o complex',
+        'Site lent à charger (perte de visiteurs)': 'Lloc lent a carregar (pèrdua de visitants)',
+        'Manque de preuves sociales et crédibilité': 'Manca de proves socials i credibilitat',
+        'Pas de suivi des performances (analytics)': 'Sense seguiment del rendiment (analytics)',
+        
+        // TOUTES les phrases des solutions (COMPLÈTES)
+        'Optimisation des CTA et parcours de conversion': 'Optimització dels CTAs i recorregut de conversió',
+        'Formulaire de devis simplifié (3-4 champs max)': 'Formulari de pressupost simplificat (3-4 camps màx)',
+        'SEO local + optimisation Google My Business': 'SEO local + optimització Google My Business',
+        'Campagnes Google Ads ciblées pour générer des leads': 'Campanyes Google Ads orientades a generar leads',
+        'Portfolio visuel avec projets avant/après': 'Portafoli visual amb projectes abans/després',
+        'Système de témoignages et avis clients': 'Sistema de testimonis i ressenyes de clients',
+        'Refonte complète orientée conversion': 'Redisseny complet orientat a conversió',
+        'Chat en direct ou chatbot pour capturer leads': 'Xat en directe o chatbot per capturar leads',
+        'Landing pages spécifiques par service': 'Landing pages específiques per servei',
+        'Tracking et analytics pour optimiser conversions': 'Seguiment i analytics per optimitzar conversions',
+        'Retargeting / Remarketing pour récupérer visiteurs': 'Retargeting / Remarketing per recuperar visitants',
+        'Email marketing et automation pour nurturer leads': 'Email marketing i automatització per nodrir leads',
         // Headers et titres
         'VOTRE ENTREPRISE MÉRITE UN SITE WEB À LA HAUTEUR': 'LA VOSTRA EMPRESA MEREIX UN LLOC WEB A L\'ALÇADA',
         'LA VOSTRA EMPRESA MEREIX UN LLOC WEB A L\'ALÇADA': 'LA VOSTRA EMPRESA MEREIX UN LLOC WEB A L\'ALÇADA',
@@ -251,28 +281,20 @@ function translateTextNodes(element) {
         '5 000€': '5 000€'
     };
     
-    // Utiliser TreeWalker pour parcourir seulement les text nodes
-    const walker = document.createTreeWalker(
-        element,
-        NodeFilter.SHOW_TEXT,
-        null,
-        false
-    );
+    // MÉTHODE ULTRA AGRESSIVE : remplacer directement dans le HTML
+    let html = element.innerHTML;
     
-    const nodesToTranslate = [];
-    let node;
-    while (node = walker.nextNode()) {
-        nodesToTranslate.push(node);
-    }
-    
-    // Traduire dans l'ordre (plus long d'abord)
+    // Trier par longueur (plus long d'abord) pour éviter les remplacements partiels
     const sortedTranslations = Object.entries(translations).sort((a, b) => b[0].length - a[0].length);
     
-    nodesToTranslate.forEach(textNode => {
-        let text = textNode.nodeValue;
-        sortedTranslations.forEach(([fr, ca]) => {
-            text = text.replace(new RegExp(fr, 'g'), ca);
-        });
-        textNode.nodeValue = text;
+    // Remplacer TOUT
+    sortedTranslations.forEach(([fr, ca]) => {
+        // Échapper les caractères spéciaux pour regex
+        const escapedFr = fr.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regex = new RegExp(escapedFr, 'gi');
+        html = html.replace(regex, ca);
     });
+    
+    // Réinjecter le HTML traduit
+    element.innerHTML = html;
 }
