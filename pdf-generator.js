@@ -170,6 +170,22 @@ function translateTextNodes(element) {
         'Retargeting / Remarketing pour récupérer visiteurs': 'Retargeting / Remarketing per recuperar visitants',
         'Email marketing et automation pour nurturer leads': 'Email marketing i automatització per nodrir leads',
         
+        // PROBLÈMES (14 items)
+        'Site qui ne génère presque aucun lead ni devis': 'Lloc que gairebé no genera cap lead ni pressupost',
+        'Taux de conversion très faible (visiteurs qui ne deviennent pas clients)': 'Taxa de conversió molt baixa (visitants que no es converteixen en clients)',
+        'Boutons d\'appel à l\'action (CTA) peu visibles ou absents': 'Botons de crida a l\'acció (CTA) poc visibles o absents',
+        'Pas trouvable sur Google (SEO local faible)': 'No es pot trobar a Google (SEO local feble)',
+        'Pas de Google My Business ou mal optimisé': 'Sense Google My Business o mal optimitzat',
+        'Contenu centré sur l\'entreprise, pas sur les besoins clients': 'Contingut centrat en l\'empresa, no en les necessitats dels clients',
+        'Pas de témoignages clients ni avis visibles': 'Sense testimonis de clients ni ressenyes visibles',
+        'Portfolio ou projets réalisés peu mis en valeur': 'Portafoli o projectes realitzats poc valorats',
+        'Design obsolète qui ne inspire pas confiance': 'Disseny obsolet que no inspira confiança',
+        'Site non responsive (pas adapté mobile)': 'Lloc no responsiu (no adaptat a mòbil)',
+        'Formulaire de contact trop long ou complexe': 'Formulari de contacte massa llarg o complex',
+        'Site lent à charger (perte de visiteurs)': 'Lloc lent a carregar (pèrdua de visitants)',
+        'Manque de preuves sociales et crédibilité': 'Manca de proves socials i credibilitat',
+        'Pas de suivi des performances (analytics)': 'Sense seguiment del rendiment (analytics)',
+        
         // Section "Ce qui change"
         'Ce qui change dès maintenant': 'El que canvia des d\'ara',
         'Semaine': 'Setmana',
