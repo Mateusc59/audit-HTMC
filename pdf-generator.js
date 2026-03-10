@@ -186,6 +186,36 @@ function translateTextNodes(element) {
         'Manque de preuves sociales et crédibilité': 'Manca de proves socials i credibilitat',
         'Pas de suivi des performances (analytics)': 'Sense seguiment del rendiment (analytics)',
         
+        // LABELS COURTS des checkboxes (problèmes)
+        'Pas de leads/devis': 'Sense leads/pressupostos',
+        'Conversion faible': 'Conversió baixa',
+        'CTA invisibles': 'CTAs invisibles',
+        'Invisible Google': 'Invisible a Google',
+        'Pas de GMB': 'Sense GMB',
+        'Pas client-centré': 'No centrat en el client',
+        'Pas d\'avis clients': 'Sense ressenyes de clients',
+        'Pas de portfolio': 'Sense portafoli',
+        'Design vieillot': 'Disseny vell',
+        'Pas mobile': 'No mòbil',
+        'Formulaire compliqué': 'Formulari complicat',
+        'Lenteur': 'Lentitud',
+        'Pas de crédibilité': 'Sense credibilitat',
+        'Pas de tracking': 'Sense seguiment',
+        
+        // LABELS COURTS des checkboxes (solutions)
+        'CTA optimisés': 'CTAs optimitzats',
+        'Devis simplifié': 'Pressupost simplificat',
+        'SEO local': 'SEO local',
+        'Google Ads': 'Google Ads',
+        'Portfolio': 'Portafoli',
+        'Avis clients': 'Ressenyes de clients',
+        'Refonte pro': 'Redisseny pro',
+        'Chat live': 'Xat en directe',
+        'Landing pages': 'Landing pages',
+        'Analytics': 'Analytics',
+        'Retargeting': 'Retargeting',
+        'Email marketing': 'Email marketing',
+        
         // Section "Ce qui change"
         'Ce qui change dès maintenant': 'El que canvia des d\'ara',
         'Semaine': 'Setmana',
