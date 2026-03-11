@@ -2,6 +2,7 @@
 
 let logoData = null;
 let screenshotData = null;
+let autoFillCaData = null; // stocke les valeurs CA de l'auto-fill
 
 // Initialize
 document.addEventListener('DOMContentLoaded', function() {
@@ -78,9 +79,13 @@ function autoFill() {
     }
 
     const template = INDUSTRY_TEMPLATES[industry] || INDUSTRY_TEMPLATES['autre'];
-    document.getElementById('services').value = template.services;
-    document.getElementById('uniqueValue').value = template.uniqueValue;
-    document.getElementById('mainGoals').value = template.mainGoals;
+    const fr = template.fr;
+    document.getElementById('services').value = fr.services;
+    document.getElementById('uniqueValue').value = fr.uniqueValue;
+    document.getElementById('mainGoals').value = fr.mainGoals;
+
+    // Stocker les équivalents CA pour la génération bilingue
+    autoFillCaData = template.ca;
 
     // Cocher quelques problèmes par défaut
     document.querySelectorAll('.problem-checkbox')[0].checked = true;
@@ -133,9 +138,15 @@ function generateAudit() {
     setTimeout(() => {
         const baseData = { companyName, industry, location, services, goals, years, uniqueValue, logo: logoData, screenshot: screenshotData };
 
+        // Pour la version CA, utiliser les valeurs CA de l'auto-fill si disponibles
+        const caOverrides = autoFillCaData ? {
+            services: autoFillCaData.services,
+            uniqueValue: autoFillCaData.uniqueValue
+        } : {};
+
         // Générer les deux versions directement dans la bonne langue
         const htmlFR = generateAuditHTML({ ...baseData, problems: problemsFR,  solutions: solutionsFR  }, 'fr');
-        const htmlCA = generateAuditHTML({ ...baseData, problems: problemsCA, solutions: solutionsCA }, 'ca');
+        const htmlCA = generateAuditHTML({ ...baseData, ...caOverrides, problems: problemsCA, solutions: solutionsCA }, 'ca');
 
         document.getElementById('pdfContent').innerHTML = `
             <div id="pdfContentFR">${htmlFR}</div>
@@ -157,6 +168,7 @@ function resetForm() {
         document.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = false);
         logoData = null;
         screenshotData = null;
+        autoFillCaData = null;
         document.getElementById('screenshotPreview').innerHTML = '';
         document.getElementById('result').classList.remove('active');
         window.scrollTo({ top: 0, behavior: 'smooth' });
