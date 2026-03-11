@@ -254,39 +254,38 @@ textarea {
     display: block;
 }
 
-/* PDF PREVIEW */
+/* PDF PREVIEW — largeur A4 exacte (210mm @ 96dpi = 794px) */
 .pdf-preview {
     background: white;
-    max-width: 900px;
+    width: 794px;
     margin: 0 auto;
     box-shadow: 0 10px 50px rgba(0,0,0,0.2);
 }
 
+/* En-tête de version (FR / CA) — visible en preview, masqué à l'impression */
+.pdf-version-header {
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 900;
+    margin: 28px 0 16px;
+    color: var(--primary);
+    letter-spacing: 1px;
+}
+
 .pdf-page {
     background: white;
-    padding: 60px;
-    min-height: 1200px;
+    /* Padding interne : reproduit les marges d'impression (≈10mm) */
+    padding: 38px 48px;
+    min-height: 1123px; /* 297mm @ 96dpi */
     position: relative;
     margin-bottom: 40px;
     border: 2px solid #ddd;
 }
 
-/* Séparateur de page visible */
-.pdf-page:first-child::after {
-    content: "📄 FIN PAGE 1 - DÉBUT PAGE 2 📄";
-    position: absolute;
-    bottom: -40px;
-    left: 0;
-    right: 0;
-    background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
-    color: white;
-    text-align: center;
-    padding: 10px;
-    font-weight: 900;
-    font-size: 1.1rem;
-    letter-spacing: 2px;
-    z-index: 1000;
-    box-shadow: 0 4px 15px rgba(255,107,107,0.4);
+/* Séparateur de page visible en preview */
+.pdf-page + .pdf-page::before {
+    content: "";
+    display: block;
 }
 
 .pdf-logo {
@@ -360,175 +359,118 @@ textarea {
     color: #856404;
 }
 
-/* PRINT STYLES */
+/* ═══════════════════════════════════════════════════════════════════════
+   IMPRESSION — La clé : @page margin:0 + width:100% sur .pdf-page
+   → le navigateur n'a pas besoin de scaler → pas de marges parasites
+   → Dans la boîte de dialogue d'impression : sélectionnez "Aucune marge"
+   ═══════════════════════════════════════════════════════════════════════ */
 @media print {
     @page {
         size: A4 portrait;
-        margin: 0mm !important;
+        margin: 0;
     }
-    
+
     * {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
         color-adjust: exact !important;
     }
-    
+
     html, body {
         margin: 0 !important;
         padding: 0 !important;
-        width: 100%;
-        height: 100%;
-    }
-    
-    body {
+        width: 210mm !important;
         background: white !important;
         overflow: visible !important;
-        font-size: 9pt;
-        line-height: 1.2;
     }
-    
+
     .container {
         max-width: 100% !important;
+        width: 100% !important;
         padding: 0 !important;
         margin: 0 !important;
-        width: 100% !important;
     }
-    
-    /* Cacher tout sauf le PDF */
+
+    /* Masquer tout sauf le résultat PDF */
     header,
     .form-section,
     .loading,
     .action-buttons,
     .btn,
     .info-box,
-    .section-title,
-    .form-grid,
-    .checkbox-grid {
+    .pdf-version-header,
+    p[style*="Awesome"] {
         display: none !important;
-        height: 0 !important;
-        margin: 0 !important;
-        padding: 0 !important;
     }
-    
+
     .result {
         display: block !important;
         margin: 0 !important;
         padding: 0 !important;
         width: 100% !important;
     }
-    
+
     .pdf-preview {
-        max-width: 100% !important;
+        width: 100% !important;
         box-shadow: none !important;
         margin: 0 !important;
         padding: 0 !important;
-        width: 100% !important;
     }
-    
-    /* Pages - CRITICAL pour éviter page blanche */
+
+    /* ── Chaque page = une feuille A4 exacte ── */
     .pdf-page {
-        page-break-after: always !important;
-        page-break-before: auto !important;
-        page-break-inside: avoid !important;
-        break-after: page !important;
-        box-shadow: none !important;
-        padding: 6mm 8mm !important;
+        width: 100% !important;
+        /* Marges internes reproduisant l'espace dans la page */
+        padding: 10mm 12mm !important;
         margin: 0 !important;
-        width: 210mm !important;
-        height: auto !important;
         min-height: 0 !important;
         max-height: none !important;
+        height: auto !important;
         background: white !important;
-        position: relative !important;
         border: none !important;
+        box-shadow: none !important;
+        position: relative !important;
         overflow: visible !important;
         display: block !important;
+        page-break-after: always !important;
+        break-after: page !important;
     }
-    
-    /* Forcer la première page à commencer en haut */
-    .pdf-page:first-child {
-        margin-top: 0 !important;
-        padding-top: 6mm !important;
-    }
-    
-    /* Pas de page break après la dernière */
+
     .pdf-page:last-child {
         page-break-after: avoid !important;
         break-after: avoid !important;
     }
-    
-    /* Cacher le séparateur */
-    .pdf-page::after {
-        content: none !important;
+
+    /* Séparateur preview masqué */
+    .pdf-page + .pdf-page::before {
         display: none !important;
     }
-    
+
+    /* En-tête noir — important pour les couleurs de fond */
     .pdf-header {
         background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%) !important;
-        -webkit-print-color-adjust: exact !important;
-        padding: 18px 18px 18px 55px !important;
-        margin: -6mm -8mm 10px -8mm !important;
+        padding: 14px 14px 14px 50px !important;
+        margin: -10mm -12mm 10px -12mm !important;
     }
-    
+
     .pdf-header-side {
         background: #D4A574 !important;
-        -webkit-print-color-adjust: exact !important;
-        width: 35px !important;
+        width: 32px !important;
     }
-    
+
     .pdf-header-logo {
-        width: 90px !important;
-        height: 90px !important;
-        object-fit: contain !important;
+        width: 80px !important;
+        height: 80px !important;
     }
-    
+
     .pdf-title {
-        font-size: 1.1rem !important;
+        font-size: 1rem !important;
         line-height: 1.2 !important;
     }
-    
+
     .pdf-logo {
-        width: 70px !important;
-        height: auto !important;
-        max-height: 35px !important;
-        object-fit: contain !important;
-    }
-    
-    /* Réduire espacement */
-    h2, h3, h4 {
-        margin-top: 5px !important;
-        margin-bottom: 3px !important;
-        font-size: 0.95rem !important;
-    }
-    
-    p {
-        margin-bottom: 4px !important;
-        font-size: 8.5pt !important;
-        line-height: 1.2 !important;
-    }
-    
-    div[style*="margin: 30px"] {
-        margin: 8px 0 !important;
-    }
-    
-    div[style*="margin: 25px"] {
-        margin: 6px 0 !important;
-    }
-    
-    div[style*="margin: 20px"] {
-        margin: 5px 0 !important;
-    }
-    
-    div[style*="padding: 30px"] {
-        padding: 10px !important;
-    }
-    
-    div[style*="padding: 25px"] {
-        padding: 8px !important;
-    }
-    
-    div[style*="padding: 20px"] {
-        padding: 6px !important;
+        width: 60px !important;
+        max-height: 30px !important;
     }
 }
 

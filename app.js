@@ -107,16 +107,21 @@ function generateAudit() {
     const years = document.getElementById('yearsExperience').value;
     const uniqueValue = document.getElementById('uniqueValue').value;
 
-    const problems = Array.from(document.querySelectorAll('.problem-checkbox:checked')).map(c => c.value);
-    const solutions = Array.from(document.querySelectorAll('.solution-checkbox:checked')).map(c => c.value);
+    // Problèmes & solutions en FR et CA
+    const checkedProblems  = Array.from(document.querySelectorAll('.problem-checkbox:checked'));
+    const checkedSolutions = Array.from(document.querySelectorAll('.solution-checkbox:checked'));
+
+    const problemsFR  = checkedProblems.map(c => c.value);
+    const problemsCA  = checkedProblems.map(c => c.dataset.valueCa);
+    const solutionsFR = checkedSolutions.map(c => c.value);
+    const solutionsCA = checkedSolutions.map(c => c.dataset.valueCa);
 
     // Validation
     if (!companyName || !industry || !location || !services || !goals) {
         alert('Remplissez tous les champs obligatoires (*)');
         return;
     }
-
-    if (problems.length === 0) {
+    if (problemsFR.length === 0) {
         alert('Sélectionnez au moins un problème');
         return;
     }
@@ -125,55 +130,23 @@ function generateAudit() {
     document.getElementById('loading').classList.add('active');
     document.getElementById('generateBtn').disabled = true;
 
-    // Generate after short delay
     setTimeout(() => {
-        const data = {
-            companyName,
-            industry,
-            location,
-            services,
-            goals,
-            years,
-            uniqueValue,
-            problems,
-            solutions,
-            logo: logoData,
-            screenshot: screenshotData
-        };
+        const baseData = { companyName, industry, location, services, goals, years, uniqueValue, logo: logoData, screenshot: screenshotData };
 
-        // Générer version FR
-        const htmlFR = generateAuditHTML(data);
-        
-        // Générer version CA (traduite)
-        const htmlCA = generateAuditHTML(data);
-        
-        // Créer les deux containers
-        const pdfContentContainer = document.getElementById('pdfContent');
-        pdfContentContainer.innerHTML = `
-            <div class="pdf-version-container">
-                <h2 style="text-align: center; font-size: 1.5rem; font-weight: 900; margin: 30px 0 20px; color: var(--primary);">
-                    📄 VERSION FRANÇAISE
-                </h2>
-                <div id="pdfContentFR">${htmlFR}</div>
-            </div>
-            
-            <div class="pdf-version-container" style="margin-top: 80px;">
-                <h2 style="text-align: center; font-size: 1.5rem; font-weight: 900; margin: 30px 0 20px; color: var(--primary);">
-                    📄 VERSIÓ CATALANA
-                </h2>
-                <div id="pdfContentCA">${htmlCA}</div>
-            </div>
+        // Générer les deux versions directement dans la bonne langue
+        const htmlFR = generateAuditHTML({ ...baseData, problems: problemsFR,  solutions: solutionsFR  }, 'fr');
+        const htmlCA = generateAuditHTML({ ...baseData, problems: problemsCA, solutions: solutionsCA }, 'ca');
+
+        document.getElementById('pdfContent').innerHTML = `
+            <div class="pdf-version-header">📄 VERSION FRANÇAISE</div>
+            <div id="pdfContentFR">${htmlFR}</div>
+            <div class="pdf-version-header" style="margin-top:60px;">📄 VERSIÓ CATALANA</div>
+            <div id="pdfContentCA">${htmlCA}</div>
         `;
-        
-        // Traduire la version CA
-        const caContainer = document.getElementById('pdfContentCA');
-        translateTextNodes(caContainer);
 
         document.getElementById('loading').classList.remove('active');
         document.getElementById('result').classList.add('active');
         document.getElementById('generateBtn').disabled = false;
-
-        // Scroll to result
         document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
     }, 1000);
 }
