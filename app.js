@@ -138,9 +138,7 @@ function generateAudit() {
         const htmlCA = generateAuditHTML({ ...baseData, problems: problemsCA, solutions: solutionsCA }, 'ca');
 
         document.getElementById('pdfContent').innerHTML = `
-            <div class="pdf-version-header">📄 VERSION FRANÇAISE</div>
             <div id="pdfContentFR">${htmlFR}</div>
-            <div class="pdf-version-header" style="margin-top:60px;">📄 VERSIÓ CATALANA</div>
             <div id="pdfContentCA">${htmlCA}</div>
         `;
 

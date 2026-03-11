@@ -262,30 +262,70 @@ textarea {
     box-shadow: 0 10px 50px rgba(0,0,0,0.2);
 }
 
-/* En-tête de version (FR / CA) — visible en preview, masqué à l'impression */
-.pdf-version-header {
-    text-align: center;
-    font-size: 1.3rem;
-    font-weight: 900;
-    margin: 28px 0 16px;
-    color: var(--primary);
-    letter-spacing: 1px;
-}
-
 .pdf-page {
     background: white;
-    /* Padding interne : reproduit les marges d'impression (≈10mm) */
-    padding: 38px 48px;
-    min-height: 1123px; /* 297mm @ 96dpi */
+    /* Padding : top/sides normaux, bottom réservé pour le footer absolu (≈58px) */
+    padding: 38px 48px 72px;
+    height: 1123px; /* 297mm @ 96dpi — hauteur fixe A4 */
     position: relative;
-    margin-bottom: 40px;
+    overflow: hidden; /* Rien ne déborde de la page */
+    margin-bottom: 20px;
     border: 2px solid #ddd;
+    box-sizing: border-box;
 }
 
-/* Séparateur de page visible en preview */
-.pdf-page + .pdf-page::before {
-    content: "";
-    display: block;
+/* ── Footer moderne ─────────────────────────────────────────────────────── */
+.pdf-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 48px;
+    height: 58px;
+    border-top: 3px solid var(--accent);
+}
+
+.pdf-footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.pdf-footer-name {
+    font-weight: 800;
+    font-size: 0.88rem;
+    letter-spacing: 1.5px;
+    color: var(--accent);
+    text-transform: uppercase;
+}
+
+.pdf-footer-tagline {
+    font-size: 0.65rem;
+    opacity: 0.55;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.pdf-footer-contacts {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    font-size: 0.7rem;
+    opacity: 0.85;
+}
+
+.pdf-footer-logo {
+    width: 48px;
+    height: auto;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+    opacity: 0.9;
 }
 
 .pdf-logo {
@@ -398,7 +438,6 @@ textarea {
     .action-buttons,
     .btn,
     .info-box,
-    .pdf-version-header,
     p[style*="Awesome"] {
         display: none !important;
     }
@@ -417,21 +456,19 @@ textarea {
         padding: 0 !important;
     }
 
-    /* ── Chaque page = une feuille A4 exacte ── */
+    /* ── Chaque page = exactement une feuille A4, rien ne déborde ── */
     .pdf-page {
         width: 100% !important;
-        /* Marges internes reproduisant l'espace dans la page */
-        padding: 10mm 12mm !important;
+        height: 297mm !important;        /* Hauteur A4 stricte */
+        overflow: hidden !important;     /* Coupe tout ce qui dépasse */
+        padding: 10mm 12mm 16mm !important; /* Bottom réservé au footer */
         margin: 0 !important;
-        min-height: 0 !important;
-        max-height: none !important;
-        height: auto !important;
         background: white !important;
         border: none !important;
         box-shadow: none !important;
         position: relative !important;
-        overflow: visible !important;
         display: block !important;
+        box-sizing: border-box !important;
         page-break-after: always !important;
         break-after: page !important;
     }
@@ -441,36 +478,42 @@ textarea {
         break-after: avoid !important;
     }
 
-    /* Séparateur preview masqué */
-    .pdf-page + .pdf-page::before {
-        display: none !important;
+    /* Footer en print */
+    .pdf-footer {
+        padding: 8px 12mm !important;
+        height: 14mm !important;
     }
 
-    /* En-tête noir — important pour les couleurs de fond */
+    .pdf-footer-name  { font-size: 0.78rem !important; }
+    .pdf-footer-tagline { font-size: 0.58rem !important; }
+    .pdf-footer-contacts { font-size: 0.62rem !important; }
+    .pdf-footer-logo  { width: 38px !important; }
+
+    /* En-tête */
     .pdf-header {
         background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%) !important;
-        padding: 14px 14px 14px 50px !important;
+        padding: 12px 12mm 12px 46px !important;
         margin: -10mm -12mm 10px -12mm !important;
     }
 
     .pdf-header-side {
         background: #D4A574 !important;
-        width: 32px !important;
+        width: 30px !important;
     }
 
     .pdf-header-logo {
-        width: 80px !important;
-        height: 80px !important;
+        width: 75px !important;
+        height: 75px !important;
     }
 
     .pdf-title {
-        font-size: 1rem !important;
+        font-size: 0.95rem !important;
         line-height: 1.2 !important;
     }
 
     .pdf-logo {
-        width: 60px !important;
-        max-height: 30px !important;
+        width: 55px !important;
+        max-height: 28px !important;
     }
 }
 

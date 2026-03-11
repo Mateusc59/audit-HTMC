@@ -1,5 +1,22 @@
 // TEMPLATES: Génération bilingue du HTML de l'audit
 
+// Footer moderne — positionné en absolu en bas de chaque page
+function footerHTML() {
+    return `
+    <div class="pdf-footer">
+        <div class="pdf-footer-brand">
+            <span class="pdf-footer-name">HTMC AGENCY</span>
+            <span class="pdf-footer-tagline">Agence Digitale</span>
+        </div>
+        <div class="pdf-footer-contacts">
+            <span>contact@htmcagency.com</span>
+            <span>htmcagency.com</span>
+            <span>+33 7 69 16 56 34</span>
+        </div>
+        <img src="logohtmc.png" class="pdf-footer-logo">
+    </div>`;
+}
+
 function generateAuditHTML(data, lang = 'fr') {
     const isCa = lang === 'ca';
     const c = data.companyName;
@@ -182,15 +199,7 @@ function generateAuditHTML(data, lang = 'fr') {
         </div>
     </div>
 
-    <!-- Pied de page 1 -->
-    <div style="margin-top:18px;padding:10px 0;border-top:3px solid var(--accent);display:flex;align-items:center;justify-content:space-between;">
-        <p style="font-weight:700;font-size:0.9rem;margin:0;">HTMC AGENCY</p>
-        <div style="text-align:center;">
-            <p style="font-size:0.72rem;margin:0;">contact@htmcagency.com</p>
-            <p style="font-size:0.72rem;margin:0;">htmcagency.com | +33 7 69 16 56 34</p>
-        </div>
-        <img src="logohtmc.png" style="width:55px;height:auto;object-fit:contain;">
-    </div>
+    ${footerHTML()}
 </div>
 
 <!-- ═══════════════════════════════════ PAGE 2 ═══════════════════════════════════ -->
@@ -285,14 +294,6 @@ function generateAuditHTML(data, lang = 'fr') {
         </p>
     </div>
 
-    <!-- Pied de page 2 -->
-    <div style="margin-top:16px;padding:10px 0;border-top:3px solid var(--accent);display:flex;align-items:center;justify-content:space-between;">
-        <p style="font-weight:700;font-size:0.9rem;margin:0;">HTMC AGENCY</p>
-        <div style="text-align:center;">
-            <p style="font-size:0.72rem;margin:0;">contact@htmcagency.com</p>
-            <p style="font-size:0.72rem;margin:0;">htmcagency.com | +33 7 69 16 56 34</p>
-        </div>
-        <img src="logohtmc.png" style="width:55px;height:auto;object-fit:contain;">
-    </div>
+    ${footerHTML()}
 </div>`;
 }
