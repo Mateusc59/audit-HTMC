@@ -287,14 +287,14 @@ function getSectorContent(industry, c, loc, expLabel, isCa) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Footer — fond blanc, sobre
+// Footer — fond blanc, sobre (bilingue)
 // ─────────────────────────────────────────────────────────────────────────────
-function footerHTML() {
+function footerHTML(isCa) {
     return `
     <div class="pdf-footer">
         <div class="pdf-footer-brand">
             <span class="pdf-footer-name">HTMC AGENCY</span>
-            <span class="pdf-footer-tagline">Agence Digitale</span>
+            <span class="pdf-footer-tagline">${isCa ? 'Agència Digital' : 'Agence Digitale'}</span>
         </div>
         <div class="pdf-footer-contacts">
             <span>contact@htmcagency.com &nbsp;·&nbsp; htmcagency.com</span>
@@ -360,7 +360,7 @@ function generateAuditHTML(data, lang = 'fr') {
 
     <!-- EN-TÊTE LIGHT — plus de noir massif -->
     <div class="pdf-header">
-        <div class="pdf-header-side">AUDIT</div>
+        <div class="pdf-header-side">${isCa ? 'AUDITORIA' : 'AUDIT'}</div>
         ${logoHeaderHTML}
         <div style="flex:1;">
             <div style="font-size:0.7rem;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">
@@ -443,12 +443,12 @@ function generateAuditHTML(data, lang = 'fr') {
     <div class="audit-box-accent" style="display:flex;align-items:flex-start;gap:14px;">
         <span style="font-size:1.4rem;line-height:1;">🏆</span>
         <div>
-            <p style="font-size:0.84rem;font-weight:800;margin:0 0 5px;">${isCa ? `Ce qui distingue ${c} :` : `Ce qui distingue ${c} :`}</p>
+            <p style="font-size:0.84rem;font-weight:800;margin:0 0 5px;">${isCa ? `El que distingeix ${c} :` : `Ce qui distingue ${c} :`}</p>
             <p style="font-size:0.79rem;line-height:1.6;margin:0;color:#444;">${uv}${expLabel ? (isCa ? ` — ${expLabel} que mereixen ser més visibles en línia.` : ` — ${expLabel} qui méritent d'être plus visibles en ligne.`) : '.'}</p>
         </div>
     </div>
 
-    ${footerHTML()}
+    ${footerHTML(isCa)}
 </div>
 
 <!-- ══════════════════════════ PAGE 2 ══════════════════════════ -->
@@ -462,41 +462,41 @@ function generateAuditHTML(data, lang = 'fr') {
 
     <!-- Tableau avant / après -->
     <p style="font-size:0.86rem;font-weight:800;margin:0 0 10px;">
-        📋 ${isCa ? 'Comparatif : situation actuelle vs optimisée' : 'Comparatif : situation actuelle vs optimisée'}
+        📋 ${isCa ? 'Comparatiu : situació actual vs optimitzada' : 'Comparatif : situation actuelle vs optimisée'}
     </p>
     <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr;border:1px solid #ddd;border-radius:6px;overflow:hidden;margin-bottom:22px;">
         <div style="padding:8px 10px;font-size:0.76rem;font-weight:700;background:#f0f0f0;border-bottom:1px solid #ddd;">${isCa ? 'Criteri' : 'Critère'}</div>
         <div style="padding:8px 10px;font-size:0.76rem;font-weight:700;background:#f0f0f0;border-bottom:1px solid #ddd;border-left:1px solid #ddd;">${isCa ? 'Situació actual' : 'Situation actuelle'}</div>
-        <div style="padding:8px 10px;font-size:0.76rem;font-weight:700;background:#f0f0f0;border-bottom:1px solid #ddd;border-left:1px solid #ddd;">${isCa ? 'Après optimisation' : 'Après optimisation'}</div>
+        <div style="padding:8px 10px;font-size:0.76rem;font-weight:700;background:#f0f0f0;border-bottom:1px solid #ddd;border-left:1px solid #ddd;">${isCa ? "Després de l'optimització" : 'Après optimisation'}</div>
         ${tableRows}
     </div>
 
     <!-- Solutions proposées -->
     <p style="font-size:0.86rem;font-weight:800;margin:0 0 10px;">
-        ${isCa ? 'Solutions proposées :' : 'Solutions proposées :'}
+        ${isCa ? 'Solucions proposades :' : 'Solutions proposées :'}
     </p>
     <div style="columns:2;gap:18px;margin-bottom:20px;">
         <ul style="list-style:none;padding:0;">${solutionsHTML}</ul>
     </div>
 
-    <!-- Timeline sobre -->
+    <!-- Timeline -->
     <div class="audit-box" style="margin-bottom:18px;">
-        <p style="font-size:0.84rem;font-weight:800;margin:0 0 12px;text-align:center;">🚀 ${isCa ? 'Étapes de mise en œuvre' : 'Étapes de mise en œuvre'}</p>
+        <p style="font-size:0.84rem;font-weight:800;margin:0 0 12px;text-align:center;">🚀 ${isCa ? 'Etapes de posada en marxa' : 'Étapes de mise en œuvre'}</p>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-            <div style="font-size:0.77rem;padding:6px 0;border-bottom:1px solid #eee;"><strong>${isCa ? 'Semaine 1-2 :' : 'Semaine 1-2 :'}</strong> ${isCa ? 'Audit complet + stratégie' : 'Audit complet + stratégie'}</div>
-            <div style="font-size:0.77rem;padding:6px 0;border-bottom:1px solid #eee;"><strong>${isCa ? 'Semaine 3-4 :' : 'Semaine 3-4 :'}</strong> ${isCa ? 'Mise en production' : 'Mise en production'}</div>
-            <div style="font-size:0.77rem;padding:6px 0;"><strong>${isCa ? 'Mois 2 :' : 'Mois 2 :'}</strong> ${isCa ? 'Suivi & ajustements' : 'Suivi & ajustements'}</div>
-            <div style="font-size:0.77rem;padding:6px 0;"><strong>${isCa ? 'Mois 3+ :' : 'Mois 3+ :'}</strong> ${isCa ? 'Analyse des résultats' : 'Analyse des résultats'}</div>
+            <div style="font-size:0.77rem;padding:6px 0;border-bottom:1px solid #eee;"><strong>${isCa ? 'Setmana 1-2 :' : 'Semaine 1-2 :'}</strong> ${isCa ? 'Auditoria completa + estratègia' : 'Audit complet + stratégie'}</div>
+            <div style="font-size:0.77rem;padding:6px 0;border-bottom:1px solid #eee;"><strong>${isCa ? 'Setmana 3-4 :' : 'Semaine 3-4 :'}</strong> ${isCa ? 'Posada en producció' : 'Mise en production'}</div>
+            <div style="font-size:0.77rem;padding:6px 0;"><strong>${isCa ? 'Mes 2 :' : 'Mois 2 :'}</strong> ${isCa ? 'Seguiment i ajustaments' : 'Suivi & ajustements'}</div>
+            <div style="font-size:0.77rem;padding:6px 0;"><strong>${isCa ? 'Mes 3+ :' : 'Mois 3+ :'}</strong> ${isCa ? "Anàlisi dels resultats" : 'Analyse des résultats'}</div>
         </div>
     </div>
 
-    <!-- CTA sobre -->
+    <!-- CTA -->
     <div class="audit-cta">
-        <p style="font-size:0.98rem;font-weight:800;margin:0 0 6px;">${isCa ? 'Parlons de votre projet' : 'Parlons de votre projet'}</p>
-        <p style="font-size:0.82rem;margin:0 0 6px;color:#555;">${isCa ? '15 minutes pour faire le point ensemble, sans engagement.' : '15 minutes pour faire le point ensemble, sans engagement.'}</p>
+        <p style="font-size:0.98rem;font-weight:800;margin:0 0 6px;">${isCa ? 'Parlem del vostre projecte' : 'Parlons de votre projet'}</p>
+        <p style="font-size:0.82rem;margin:0 0 6px;color:#555;">${isCa ? '15 minuts per fer el punt junts, sense compromís.' : '15 minutes pour faire le point ensemble, sans engagement.'}</p>
         <p style="font-size:0.8rem;font-weight:700;margin:0;color:var(--accent);">contact@htmcagency.com &nbsp;·&nbsp; htmcagency.com</p>
     </div>
 
-    ${footerHTML()}
+    ${footerHTML(isCa)}
 </div>`;
 }
