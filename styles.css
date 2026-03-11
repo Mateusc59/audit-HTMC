@@ -270,7 +270,7 @@ textarea {
     background: white;
     width: 794px;           /* A4 largeur exacte */
     height: 1123px;         /* A4 hauteur exacte — FIXE */
-    padding: 36px 46px 70px;/* bottom = place pour le footer absolu */
+    padding: 32px 44px 62px; /* bottom = place pour le footer absolu (52px) + 10px marge */
     position: relative;
     overflow: hidden;       /* Rien ne dépasse = rien ne déborde sur une 3e page */
     margin: 0 auto 24px;
@@ -279,39 +279,39 @@ textarea {
     box-sizing: border-box;
 }
 
-/* ── Footer moderne ─────────────────────────────────────────────────────── */
+/* ── Footer — fond blanc, printer-friendly ──────────────────────────────── */
 .pdf-footer {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-    color: white;
+    background: white;
+    color: #333;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 48px;
-    height: 58px;
-    border-top: 3px solid var(--accent);
+    padding: 8px 46px;
+    height: 52px;
+    border-top: 2px solid var(--accent);
 }
 
 .pdf-footer-brand {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 1px;
 }
 
 .pdf-footer-name {
     font-weight: 800;
-    font-size: 0.88rem;
-    letter-spacing: 1.5px;
-    color: var(--accent);
+    font-size: 0.82rem;
+    letter-spacing: 1px;
+    color: #1a1a1a;
     text-transform: uppercase;
 }
 
 .pdf-footer-tagline {
-    font-size: 0.65rem;
-    opacity: 0.55;
+    font-size: 0.62rem;
+    color: #888;
     letter-spacing: 0.5px;
     text-transform: uppercase;
 }
@@ -321,16 +321,68 @@ textarea {
     flex-direction: column;
     align-items: center;
     gap: 2px;
-    font-size: 0.7rem;
-    opacity: 0.85;
+    font-size: 0.68rem;
+    color: #555;
 }
 
 .pdf-footer-logo {
-    width: 48px;
+    width: 44px;
     height: auto;
     object-fit: contain;
-    filter: brightness(0) invert(1);
-    opacity: 0.9;
+    opacity: 0.85;
+}
+
+/* ── Boîtes de contenu — sobres, peu d'encre ────────────────────────────── */
+.audit-box {
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    padding: 12px 14px;
+}
+
+.audit-box-accent {
+    background: #fafafa;
+    border: 1px solid #e8e8e8;
+    border-radius: 6px;
+    padding: 12px 14px;
+}
+
+.audit-icon {
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.audit-point-title {
+    font-size: 0.9rem;
+    font-weight: 800;
+    margin: 0 0 4px;
+    color: #1a1a1a;
+}
+
+.audit-point-body {
+    font-size: 0.78rem;
+    line-height: 1.5;
+    margin: 0;
+    color: #444;
+}
+
+/* CTA sobre — encadré simple */
+.audit-cta {
+    border: 2px solid var(--accent);
+    border-radius: 8px;
+    padding: 12px 18px;
+    text-align: center;
+    background: white;
+    color: #1a1a1a;
 }
 
 .pdf-logo {
@@ -358,33 +410,33 @@ textarea {
     left: 0;
     top: 0;
     bottom: 0;
-    width: 42px;
+    width: 36px;
     background: var(--accent);
     display: flex;
     align-items: center;
     justify-content: center;
     writing-mode: vertical-rl;
     text-transform: uppercase;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
     font-weight: 700;
-    font-size: 0.75rem;
+    font-size: 0.65rem;
 }
 
 .pdf-header-logo {
-    width: 110px;
-    height: 110px;
+    width: 90px;
+    height: 90px;
     object-fit: contain;
-    background: white;
-    border-radius: 10px;
-    padding: 10px;
+    background: rgba(255,255,255,0.95);
+    border-radius: 8px;
+    padding: 8px;
     flex-shrink: 0;
 }
 
 .pdf-title {
-    font-size: 1.15rem;
+    font-size: 1rem;
     font-weight: 900;
-    line-height: 1.25;
-    margin-bottom: 10px;
+    line-height: 1.3;
+    margin-bottom: 6px;
     text-transform: uppercase;
 }
 
