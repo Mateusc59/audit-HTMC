@@ -254,23 +254,28 @@ textarea {
     display: block;
 }
 
-/* PDF PREVIEW — largeur A4 exacte (210mm @ 96dpi = 794px) */
+/* ══════════════════════════════════════════════════════════════
+   PDF PREVIEW
+   794px = 210mm exactement à 96dpi
+   1123px = 297mm exactement à 96dpi
+   Ce que vous voyez ici = ce que jsPDF capture et met en PDF
+   ══════════════════════════════════════════════════════════════ */
 .pdf-preview {
-    background: white;
-    width: 794px;
+    background: #e0e0e0;
     margin: 0 auto;
-    box-shadow: 0 10px 50px rgba(0,0,0,0.2);
+    padding: 20px 0;
 }
 
 .pdf-page {
     background: white;
-    /* Padding : top/sides normaux, bottom réservé pour le footer absolu (≈58px) */
-    padding: 38px 48px 72px;
-    height: 1123px; /* 297mm @ 96dpi — hauteur fixe A4 */
+    width: 794px;           /* A4 largeur exacte */
+    height: 1123px;         /* A4 hauteur exacte — FIXE */
+    padding: 36px 46px 70px;/* bottom = place pour le footer absolu */
     position: relative;
-    overflow: hidden; /* Rien ne déborde de la page */
-    margin-bottom: 20px;
-    border: 2px solid #ddd;
+    overflow: hidden;       /* Rien ne dépasse = rien ne déborde sur une 3e page */
+    margin: 0 auto 24px;
+    border: none;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
     box-sizing: border-box;
 }
 
@@ -340,12 +345,12 @@ textarea {
 .pdf-header {
     background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
     color: white;
-    padding: 50px 40px 50px 100px;
-    margin: -60px -60px 40px -60px;
+    padding: 22px 22px 22px 62px; /* left = place pour .pdf-header-side */
+    margin: -36px -46px 18px -46px; /* déborde des paddings de .pdf-page */
     position: relative;
     display: flex;
     align-items: center;
-    gap: 30px;
+    gap: 20px;
 }
 
 .pdf-header-side {
@@ -353,7 +358,7 @@ textarea {
     left: 0;
     top: 0;
     bottom: 0;
-    width: 60px;
+    width: 42px;
     background: var(--accent);
     display: flex;
     align-items: center;
@@ -362,24 +367,24 @@ textarea {
     text-transform: uppercase;
     letter-spacing: 3px;
     font-weight: 700;
-    font-size: 0.9rem;
+    font-size: 0.75rem;
 }
 
 .pdf-header-logo {
-    width: 180px;
-    height: 180px;
+    width: 110px;
+    height: 110px;
     object-fit: contain;
     background: white;
-    border-radius: 12px;
-    padding: 15px;
+    border-radius: 10px;
+    padding: 10px;
     flex-shrink: 0;
 }
 
 .pdf-title {
-    font-size: 2rem;
+    font-size: 1.15rem;
     font-weight: 900;
-    line-height: 1.2;
-    margin-bottom: 20px;
+    line-height: 1.25;
+    margin-bottom: 10px;
     text-transform: uppercase;
 }
 
@@ -399,122 +404,14 @@ textarea {
     color: #856404;
 }
 
-/* ═══════════════════════════════════════════════════════════════════════
-   IMPRESSION — La clé : @page margin:0 + width:100% sur .pdf-page
-   → le navigateur n'a pas besoin de scaler → pas de marges parasites
-   → Dans la boîte de dialogue d'impression : sélectionnez "Aucune marge"
-   ═══════════════════════════════════════════════════════════════════════ */
+/* Bouton télécharger PDF */
+.btn-download {
+    background: linear-gradient(135deg, #2196F3 0%, #42A5F5 100%);
+}
+
+/* @media print : inutilisé (on passe par jsPDF), conservé en fallback minimal */
 @media print {
-    @page {
-        size: A4 portrait;
-        margin: 0;
-    }
-
-    * {
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-        color-adjust: exact !important;
-    }
-
-    html, body {
-        margin: 0 !important;
-        padding: 0 !important;
-        width: 210mm !important;
-        background: white !important;
-        overflow: visible !important;
-    }
-
-    .container {
-        max-width: 100% !important;
-        width: 100% !important;
-        padding: 0 !important;
-        margin: 0 !important;
-    }
-
-    /* Masquer tout sauf le résultat PDF */
-    header,
-    .form-section,
-    .loading,
-    .action-buttons,
-    .btn,
-    .info-box,
-    p[style*="Awesome"] {
-        display: none !important;
-    }
-
-    .result {
-        display: block !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        width: 100% !important;
-    }
-
-    .pdf-preview {
-        width: 100% !important;
-        box-shadow: none !important;
-        margin: 0 !important;
-        padding: 0 !important;
-    }
-
-    /* ── Chaque page = exactement une feuille A4, rien ne déborde ── */
-    .pdf-page {
-        width: 100% !important;
-        height: 297mm !important;        /* Hauteur A4 stricte */
-        overflow: hidden !important;     /* Coupe tout ce qui dépasse */
-        padding: 10mm 12mm 16mm !important; /* Bottom réservé au footer */
-        margin: 0 !important;
-        background: white !important;
-        border: none !important;
-        box-shadow: none !important;
-        position: relative !important;
-        display: block !important;
-        box-sizing: border-box !important;
-        page-break-after: always !important;
-        break-after: page !important;
-    }
-
-    .pdf-page:last-child {
-        page-break-after: avoid !important;
-        break-after: avoid !important;
-    }
-
-    /* Footer en print */
-    .pdf-footer {
-        padding: 8px 12mm !important;
-        height: 14mm !important;
-    }
-
-    .pdf-footer-name  { font-size: 0.78rem !important; }
-    .pdf-footer-tagline { font-size: 0.58rem !important; }
-    .pdf-footer-contacts { font-size: 0.62rem !important; }
-    .pdf-footer-logo  { width: 38px !important; }
-
-    /* En-tête */
-    .pdf-header {
-        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%) !important;
-        padding: 12px 12mm 12px 46px !important;
-        margin: -10mm -12mm 10px -12mm !important;
-    }
-
-    .pdf-header-side {
-        background: #D4A574 !important;
-        width: 30px !important;
-    }
-
-    .pdf-header-logo {
-        width: 75px !important;
-        height: 75px !important;
-    }
-
-    .pdf-title {
-        font-size: 0.95rem !important;
-        line-height: 1.2 !important;
-    }
-
-    .pdf-logo {
-        width: 55px !important;
-        max-height: 28px !important;
-    }
+    body > * { display: none !important; }
 }
 
 @media (max-width: 768px) {

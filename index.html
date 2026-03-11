@@ -134,18 +134,19 @@
         <div class="result" id="result">
             <div id="pdfContent" class="pdf-preview"></div>
             <div class="action-buttons">
-                <button class="btn btn-print" onclick="window.print()">🖨️ Imprimer / PDF</button>
+                <button class="btn btn-download" id="exportPdfBtn" onclick="exportToPDF()">⬇️ Télécharger PDF</button>
                 <button class="btn btn-new" id="newAuditBtn">🔄 Nouvel Audit</button>
-            </div>
-            <div style="text-align: center; color: var(--text-light); margin-top: 20px; font-size: 0.9rem; background: #f0f0f0; padding: 14px 20px; border-radius: 10px; border-left: 4px solid var(--accent);">
-                🖨️ <strong>Pour une impression parfaite :</strong> Dans la boîte de dialogue d'impression → <strong>Plus de paramètres</strong> → <strong>Marges : Aucune</strong> (ou "None"). La mise en page occupera alors toute la feuille A4 sans réduction.
             </div>
         </div>
     </div>
 
+    <!-- jsPDF + html2canvas : capture pixel-perfect de chaque page -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
     <script src="data.js"></script>
     <script src="templates.js"></script>
-    <script src="pdf-generator.js"></script>
+    <script src="pdf-export.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
