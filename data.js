@@ -146,6 +146,21 @@ const INDUSTRY_TEMPLATES = {
         uniqueValue: "Approche créative et personnalisée",
         mainGoals: "Attirer projets d'architecture contemporaine, valoriser portfolio"
     },
+    comptabilite: {
+        services: "Comptabilité, bilan annuel, fiscalité, conseil en gestion, paie",
+        uniqueValue: "Accompagnement personnalisé, disponibilité, conseil proactif",
+        mainGoals: "Attirer de nouveaux clients TPE/PME, fidéliser par le digital"
+    },
+    automobile: {
+        services: "Vente de véhicules, reprise, financement, entretien, carrosserie",
+        uniqueValue: "Stock varié, expertise technique, service après-vente réactif",
+        mainGoals: "Générer plus de demandes d'essai et de devis, valoriser le stock en ligne"
+    },
+    sante: {
+        services: "Consultations, soins, suivi patient, téléconsultation, prévention",
+        uniqueValue: "Approche humaine, expertise médicale, prise en charge globale",
+        mainGoals: "Faciliter la prise de rendez-vous, développer la patientèle"
+    },
     autre: {
         services: "Services professionnels adaptés au secteur",
         uniqueValue: "Expertise reconnue, qualité de service",

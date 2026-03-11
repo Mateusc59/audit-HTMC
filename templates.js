@@ -246,6 +246,108 @@ function getSectorContent(industry, c, loc, expLabel, isCa) {
                 ]
             }
         },
+        comptabilite: {
+            fr: {
+                p1t: 'Rassurer dès la première visite',
+                p1b: `Confier sa comptabilité est une décision de confiance. ${c} ${exp} ${loc2} doit afficher clairement ses spécialisations (TPE, PME, professions libérales, e-commerce), ses certifications (Expert-Comptable, CSOEC) et ses clients types dès la page d'accueil.`,
+                p2t: 'Attirer des prospects TPE/PME qualifiés',
+                p2b: `Un dirigeant qui cherche un expert-comptable tape "cabinet comptable ${loc || 'votre ville'}" ou "comptable TPE ${loc || 'votre région'}". Sans SEO local et fiche Google My Business optimisée, ${c} est invisible pour cette clientèle à fort potentiel.`,
+                p3t: 'Faciliter le premier contact',
+                p3b: `Le processus d'entrée en relation doit être simple : une page "Première consultation offerte", un formulaire court (activité, CA estimé, besoin principal) et une réponse sous 24h. Chaque friction supplémentaire coûte un prospect.`,
+                ops: ['Page par type de client (TPE, PME, libéral...)', 'Consultation de découverte en ligne', 'Calculateur d\'honoraires indicatif', 'Avis clients et témoignages'],
+                avantApres: [
+                    ['Spécialisations affichées', '❌ Générique, peu rassurant', '✅ Clair, ciblé par type de client'],
+                    ['Référencement local', '❌ Absent ou faible', '✅ 1ère page Google locale'],
+                    ['Prise de contact', '❌ Formulaire trop complexe', '✅ Formulaire court + RDV en ligne'],
+                    ['Première consultation', '❌ Non mentionnée', '✅ Mise en avant, offerte'],
+                    ['Avis clients', '❌ Non affichés', '✅ Témoignages dirigeants'],
+                ]
+            },
+            ca: {
+                p1t: 'Tranquil·litzar des de la primera visita',
+                p1b: `Confiar la comptabilitat és una decisió de confiança. ${c} ${exp} ${loc2} ha de mostrar clarament les seves especialitzacions (pymes, autònoms, comerços), les seves certificacions i els seus clients tipus des de la pàgina principal.`,
+                p2t: 'Atreure prospectes pimes qualificats',
+                p2b: `Un empresari que busca un comptable tecleja "assessoria comptable ${loc || 'la vostra ciutat'}" o "gestor pimes ${loc || 'la vostra regió'}". Sense SEO local i fitxa Google My Business optimitzada, ${c} és invisible per a aquesta clientela.`,
+                p3t: 'Facilitar el primer contacte',
+                p3b: `El procés d'entrada en relació ha de ser simple: una pàgina "Primera consulta gratuïta", un formulari curt (activitat, facturació estimada, necessitat principal) i una resposta en 24 hores.`,
+                ops: ['Pàgina per tipus de client (pime, autònom...)', 'Consulta de descoberta en línia', 'Calculadora d\'honoraris indicativa', 'Ressenyes i testimonis de clients'],
+                avantApres: [
+                    ['Especialitzacions mostrades', '❌ Genèric, poc tranquil·litzador', '✅ Clar, orientat per tipus de client'],
+                    ['Posicionament local', '❌ Absent o feble', '✅ 1a pàgina Google local'],
+                    ['Presa de contacte', '❌ Formulari massa complex', '✅ Formulari curt + cita en línia'],
+                    ['Primera consulta', '❌ No mencionada', '✅ Destacada, gratuïta'],
+                    ['Ressenyes de clients', '❌ No mostrades', '✅ Testimonis de dirigents'],
+                ]
+            }
+        },
+        automobile: {
+            fr: {
+                p1t: 'Mettre le stock en valeur en ligne',
+                p1b: `L'achat d'un véhicule commence à 85% par une recherche en ligne. ${c} ${loc2} doit présenter son stock avec photos haute qualité, fiches détaillées (kilométrage, options, historique), et filtres par budget, marque et type de véhicule.`,
+                p2t: 'Générer des demandes d\'essai et de devis',
+                p2b: `Un visiteur intéressé doit pouvoir en 2 clics : réserver un essai, demander un financement ou obtenir une estimation de reprise. Ces appels à l'action doivent être visibles sur chaque fiche véhicule, pas seulement en page d'accueil.`,
+                p3t: 'Développer la confiance avec le SAV',
+                p3b: `Les avis clients sur la qualité du service après-vente, les certifications constructeur, et la présentation de l'équipe technique rassurent les acheteurs qui vous découvrent en ligne. La transparence sur les prix et les garanties est décisive.`,
+                ops: ['Catalogue véhicules avec filtres', 'Formulaire essai / reprise / financement', 'Certifications et labels constructeur', 'Avis clients Google mis en avant'],
+                avantApres: [
+                    ['Catalogue en ligne', '❌ Absent ou non filtrable', '✅ Stock complet avec filtres et photos HD'],
+                    ['Demande d\'essai', '❌ Pas de CTA visible', '✅ Bouton visible sur chaque fiche'],
+                    ['Estimation reprise', '❌ Absente', '✅ Formulaire de reprise en ligne'],
+                    ['Certifications', '❌ Non affichées', '✅ Labels constructeur visibles'],
+                    ['Avis clients', '❌ Non mis en avant', '✅ Google Reviews intégrées'],
+                ]
+            },
+            ca: {
+                p1t: 'Valoritzar l\'estoc en línia',
+                p1b: `La compra d'un vehicle comença al 85% per una cerca en línia. ${c} ${loc2} ha de presentar el seu estoc amb fotos d'alta qualitat, fitxes detallades (quilometres, opcions, historial) i filtres per pressupost, marca i tipus de vehicle.`,
+                p2t: 'Generar sol·licituds de prova i pressupost',
+                p2b: `Un visitant interessat ha de poder en 2 clics: reservar una prova, demanar un finançament o obtenir una estimació de la seva bestreta. Aquestes crides a l'acció han de ser visibles a cada fitxa de vehicle.`,
+                p3t: 'Desenvolupar la confiança amb el SAV',
+                p3b: `Les ressenyes de clients sobre la qualitat del servei postvenda, les certificacions del fabricant i la presentació de l'equip tècnic tranquil·litzen els compradors que us descobreixen en línia.`,
+                ops: ['Catàleg vehicles amb filtres', 'Formulari prova / bestreta / finançament', 'Certificacions i labels del fabricant', 'Ressenyes Google destacades'],
+                avantApres: [
+                    ['Catàleg en línia', '❌ Absent o no filtrable', '✅ Estoc complet amb filtres i fotos HD'],
+                    ['Sol·licitud de prova', '❌ Sense CTA visible', '✅ Botó visible a cada fitxa'],
+                    ['Estimació bestreta', '❌ Absent', '✅ Formulari de bestreta en línia'],
+                    ['Certificacions', '❌ No mostrades', '✅ Labels del fabricant visibles'],
+                    ['Ressenyes de clients', '❌ No destacades', '✅ Google Reviews integrades'],
+                ]
+            }
+        },
+        sante: {
+            fr: {
+                p1t: 'Faciliter la prise de rendez-vous en ligne',
+                p1b: `Un patient qui cherche un professionnel de santé à ${loc || 'votre ville'} veut pouvoir prendre rendez-vous immédiatement. ${c} doit proposer une réservation en ligne 24h/24 (Doctolib, calendrier intégré) et indiquer clairement les délais de disponibilité.`,
+                p2t: 'Présenter votre approche et vos spécialités',
+                p2b: `Les patients choisissent leur praticien sur la confiance. Une présentation détaillée de votre parcours, vos spécialisations, vos techniques et votre approche thérapeutique lève les appréhensions et augmente significativement les prises de rendez-vous qualifiées.`,
+                p3t: 'Être visible pour les patients locaux',
+                p3b: `"Médecin à ${loc || 'votre ville'}", "kinésithérapeute ${loc || 'votre quartier'}" — les patients cherchent près de chez eux. Une fiche Google My Business complète et un SEO local soigné font la différence face aux annuaires.`,
+                ops: ['Réservation en ligne 24h/24', 'Page spécialités & approche', 'Fiche Google My Business complète', 'Section FAQ patients'],
+                avantApres: [
+                    ['Prise de RDV', '❌ Uniquement par téléphone', '✅ Réservation en ligne 24h/24'],
+                    ['Présentation praticien', '❌ Absente ou trop succincte', '✅ Parcours, spécialités, approche'],
+                    ['Visibilité locale', '❌ Absent des recherches Google', '✅ 1ère page + fiche Google Maps'],
+                    ['FAQ patients', '❌ Non traitée', '✅ Réponses aux questions fréquentes'],
+                    ['Avis patients', '❌ Non collectés', '✅ Avis Google intégrés'],
+                ]
+            },
+            ca: {
+                p1t: 'Facilitar la presa de cita en línia',
+                p1b: `Un pacient que busca un professional de salut a ${loc || 'la vostra ciutat'} vol poder demanar cita immediatament. ${c} ha de proposar una reserva en línia 24h/24 i indicar clarament els terminis de disponibilitat.`,
+                p2t: 'Presentar el vostre enfocament i especialitats',
+                p2b: `Els pacients trien el seu professional per la confiança. Una presentació detallada del vostre recorregut, les vostres especialitzacions i el vostre enfocament terapèutic elimina les reticències i augmenta les cites qualificades.`,
+                p3t: 'Ser visible per als pacients locals',
+                p3b: `"Metge a ${loc || 'la vostra ciutat'}", "fisioterapeuta ${loc || 'el vostre barri'}" — els pacients cerquen a prop seu. Una fitxa Google My Business completa i un SEO local acurat fan la diferència.`,
+                ops: ['Reserva en línia 24h/24', 'Pàgina especialitats i enfocament', 'Fitxa Google My Business completa', 'Secció FAQ de pacients'],
+                avantApres: [
+                    ['Presa de cita', '❌ Només per telèfon', '✅ Reserva en línia 24h/24'],
+                    ['Presentació del professional', '❌ Absent o massa succinta', '✅ Recorregut, especialitats, enfocament'],
+                    ['Visibilitat local', '❌ Absent de les cerques Google', '✅ 1a pàgina + fitxa Google Maps'],
+                    ['FAQ de pacients', '❌ No tractada', '✅ Respostes a preguntes freqüents'],
+                    ['Ressenyes de pacients', '❌ No recollides', '✅ Ressenyes Google integrades'],
+                ]
+            }
+        },
         autre: {
             fr: {
                 p1t: 'Afficher clairement votre expertise',
