@@ -373,18 +373,17 @@ function generateAuditHTML(data, lang = 'fr') {
                     : (isCa ? `La vostra empresa mereix un lloc web a la seva alçada.` : `Votre entreprise mérite un site web à la hauteur.`)}
             </p>
         </div>
-        <img src="logohtmc.png" class="pdf-header-htmc">
     </div>
 
     <!-- Intro -->
-    <p style="text-align:center;font-size:0.92rem;font-weight:800;margin:0 0 20px;line-height:1.4;color:#222;">
+    <p style="text-align:center;font-size:0.94rem;font-weight:800;margin:0 0 26px;line-height:1.5;color:#222;">
         ${isCa
             ? `Per convertir ${expLabel || 'la vostra experiència'} en més clients, <span style="color:var(--accent);">${c}</span> ha de :`
             : `Pour convertir ${expLabel || 'votre expertise'} en plus de clients, <span style="color:var(--accent);">${c}</span> doit :`}
     </p>
 
     <!-- 3 points sectoriels -->
-    <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:18px;">
+    <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:22px;">
         <div class="audit-icon">💼</div>
         <div>
             <h2 class="audit-point-title">${sc.p1t}</h2>
@@ -392,7 +391,7 @@ function generateAuditHTML(data, lang = 'fr') {
         </div>
     </div>
 
-    <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:18px;">
+    <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:22px;">
         <div class="audit-icon">📲</div>
         <div>
             <h2 class="audit-point-title">${sc.p2t}</h2>
@@ -400,7 +399,7 @@ function generateAuditHTML(data, lang = 'fr') {
         </div>
     </div>
 
-    <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:22px;">
+    <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:26px;">
         <div class="audit-icon">🔍</div>
         <div>
             <h2 class="audit-point-title">${sc.p3t}</h2>
@@ -408,29 +407,44 @@ function generateAuditHTML(data, lang = 'fr') {
         </div>
     </div>
 
+    <!-- Services à valoriser — section personnalisée -->
+    ${data.services ? (() => {
+        const tags = data.services.split(',').map(s => s.trim()).filter(s => s);
+        return `<div class="audit-box-accent" style="margin-bottom:22px;">
+        <p style="font-size:0.82rem;font-weight:800;margin:0 0 10px;">🛠️ ${isCa ? `Serveis de ${c} a valoritzar en línia :` : `Services de ${c} à valoriser en ligne :`}</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+            ${tags.map(t => `<span style="background:white;border:1.5px solid var(--accent);border-radius:20px;padding:4px 14px;font-size:0.75rem;font-weight:600;color:#333;">${t}</span>`).join('')}
+        </div>
+        <p style="font-size:0.76rem;margin:0;color:#555;line-height:1.5;">
+            ${isCa
+                ? `Cada servei mereix una pàgina dedicada per aparèixer a Google quan un client el cerca específicament.`
+                : `Chaque service mérite une page dédiée pour apparaître sur Google quand un client le recherche spécifiquement.`}
+        </p>
+    </div>`; })() : ''}
+
     <!-- Actions prioritaires + chiffres clés côte à côte -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px;">
         <div class="audit-box">
-            <p style="font-size:0.82rem;font-weight:800;margin:0 0 10px;">🎯 ${isCa ? `Accions prioritàries per a ${c} :` : `Actions prioritaires pour ${c} :`}</p>
-            ${sc.ops.map(op => `<div style="display:flex;gap:8px;font-size:0.77rem;padding:5px 0;border-bottom:1px solid #eee;"><span style="color:var(--accent);font-weight:800;">→</span>${op}</div>`).join('')}
+            <p style="font-size:0.82rem;font-weight:800;margin:0 0 12px;">🎯 ${isCa ? `Accions prioritàries per a ${c} :` : `Actions prioritaires pour ${c} :`}</p>
+            ${sc.ops.map(op => `<div style="display:flex;gap:8px;font-size:0.78rem;padding:6px 0;border-bottom:1px solid #eee;"><span style="color:var(--accent);font-weight:800;">→</span>${op}</div>`).join('')}
         </div>
         <div class="audit-box-accent">
-            <p style="font-size:0.82rem;font-weight:800;margin:0 0 10px;">📊 ${isCa ? 'El que diuen els estudis :' : 'Ce que disent les études :'}</p>
+            <p style="font-size:0.82rem;font-weight:800;margin:0 0 12px;">📊 ${isCa ? 'El que diuen els estudis :' : 'Ce que disent les études :'}</p>
             <ul style="list-style:none;padding:0;margin:0;">
-                <li style="font-size:0.76rem;margin:6px 0;">✓ ${isCa ? '85% cerquen en línia abans de contactar' : '85% cherchent en ligne avant de contacter'}</li>
-                <li style="font-size:0.76rem;margin:6px 0;">✓ ${isCa ? '70% de les cerques es fan en mòbil' : '70% des recherches se font sur mobile'}</li>
-                <li style="font-size:0.76rem;margin:6px 0;">✓ ${isCa ? '90% llegeixen ressenyes abans de triar' : '90% lisent les avis avant de choisir'}</li>
-                <li style="font-size:0.76rem;margin:6px 0;">✓ ${isCa ? 'Lloc lent = 40% menys de visitants' : 'Site lent = 40% de visiteurs perdus'}</li>
+                <li style="font-size:0.77rem;margin:7px 0;">✓ ${isCa ? '85% cerquen en línia abans de contactar' : '85% cherchent en ligne avant de contacter'}</li>
+                <li style="font-size:0.77rem;margin:7px 0;">✓ ${isCa ? '70% de les cerques es fan en mòbil' : '70% des recherches se font sur mobile'}</li>
+                <li style="font-size:0.77rem;margin:7px 0;">✓ ${isCa ? '90% llegeixen ressenyes abans de triar' : '90% lisent les avis avant de choisir'}</li>
+                <li style="font-size:0.77rem;margin:7px 0;">✓ ${isCa ? 'Lloc lent = 40% menys de visitants' : 'Site lent = 40% de visiteurs perdus'}</li>
             </ul>
         </div>
     </div>
 
     <!-- Valeur unique -->
-    <div class="audit-box-accent" style="display:flex;align-items:flex-start;gap:12px;">
-        <span style="font-size:1.3rem;">🏆</span>
+    <div class="audit-box-accent" style="display:flex;align-items:flex-start;gap:14px;">
+        <span style="font-size:1.4rem;line-height:1;">🏆</span>
         <div>
-            <p style="font-size:0.82rem;font-weight:800;margin:0 0 4px;">${isCa ? `Ce qui distingue ${c} :` : `Ce qui distingue ${c} :`}</p>
-            <p style="font-size:0.78rem;line-height:1.5;margin:0;color:#444;">${uv}${expLabel ? (isCa ? ` — ${expLabel} qui mériten ser més visibles en línia.` : ` — ${expLabel} qui méritent d'être plus visibles en ligne.`) : '.'}</p>
+            <p style="font-size:0.84rem;font-weight:800;margin:0 0 5px;">${isCa ? `Ce qui distingue ${c} :` : `Ce qui distingue ${c} :`}</p>
+            <p style="font-size:0.79rem;line-height:1.6;margin:0;color:#444;">${uv}${expLabel ? (isCa ? ` — ${expLabel} que mereixen ser més visibles en línia.` : ` — ${expLabel} qui méritent d'être plus visibles en ligne.`) : '.'}</p>
         </div>
     </div>
 
@@ -440,47 +454,47 @@ function generateAuditHTML(data, lang = 'fr') {
 <!-- ══════════════════════════ PAGE 2 ══════════════════════════ -->
 <div class="pdf-page">
 
-    <h2 style="font-size:1.05rem;font-weight:900;margin:0 0 14px;text-align:center;color:#1a1a1a;">
-        ${isCa ? `${c} — diagnòstic i plan d'acció :` : `${c} — diagnostic et plan d'action :`}
+    <h2 style="font-size:1.1rem;font-weight:900;margin:0 0 18px;text-align:center;color:#1a1a1a;">
+        ${isCa ? `${c} — diagnòstic i pla d'acció :` : `${c} — diagnostic et plan d'action :`}
     </h2>
 
     ${problemsBlock}
 
-    <!-- Tableau avant / après — module ajouté -->
-    <p style="font-size:0.85rem;font-weight:800;margin:0 0 8px;">
+    <!-- Tableau avant / après -->
+    <p style="font-size:0.86rem;font-weight:800;margin:0 0 10px;">
         📋 ${isCa ? 'Comparatif : situation actuelle vs optimisée' : 'Comparatif : situation actuelle vs optimisée'}
     </p>
-    <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr;border:1px solid #ddd;border-radius:6px;overflow:hidden;margin-bottom:18px;">
-        <div style="padding:7px 10px;font-size:0.75rem;font-weight:700;background:#f0f0f0;border-bottom:1px solid #ddd;">${isCa ? 'Criteri' : 'Critère'}</div>
-        <div style="padding:7px 10px;font-size:0.75rem;font-weight:700;background:#f0f0f0;border-bottom:1px solid #ddd;border-left:1px solid #ddd;">${isCa ? 'Situació actual' : 'Situation actuelle'}</div>
-        <div style="padding:7px 10px;font-size:0.75rem;font-weight:700;background:#f0f0f0;border-bottom:1px solid #ddd;border-left:1px solid #ddd;">${isCa ? 'Après optimisation' : 'Après optimisation'}</div>
+    <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr;border:1px solid #ddd;border-radius:6px;overflow:hidden;margin-bottom:22px;">
+        <div style="padding:8px 10px;font-size:0.76rem;font-weight:700;background:#f0f0f0;border-bottom:1px solid #ddd;">${isCa ? 'Criteri' : 'Critère'}</div>
+        <div style="padding:8px 10px;font-size:0.76rem;font-weight:700;background:#f0f0f0;border-bottom:1px solid #ddd;border-left:1px solid #ddd;">${isCa ? 'Situació actual' : 'Situation actuelle'}</div>
+        <div style="padding:8px 10px;font-size:0.76rem;font-weight:700;background:#f0f0f0;border-bottom:1px solid #ddd;border-left:1px solid #ddd;">${isCa ? 'Après optimisation' : 'Après optimisation'}</div>
         ${tableRows}
     </div>
 
     <!-- Solutions proposées -->
-    <p style="font-size:0.85rem;font-weight:800;margin:0 0 8px;">
+    <p style="font-size:0.86rem;font-weight:800;margin:0 0 10px;">
         ${isCa ? 'Solutions proposées :' : 'Solutions proposées :'}
     </p>
-    <div style="columns:2;gap:18px;margin-bottom:16px;">
+    <div style="columns:2;gap:18px;margin-bottom:20px;">
         <ul style="list-style:none;padding:0;">${solutionsHTML}</ul>
     </div>
 
     <!-- Timeline sobre -->
-    <div class="audit-box" style="margin-bottom:14px;">
-        <p style="font-size:0.82rem;font-weight:800;margin:0 0 10px;text-align:center;">🚀 ${isCa ? 'Étapes de mise en œuvre' : 'Étapes de mise en œuvre'}</p>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
-            <div style="font-size:0.75rem;padding:5px 0;border-bottom:1px solid #eee;"><strong>${isCa ? 'Semaine 1-2 :' : 'Semaine 1-2 :'}</strong> ${isCa ? 'Audit complet + stratégie' : 'Audit complet + stratégie'}</div>
-            <div style="font-size:0.75rem;padding:5px 0;border-bottom:1px solid #eee;"><strong>${isCa ? 'Semaine 3-4 :' : 'Semaine 3-4 :'}</strong> ${isCa ? 'Mise en production' : 'Mise en production'}</div>
-            <div style="font-size:0.75rem;padding:5px 0;"><strong>${isCa ? 'Mois 2 :' : 'Mois 2 :'}</strong> ${isCa ? 'Suivi & ajustements' : 'Suivi & ajustements'}</div>
-            <div style="font-size:0.75rem;padding:5px 0;"><strong>${isCa ? 'Mois 3+ :' : 'Mois 3+ :'}</strong> ${isCa ? 'Analyse des résultats' : 'Analyse des résultats'}</div>
+    <div class="audit-box" style="margin-bottom:18px;">
+        <p style="font-size:0.84rem;font-weight:800;margin:0 0 12px;text-align:center;">🚀 ${isCa ? 'Étapes de mise en œuvre' : 'Étapes de mise en œuvre'}</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <div style="font-size:0.77rem;padding:6px 0;border-bottom:1px solid #eee;"><strong>${isCa ? 'Semaine 1-2 :' : 'Semaine 1-2 :'}</strong> ${isCa ? 'Audit complet + stratégie' : 'Audit complet + stratégie'}</div>
+            <div style="font-size:0.77rem;padding:6px 0;border-bottom:1px solid #eee;"><strong>${isCa ? 'Semaine 3-4 :' : 'Semaine 3-4 :'}</strong> ${isCa ? 'Mise en production' : 'Mise en production'}</div>
+            <div style="font-size:0.77rem;padding:6px 0;"><strong>${isCa ? 'Mois 2 :' : 'Mois 2 :'}</strong> ${isCa ? 'Suivi & ajustements' : 'Suivi & ajustements'}</div>
+            <div style="font-size:0.77rem;padding:6px 0;"><strong>${isCa ? 'Mois 3+ :' : 'Mois 3+ :'}</strong> ${isCa ? 'Analyse des résultats' : 'Analyse des résultats'}</div>
         </div>
     </div>
 
     <!-- CTA sobre -->
     <div class="audit-cta">
-        <p style="font-size:0.95rem;font-weight:800;margin:0 0 5px;">${isCa ? 'Parlons de votre projet' : 'Parlons de votre projet'}</p>
-        <p style="font-size:0.8rem;margin:0 0 5px;color:#555;">${isCa ? '15 minutes pour faire le point ensemble, sans engagement.' : '15 minutes pour faire le point ensemble, sans engagement.'}</p>
-        <p style="font-size:0.78rem;font-weight:700;margin:0;color:var(--accent);">contact@htmcagency.com &nbsp;·&nbsp; htmcagency.com</p>
+        <p style="font-size:0.98rem;font-weight:800;margin:0 0 6px;">${isCa ? 'Parlons de votre projet' : 'Parlons de votre projet'}</p>
+        <p style="font-size:0.82rem;margin:0 0 6px;color:#555;">${isCa ? '15 minutes pour faire le point ensemble, sans engagement.' : '15 minutes pour faire le point ensemble, sans engagement.'}</p>
+        <p style="font-size:0.8rem;font-weight:700;margin:0;color:var(--accent);">contact@htmcagency.com &nbsp;·&nbsp; htmcagency.com</p>
     </div>
 
     ${footerHTML()}

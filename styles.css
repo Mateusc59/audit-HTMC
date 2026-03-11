@@ -338,39 +338,40 @@ textarea {
     border: 1px solid #e0e0e0;
     border-left: 3px solid var(--accent);
     border-radius: 6px;
-    padding: 12px 14px;
+    padding: 14px 16px;
 }
 
 .audit-box-accent {
     background: #fafafa;
     border: 1px solid #e8e8e8;
     border-radius: 6px;
-    padding: 12px 14px;
+    padding: 14px 16px;
 }
 
 .audit-icon {
     background: #f5f5f5;
     border: 1px solid #ddd;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
+    font-size: 1.25rem;
     flex-shrink: 0;
+    margin-top: 2px;
 }
 
 .audit-point-title {
-    font-size: 0.9rem;
+    font-size: 0.92rem;
     font-weight: 800;
-    margin: 0 0 4px;
+    margin: 0 0 5px;
     color: #1a1a1a;
 }
 
 .audit-point-body {
-    font-size: 0.78rem;
-    line-height: 1.5;
+    font-size: 0.79rem;
+    line-height: 1.6;
     margin: 0;
     color: #444;
 }
@@ -379,7 +380,7 @@ textarea {
 .audit-cta {
     border: 2px solid var(--accent);
     border-radius: 8px;
-    padding: 12px 18px;
+    padding: 14px 20px;
     text-align: center;
     background: white;
     color: #1a1a1a;
@@ -429,14 +430,6 @@ textarea {
     flex-shrink: 0;
 }
 
-/* Logo HTMC en haut à droite du header */
-.pdf-header-htmc {
-    width: 52px;
-    height: auto;
-    object-fit: contain;
-    opacity: 0.8;
-    flex-shrink: 0;
-}
 
 .pdf-title {
     font-size: 1.4rem;
