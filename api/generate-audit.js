@@ -74,7 +74,9 @@ Génère UNIQUEMENT ce JSON (sans markdown, sans explication) :
             messages: [{ role: 'user', content: prompt }]
         });
 
-        const text = response.content[0].text.trim();
+        let text = response.content[0].text.trim();
+        // Supprimer les balises markdown code block si présentes (```json ... ```)
+        text = text.replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '').trim();
         const aiData = JSON.parse(text);
 
         return res.status(200).json(aiData);

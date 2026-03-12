@@ -101,12 +101,34 @@ function renderProspects() {
     });
 }
 
-function selectProspect(id) {
+async function selectProspect(id) {
     const p = allProspects.find(x => x.id === id);
     if (!p) return;
-    document.getElementById('companyName').value = cleanProspectName(p);
+
+    // Sélection visuelle
     document.querySelectorAll('.prospect-item').forEach(el => el.classList.remove('selected'));
     document.querySelector(`.prospect-item[data-id="${id}"]`)?.classList.add('selected');
+
+    // Remplir le nom immédiatement
+    document.getElementById('companyName').value = cleanProspectName(p);
+
+    // Récupérer les détails supplémentaires depuis Pipedrive
+    try {
+        const resp = await fetch(`/api/pipedrive-deal?id=${id}`);
+        if (resp.ok) {
+            const details = await resp.json();
+            if (details.location) {
+                document.getElementById('location').value = details.location;
+            }
+            if (details.website) {
+                const websiteEl = document.getElementById('websiteUrl');
+                if (websiteEl) websiteEl.value = details.website;
+            }
+        }
+    } catch (err) {
+        // Silencieux — les champs restent vides, l'utilisateur remplit manuellement
+    }
+
     document.getElementById('companyName').focus();
 }
 // ─────────────────────────────────────────────────────────────────────────────
