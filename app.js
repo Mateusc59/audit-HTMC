@@ -2,12 +2,126 @@
 
 let logoData = null;
 let screenshotData = null;
-let autoFillCaData = null; // stocke les valeurs CA de l'auto-fill
+let autoFillCaData = null;
+
+// ─── SIDEBAR PIPEDRIVE ────────────────────────────────────────────────────────
+const STAGES = {
+    12: { name: 'Identifié',  color: '#6B7280' },
+    2:  { name: 'Qualifié',   color: '#3B82F6' },
+    3:  { name: 'Approché',   color: '#F59E0B' },
+    4:  { name: 'RDV/Propal', color: '#10B981' },
+    6:  { name: 'Poubelle',   color: '#EF4444' },
+    10: { name: 'Non closé',  color: '#9CA3AF' },
+    11: { name: 'FUP',        color: '#8B5CF6' },
+    14: { name: 'ADS/SEO',    color: '#EC4899' }
+};
+// Stages visibles par défaut (Poubelle et Non closé masqués)
+let activeStages = new Set([12, 2, 3, 4, 11, 14]);
+let allProspects = [];
+let prospectSearch = '';
+
+function cleanProspectName(deal) {
+    const title = deal.title || '';
+    // Si le titre est une URL → utiliser le nom de la personne ou de l'org
+    if (title.match(/^https?:\/\//)) {
+        return deal.person || deal.org || title;
+    }
+    // Retirer les préfixes géographiques type "FR-", "TL-", "AND-", "CA-"
+    return title.replace(/^[A-Z]{2,4}-\s*/, '').trim() || deal.person || deal.org || 'Sans nom';
+}
+
+async function loadProspects() {
+    const list = document.getElementById('prospectList');
+    list.innerHTML = '<div class="sidebar-loading">Chargement…</div>';
+    try {
+        const resp = await fetch('/api/pipedrive-prospects');
+        if (!resp.ok) throw new Error('indisponible');
+        const data = await resp.json();
+        allProspects = data.prospects || [];
+        document.getElementById('prospectCount').textContent = allProspects.length;
+        buildStageFilters();
+        renderProspects();
+    } catch (err) {
+        list.innerHTML = '<div class="sidebar-empty">⚠️ Ajouter<br>PIPEDRIVE_API_KEY<br>sur Vercel</div>';
+    }
+}
+
+function buildStageFilters() {
+    const container = document.getElementById('stageFilters');
+    const counts = {};
+    allProspects.forEach(p => { counts[p.stage_id] = (counts[p.stage_id] || 0) + 1; });
+
+    container.innerHTML = Object.entries(STAGES)
+        .filter(([id]) => counts[+id])
+        .map(([id, s]) => `
+            <button class="stage-pill ${activeStages.has(+id) ? 'active' : ''}"
+                    data-stage="${id}"
+                    style="--pill-color: ${s.color}">
+                ${s.name} <span>${counts[+id]}</span>
+            </button>`
+        ).join('');
+
+    container.querySelectorAll('.stage-pill').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = +btn.dataset.stage;
+            activeStages.has(id) ? activeStages.delete(id) : activeStages.add(id);
+            btn.classList.toggle('active');
+            renderProspects();
+        });
+    });
+}
+
+function renderProspects() {
+    const list = document.getElementById('prospectList');
+    const q = prospectSearch.toLowerCase();
+
+    const filtered = allProspects.filter(p => {
+        if (!activeStages.has(p.stage_id)) return false;
+        if (q && !cleanProspectName(p).toLowerCase().includes(q)) return false;
+        return true;
+    });
+
+    if (!filtered.length) {
+        list.innerHTML = '<div class="sidebar-empty">Aucun prospect</div>';
+        return;
+    }
+
+    list.innerHTML = filtered.map(p => {
+        const name = cleanProspectName(p);
+        const s = STAGES[p.stage_id] || { name: '?', color: '#888' };
+        return `
+            <div class="prospect-item" data-id="${p.id}">
+                <span class="prospect-name">${name}</span>
+                <span class="prospect-stage" style="background:${s.color}22;color:${s.color};border:1px solid ${s.color}44;">${s.name}</span>
+            </div>`;
+    }).join('');
+
+    list.querySelectorAll('.prospect-item').forEach(el => {
+        el.addEventListener('click', () => selectProspect(+el.dataset.id));
+    });
+}
+
+function selectProspect(id) {
+    const p = allProspects.find(x => x.id === id);
+    if (!p) return;
+    document.getElementById('companyName').value = cleanProspectName(p);
+    document.querySelectorAll('.prospect-item').forEach(el => el.classList.remove('selected'));
+    document.querySelector(`.prospect-item[data-id="${id}"]`)?.classList.add('selected');
+    document.getElementById('companyName').focus();
+}
+// ─────────────────────────────────────────────────────────────────────────────
 
 // Initialize
 document.addEventListener('DOMContentLoaded', function() {
     initializeCheckboxes();
     initializeEventListeners();
+    loadProspects();
+
+    document.getElementById('prospectSearch').addEventListener('input', e => {
+        prospectSearch = e.target.value;
+        renderProspects();
+    });
+    document.getElementById('refreshProspects').addEventListener('click', loadProspects);
 });
 
 function initializeCheckboxes() {

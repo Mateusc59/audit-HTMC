@@ -7,6 +7,29 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
+<div class="app-wrapper">
+
+    <!-- ═══════════════════ SIDEBAR PIPEDRIVE ═══════════════════ -->
+    <aside class="sidebar-prospects">
+        <div class="sidebar-header">
+            <span>📋 Prospects</span>
+            <span class="prospect-count" id="prospectCount">—</span>
+            <button class="sidebar-refresh" id="refreshProspects" title="Rafraîchir">↻</button>
+        </div>
+
+        <input type="text" class="sidebar-search" id="prospectSearch" placeholder="🔍 Rechercher...">
+
+        <div class="sidebar-filters" id="stageFilters">
+            <!-- Rempli dynamiquement -->
+        </div>
+
+        <div class="sidebar-list" id="prospectList">
+            <div class="sidebar-loading">Chargement…</div>
+        </div>
+    </aside>
+
+    <!-- ═══════════════════ FORMULAIRE PRINCIPAL ═══════════════════ -->
     <div class="container">
         <header>
             <h1>🚀 Générateur d'Audits</h1>
@@ -19,9 +42,9 @@
                 <span class="section-number">1</span>
                 Informations de base
             </h2>
-            
+
             <div class="info-box">
-                <strong>💡 Astuce :</strong> Utilisez "Auto-remplir" pour gagner du temps !
+                <strong>💡 Astuce :</strong> Cliquez sur un prospect à gauche pour pré-remplir le nom, puis utilisez "Auto-remplir" !
             </div>
 
             <div class="form-grid">
@@ -93,7 +116,7 @@
                 <span class="section-number">2</span>
                 Screenshot du site (optionnel)
             </h2>
-            
+
             <div class="form-group">
                 <label for="screenshotUpload">Capture d'écran du site actuel</label>
                 <input type="file" id="screenshotUpload" accept="image/*" style="padding: 14px; cursor: pointer;">
@@ -110,16 +133,12 @@
 
             <div class="form-group">
                 <label>Problèmes * (cochez tous ceux qui s'appliquent)</label>
-                <div class="checkbox-grid" id="problemsCheckboxes">
-                    <!-- Sera rempli par JavaScript -->
-                </div>
+                <div class="checkbox-grid" id="problemsCheckboxes"></div>
             </div>
 
             <div class="form-group" style="margin-top: 24px;">
                 <label>Solutions proposées</label>
-                <div class="checkbox-grid" id="solutionsCheckboxes">
-                    <!-- Sera rempli par JavaScript -->
-                </div>
+                <div class="checkbox-grid" id="solutionsCheckboxes"></div>
             </div>
         </div>
 
@@ -130,7 +149,7 @@
         <!-- LOADING -->
         <div class="loading" id="loading">
             <div class="spinner"></div>
-            <p style="font-size: 1.2rem; font-weight: 600;">Génération en cours...</p>
+            <p style="font-size: 1.2rem; font-weight: 600;">Génération en cours…</p>
         </div>
 
         <!-- RESULT -->
@@ -141,15 +160,17 @@
                 <button class="btn btn-new" id="newAuditBtn">🔄 Nouvel Audit</button>
             </div>
         </div>
-    </div>
+    </div><!-- /.container -->
 
-    <!-- jsPDF + html2canvas : capture pixel-perfect de chaque page -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</div><!-- /.app-wrapper -->
 
-    <script src="data.js"></script>
-    <script src="templates.js"></script>
-    <script src="pdf-export.js"></script>
-    <script src="app.js"></script>
+<!-- jsPDF + html2canvas -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script src="data.js"></script>
+<script src="templates.js"></script>
+<script src="pdf-export.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
