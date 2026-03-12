@@ -102,7 +102,7 @@ function autoFill() {
     setTimeout(() => { btn.textContent = '🤖 Auto-remplir'; }, 2000);
 }
 
-function generateAudit() {
+async function generateAudit() {
     // Récupérer les données
     const companyName = document.getElementById('companyName').value.trim();
     const industry = document.getElementById('industry').value;
@@ -132,32 +132,51 @@ function generateAudit() {
     }
 
     // Show loading
-    document.getElementById('loading').classList.add('active');
+    const loadingEl = document.getElementById('loading');
+    const loadingText = loadingEl.querySelector('p');
+    loadingEl.classList.add('active');
     document.getElementById('generateBtn').disabled = true;
 
-    setTimeout(() => {
-        const baseData = { companyName, industry, location, services, goals, years, uniqueValue, logo: logoData, screenshot: screenshotData };
+    // Appel Claude pour contenu personnalisé
+    let aiData = null;
+    try {
+        loadingText.textContent = 'Claude analyse votre projet…';
+        const response = await fetch('/api/generate-audit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ companyName, industry, location, services, goals, uniqueValue, years, problems: problemsFR, solutions: solutionsFR })
+        });
+        if (response.ok) {
+            aiData = await response.json();
+        }
+    } catch (err) {
+        console.warn('Génération IA indisponible, template standard utilisé:', err);
+    }
 
-        // Pour la version CA, utiliser les valeurs CA de l'auto-fill si disponibles
-        const caOverrides = autoFillCaData ? {
-            services: autoFillCaData.services,
-            uniqueValue: autoFillCaData.uniqueValue
-        } : {};
+    loadingText.textContent = 'Mise en page de l\'audit…';
 
-        // Générer les deux versions directement dans la bonne langue
-        const htmlFR = generateAuditHTML({ ...baseData, problems: problemsFR,  solutions: solutionsFR  }, 'fr');
-        const htmlCA = generateAuditHTML({ ...baseData, ...caOverrides, problems: problemsCA, solutions: solutionsCA }, 'ca');
+    const baseData = { companyName, industry, location, services, goals, years, uniqueValue, logo: logoData, screenshot: screenshotData };
 
-        document.getElementById('pdfContent').innerHTML = `
-            <div id="pdfContentFR">${htmlFR}</div>
-            <div id="pdfContentCA">${htmlCA}</div>
-        `;
+    // Pour la version CA, utiliser les valeurs CA de l'auto-fill si disponibles
+    const caOverrides = autoFillCaData ? {
+        services: autoFillCaData.services,
+        uniqueValue: autoFillCaData.uniqueValue
+    } : {};
 
-        document.getElementById('loading').classList.remove('active');
-        document.getElementById('result').classList.add('active');
-        document.getElementById('generateBtn').disabled = false;
-        document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
-    }, 1000);
+    // Générer les deux versions directement dans la bonne langue
+    const htmlFR = generateAuditHTML({ ...baseData, problems: problemsFR,  solutions: solutionsFR,  aiContent: aiData?.fr }, 'fr');
+    const htmlCA = generateAuditHTML({ ...baseData, ...caOverrides, problems: problemsCA, solutions: solutionsCA, aiContent: aiData?.ca }, 'ca');
+
+    document.getElementById('pdfContent').innerHTML = `
+        <div id="pdfContentFR">${htmlFR}</div>
+        <div id="pdfContentCA">${htmlCA}</div>
+    `;
+
+    loadingEl.classList.remove('active');
+    loadingText.textContent = 'Génération en cours…';
+    document.getElementById('result').classList.add('active');
+    document.getElementById('generateBtn').disabled = false;
+    document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
 }
 
 function resetForm() {

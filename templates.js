@@ -425,8 +425,11 @@ function generateAuditHTML(data, lang = 'fr') {
     // Date courante
     const dateStr = new Date().toLocaleDateString(isCa ? 'ca-ES' : 'fr-FR', { month: 'long', year: 'numeric' });
 
-    // Contenu sectoriel
-    const sc = getSectorContent(data.industry, c, loc, expLabel, isCa);
+    // Contenu sectoriel (remplacé par IA si disponible)
+    const sc = Object.assign(
+        getSectorContent(data.industry, c, loc, expLabel, isCa),
+        data.aiContent || {}
+    );
 
     // Problèmes & solutions
     const problemsHTML  = data.problems.map(p => `<li style="margin:5px 0;font-size:0.79rem;line-height:1.4;">❌ ${p}</li>`).join('');
@@ -479,9 +482,11 @@ function generateAuditHTML(data, lang = 'fr') {
 
     <!-- Intro -->
     <p style="text-align:center;font-size:0.94rem;font-weight:800;margin:0 0 26px;line-height:1.5;color:#222;">
-        ${isCa
-            ? `Per convertir ${expLabel || 'la vostra experiència'} en més clients, <span style="color:var(--accent);">${c}</span> ha de :`
-            : `Pour convertir ${expLabel || 'votre expertise'} en plus de clients, <span style="color:var(--accent);">${c}</span> doit :`}
+        ${sc.intro
+            ? sc.intro
+            : (isCa
+                ? `Per convertir ${expLabel || 'la vostra experiència'} en més clients, <span style="color:var(--accent);">${c}</span> ha de :`
+                : `Pour convertir ${expLabel || 'votre expertise'} en plus de clients, <span style="color:var(--accent);">${c}</span> doit :`)}
     </p>
 
     <!-- 3 points sectoriels -->
