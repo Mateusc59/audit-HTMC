@@ -21,6 +21,11 @@ module.exports = async function handler(req, res) {
         return res.status(400).json({ error: 'Données manquantes' });
     }
 
+    if (!process.env.ANTHROPIC_API_KEY) {
+        console.error('ANTHROPIC_API_KEY manquante');
+        return res.status(500).json({ error: 'Clé API Claude non configurée sur Vercel' });
+    }
+
     try {
         const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
@@ -84,7 +89,7 @@ Génère UNIQUEMENT ce JSON (sans markdown, sans explication) :
 
         return res.status(200).json(aiData);
     } catch (err) {
-        console.error('Erreur génération IA:', err.message);
-        return res.status(500).json({ error: 'Génération IA indisponible' });
+        console.error('Erreur génération IA:', err.message, err.status, err.error);
+        return res.status(500).json({ error: 'Génération IA indisponible', detail: err.message, status: err.status });
     }
 };
