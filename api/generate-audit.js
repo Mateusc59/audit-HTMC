@@ -77,7 +77,7 @@ Génère UNIQUEMENT ce JSON (sans markdown, sans explication) :
 }`;
 
         const response = await client.messages.create({
-            model: 'claude-3-5-sonnet-20241022',
+            model: 'claude-3-haiku-20240307',
             max_tokens: 2500,
             messages: [{ role: 'user', content: prompt }]
         });
@@ -89,7 +89,7 @@ Génère UNIQUEMENT ce JSON (sans markdown, sans explication) :
 
         return res.status(200).json(aiData);
     } catch (err) {
-        console.error('Erreur génération IA:', err.message, err.status, err.error);
+        console.error('Erreur génération IA FULL:', JSON.stringify(err, null, 2));
         return res.status(500).json({ error: 'Génération IA indisponible', detail: err.message, status: err.status });
     }
 };
