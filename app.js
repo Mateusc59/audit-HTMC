@@ -247,6 +247,7 @@ async function generateAudit() {
     const goals = document.getElementById('mainGoals').value.trim();
     const years = document.getElementById('yearsExperience').value;
     const uniqueValue = document.getElementById('uniqueValue').value;
+    const websiteUrl = document.getElementById('websiteUrl')?.value?.trim() || '';
 
     // Problèmes & solutions en FR et CA
     const checkedProblems  = Array.from(document.querySelectorAll('.problem-checkbox:checked'));
@@ -280,13 +281,17 @@ async function generateAudit() {
         const response = await fetch('/api/generate-audit', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ companyName, industry, location, services, goals, uniqueValue, years, problems: problemsFR, solutions: solutionsFR })
+            body: JSON.stringify({ companyName, industry, location, services, goals, uniqueValue, years, problems: problemsFR, solutions: solutionsFR, websiteUrl })
         });
         if (response.ok) {
             aiData = await response.json();
+            console.log('✅ Contenu IA généré avec succès');
+        } else {
+            const errBody = await response.json().catch(() => ({}));
+            console.warn('⚠️ API Claude erreur:', response.status, errBody);
         }
     } catch (err) {
-        console.warn('Génération IA indisponible, template standard utilisé:', err);
+        console.warn('⚠️ Génération IA indisponible, template standard utilisé:', err);
     }
 
     loadingText.textContent = 'Mise en page de l\'audit…';

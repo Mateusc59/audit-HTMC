@@ -14,7 +14,7 @@ module.exports = async function handler(req, res) {
 
     const {
         companyName, industry, location, services,
-        goals, uniqueValue, years, problems, solutions
+        goals, uniqueValue, years, problems, solutions, websiteUrl
     } = req.body;
 
     if (!companyName || !industry) {
@@ -34,15 +34,18 @@ DONNÉES ENTREPRISE :
 - Services : ${services || 'non précisés'}
 - Valeur unique : ${uniqueValue || 'non précisée'}
 - Objectifs : ${goals || 'non précisés'}
+- Site web / URL : ${websiteUrl || 'non fourni'}
 - Problèmes identifiés : ${(problems || []).join(', ') || 'aucun'}
 - Solutions envisagées : ${(solutions || []).join(', ') || 'aucune'}
 
 CONSIGNES :
 - Cite le nom "${companyName}" et la ville "${location || 'leur ville'}" dans les textes
-- Réfère-toi directement aux services et problèmes mentionnés
-- Les points doivent être actionnables et spécifiques, pas génériques
+- ${websiteUrl ? `Mentionne que tu as analysé leur présence en ligne (${websiteUrl}) et base-toi sur le secteur "${industry}" pour des observations concrètes` : `Base-toi sur le secteur "${industry}" pour des observations concrètes`}
+- Réfère-toi directement aux services spécifiques mentionnés : ${services || 'leurs services'}
+- Réfère-toi aux problèmes identifiés : ${(problems || []).join(', ') || 'aucun'}
+- Les points doivent être actionnables et spécifiques au secteur "${industry}", pas génériques
 - Chaque corps de point : 55-75 mots maximum
-- Intro : 35-45 mots, percutante, commence par une observation sur ${companyName}
+- Intro : 35-45 mots, percutante, commence par une observation concrète sur ${companyName} dans le secteur ${industry}
 
 Génère UNIQUEMENT ce JSON (sans markdown, sans explication) :
 {
