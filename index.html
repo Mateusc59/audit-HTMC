@@ -67,6 +67,7 @@
                         <option value="comptabilite">Comptabilité & Gestion</option>
                         <option value="automobile">Automobile</option>
                         <option value="sante">Santé & Bien-être</option>
+                        <option value="alarme_securite">Alarme & Sécurité</option>
                         <option value="autre">Autre</option>
                     </select>
                 </div>
@@ -82,6 +83,28 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="googleRating">Note Google ⭐</label>
+                    <input type="text" id="googleRating" placeholder="Ex: 4.7">
+                </div>
+
+                <div class="form-group">
+                    <label for="nbAvis">Nombre d'avis</label>
+                    <input type="number" id="nbAvis" placeholder="Ex: 51">
+                </div>
+
+                <div class="form-group">
+                    <label for="siteStatus">Statut du site</label>
+                    <select id="siteStatus">
+                        <option value="">Non renseigné</option>
+                        <option value="HORS LIGNE">🔴 Site hors ligne</option>
+                        <option value="OBSOLÈTE">🟠 Site obsolète / vieillissant</option>
+                        <option value="BASIQUE">🟡 Site basique</option>
+                        <option value="BON">🟢 Site correct</option>
+                        <option value="AUCUN">⚫ Aucun site</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <label for="websiteUrl">URL du site</label>
                     <input type="url" id="websiteUrl" placeholder="https://...">
                 </div>
@@ -90,6 +113,41 @@
                     <label for="logoUpload">Logo entreprise</label>
                     <input type="file" id="logoUpload" accept="image/*" style="padding: 14px; cursor: pointer;">
                 </div>
+
+                <div class="form-group">
+                    <label for="scoreTotal">Score qualification /15</label>
+                    <input type="number" id="scoreTotal" placeholder="Ex: 14" min="0" max="15">
+                </div>
+
+                <div class="form-group">
+                    <label for="nbAnalyses">Entreprises analysées</label>
+                    <input type="number" id="nbAnalyses" placeholder="Ex: 14" value="14">
+                </div>
+
+                <div class="form-group">
+                    <label for="panierMoyen">Panier moyen client (€)</label>
+                    <input type="number" id="panierMoyen" placeholder="Ex: 1500">
+                </div>
+
+                <div class="form-group">
+                    <label for="prenomCommercial">Votre prénom</label>
+                    <input type="text" id="prenomCommercial" placeholder="Ex: Mathieu">
+                </div>
+
+                <div class="form-group">
+                    <label for="concurrentNom">Concurrent local (nom)</label>
+                    <input type="text" id="concurrentNom" placeholder="Ex: Alarme Pro Toulouse">
+                </div>
+
+                <div class="form-group">
+                    <label for="concurrentSite">Site du concurrent</label>
+                    <input type="text" id="concurrentSite" placeholder="Ex: alarme-pro-toulouse.fr">
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-top: 20px;">
+                <label for="accroche">🎯 Accroche personnalisée (phrase clé de l'audit)</label>
+                <textarea id="accroche" placeholder="Ex: Votre site est hors ligne — vous perdez des clients chaque heure" style="min-height:60px;"></textarea>
             </div>
 
             <button class="btn auto-fill-btn" id="autoFillBtn">🤖 Auto-remplir</button>
@@ -114,14 +172,21 @@
         <div class="form-section">
             <h2 class="section-title">
                 <span class="section-number">2</span>
-                Screenshot du site (optionnel)
+                Screenshot du site
             </h2>
 
-            <div class="form-group">
-                <label for="screenshotUpload">Capture d'écran du site actuel</label>
-                <input type="file" id="screenshotUpload" accept="image/*" style="padding: 14px; cursor: pointer;">
-                <div id="screenshotPreview" style="margin-top: 20px;"></div>
+            <div class="info-box">
+                <strong>💡 Astuce :</strong> Si un URL est renseigné, cliquez sur "Auto-screenshot" pour capturer automatiquement.
             </div>
+
+            <div style="display:flex;gap:12px;align-items:flex-end;margin-bottom:16px;">
+                <div class="form-group" style="flex:1;margin:0;">
+                    <label for="screenshotUpload">Importer une capture d'écran</label>
+                    <input type="file" id="screenshotUpload" accept="image/*" style="padding: 14px; cursor: pointer;">
+                </div>
+                <button class="btn" id="autoScreenshotBtn" style="white-space:nowrap;height:52px;">📸 Auto-screenshot</button>
+            </div>
+            <div id="screenshotPreview" style="margin-top: 12px;"></div>
         </div>
 
         <!-- PROBLEMES & SOLUTIONS -->

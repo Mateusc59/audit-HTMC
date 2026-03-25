@@ -176,6 +176,22 @@ function initializeEventListeners() {
     // Auto-fill
     document.getElementById('autoFillBtn').addEventListener('click', autoFill);
 
+    // Auto-screenshot
+    const autoScreenshotBtn = document.getElementById('autoScreenshotBtn');
+    if (autoScreenshotBtn) {
+        autoScreenshotBtn.addEventListener('click', () => {
+            const url = document.getElementById('websiteUrl')?.value?.trim();
+            if (!url) { alert('Renseignez d\'abord l\'URL du site'); return; }
+            const domain = url.replace(/^https?:\/\//, '').replace(/\/$/, '');
+            const thumbUrl = `https://image.thum.io/get/width/760/crop/480/noanimate/https://${domain}`;
+            screenshotData = thumbUrl;
+            document.getElementById('screenshotPreview').innerHTML =
+                `<img src="${thumbUrl}" style="width:300px;border:2px solid var(--border);border-radius:8px;" onerror="this.parentElement.innerHTML='<p style=\'color:#e74c3c;font-size:0.85rem;\'>❌ Impossible de capturer ce site</p>'">`;
+            autoScreenshotBtn.textContent = '✅ Capturé !';
+            setTimeout(() => { autoScreenshotBtn.textContent = '📸 Auto-screenshot'; }, 2000);
+        });
+    }
+
     // Logo upload
     document.getElementById('logoUpload').addEventListener('change', function(e) {
         const file = e.target.files[0];
@@ -248,6 +264,19 @@ async function generateAudit() {
     const years = document.getElementById('yearsExperience').value;
     const uniqueValue = document.getElementById('uniqueValue').value;
     const websiteUrl = document.getElementById('websiteUrl')?.value?.trim() || '';
+    const googleRating = document.getElementById('googleRating')?.value?.trim() || '';
+    const nbAvis = document.getElementById('nbAvis')?.value?.trim() || '';
+    const siteStatus = document.getElementById('siteStatus')?.value || '';
+    const scoreTotal = document.getElementById('scoreTotal')?.value?.trim() || '';
+    const nbAnalyses = document.getElementById('nbAnalyses')?.value?.trim() || '14';
+    const panierMoyen = document.getElementById('panierMoyen')?.value?.trim() || '';
+    const prenomCommercial = document.getElementById('prenomCommercial')?.value?.trim() || '';
+    const concurrentNom = document.getElementById('concurrentNom')?.value?.trim() || '';
+    const concurrentSite = document.getElementById('concurrentSite')?.value?.trim() || '';
+    const accroche = document.getElementById('accroche')?.value?.trim() || '';
+    // Date expiration auto (+7 jours)
+    const expDate = new Date(); expDate.setDate(expDate.getDate() + 7);
+    const dateExpiration = expDate.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
 
     // Problèmes & solutions en FR et CA
     const checkedProblems  = Array.from(document.querySelectorAll('.problem-checkbox:checked'));
@@ -296,7 +325,7 @@ async function generateAudit() {
 
     loadingText.textContent = 'Mise en page de l\'audit…';
 
-    const baseData = { companyName, industry, location, services, goals, years, uniqueValue, logo: logoData, screenshot: screenshotData };
+    const baseData = { companyName, industry, location, services, goals, years, uniqueValue, logo: logoData, screenshot: screenshotData, googleRating, nbAvis, siteStatus, websiteUrl, scoreTotal, nbAnalyses, panierMoyen, prenomCommercial, concurrentNom, concurrentSite, accroche, dateExpiration };
 
     // Pour la version CA, utiliser les valeurs CA de l'auto-fill si disponibles
     const caOverrides = autoFillCaData ? {

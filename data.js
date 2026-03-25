@@ -231,6 +231,18 @@ const INDUSTRY_TEMPLATES = {
             mainGoals: "Facilitar la presa de cita, desenvolupar la clientela"
         }
     },
+    alarme_securite: {
+        fr: {
+            services: "Installation alarme, vidéosurveillance, contrôle d'accès, télésurveillance, domotique sécurité",
+            uniqueValue: "Expertise locale, certifications APSAD, intervention rapide, devis gratuit",
+            mainGoals: "Générer plus de demandes de devis, capter les particuliers et professionnels locaux"
+        },
+        ca: {
+            services: "Instal·lació d'alarma, videovigilància, control d'accés, televigilància, domòtica de seguretat",
+            uniqueValue: "Experiència local, certificacions APSAD, intervenció ràpida, pressupost gratuït",
+            mainGoals: "Generar més sol·licituds de pressupost, captar particulars i empreses locals"
+        }
+    },
     autre: {
         fr: {
             services: "Services professionnels adaptés au secteur",

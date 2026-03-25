@@ -348,6 +348,40 @@ function getSectorContent(industry, c, loc, expLabel, isCa) {
                 ]
             }
         },
+        alarme_securite: {
+            fr: {
+                p1t: 'Votre réputation Google mérite un site à sa hauteur',
+                p1b: `Vos avis Google sont votre meilleur argument de vente — mais si votre site est vieillissant, hors ligne ou inexistant, ces étoiles ne convertissent pas. ${c} ${loc2} doit transformer sa réputation terrain en leads numériques concrets.`,
+                p2t: 'Capter les urgences et les projets locaux',
+                p2b: `Quand un particulier tape "installateur alarme ${loc || 'votre ville'}" ou "vidéosurveillance maison ${loc || 'votre région'}", votre site doit apparaître en premier. Un formulaire de devis en 3 clics et un numéro cliquable suffisent à capturer ces demandes avant vos concurrents.`,
+                p3t: 'Dominer le marché local de la sécurité',
+                p3b: `Les grandes chaînes (Verisure, Sector Alarm) investissent massivement en digital. ${c} a un avantage décisif : la proximité, la réactivité et la confiance locale. Le SEO local et une présence optimisée transforment cet avantage en leads qualifiés.`,
+                ops: ['Note Google intégrée au site', 'Formulaire devis express', 'Pages par type d\'alarme', 'SEO local ciblé'],
+                avantApres: [
+                    ['Site web', '❌ Vieillissant / hors ligne', '✅ Moderne, rapide, pro'],
+                    ['Note Google', '❌ Non intégrée au site', '✅ Mise en avant, rassurante'],
+                    ['SEO local', '❌ Peu ou pas visible', '✅ 1ère page Google locale'],
+                    ['Demandes de devis', '❌ Via téléphone uniquement', '✅ Formulaire en ligne 24h/24'],
+                    ['Crédibilité', '❌ Site peu professionnel', '✅ Certifications et avis visibles'],
+                ]
+            },
+            ca: {
+                p1t: 'La vostra reputació Google mereix un lloc web a la seva alçada',
+                p1b: `Les vostres ressenyes de Google són el vostre millor argument de venda — però si el vostre lloc web és antiquat o no funciona, no converteixen. ${c} ${loc2} ha de transformar la seva reputació local en contactes digitals.`,
+                p2t: 'Captar les urgències i els projectes locals',
+                p2b: `Quan algú cerca "instal·lador d'alarma ${loc || 'la vostra ciutat'}", el vostre lloc ha d'aparèixer primer. Un formulari en 3 clics i un número clicable capturen aquestes demandes.`,
+                p3t: 'Dominar el mercat local de la seguretat',
+                p3b: `Les grans cadenes inverteixen molt en digital. ${c} té un avantage decisiu: proximitat, reactivitat i confiança local. El SEO local transforma aquest avantatge en contactes qualificats.`,
+                ops: ['Ressenya Google integrada', 'Formulari pressupost ràpid', 'Pàgines per tipus d\'alarma', 'SEO local objectiu'],
+                avantApres: [
+                    ['Lloc web', '❌ Antiquat / no disponible', '✅ Modern, ràpid, professional'],
+                    ['Nota Google', '❌ No integrada al lloc', '✅ Destacada, tranquil·litzadora'],
+                    ['SEO local', '❌ Poc o gens visible', '✅ 1a pàgina Google local'],
+                    ['Sol·licituds de pressupost', '❌ Només per telèfon', '✅ Formulari en línia 24h/24'],
+                    ['Credibilitat', '❌ Lloc poc professional', '✅ Certificacions i ressenyes visibles'],
+                ]
+            }
+        },
         autre: {
             fr: {
                 p1t: 'Afficher clairement votre expertise',
@@ -422,6 +456,71 @@ function generateAuditHTML(data, lang = 'fr') {
 
     const logoHeaderHTML = data.logo ? `<img src="${data.logo}" class="pdf-header-logo">` : '';
 
+    const googleBadge = (data.googleRating || data.nbAvis) ? `
+    <div style="display:inline-flex;align-items:center;gap:8px;background:#fef3c7;border:1px solid #fcd34d;padding:5px 12px;border-radius:20px;margin-top:8px;">
+        ${data.googleRating ? `<span style="font-size:1rem;font-weight:800;color:#92400e;">⭐ ${data.googleRating}</span>` : ''}
+        ${data.nbAvis ? `<span style="font-size:0.78rem;color:#78350f;">${data.nbAvis} avis Google</span>` : ''}
+        ${data.siteStatus ? `<span style="font-size:0.75rem;font-weight:700;color:${data.siteStatus === 'HORS LIGNE' ? '#dc2626' : data.siteStatus === 'AUCUN' ? '#dc2626' : data.siteStatus === 'OBSOLÈTE' ? '#d97706' : '#16a34a'};margin-left:8px;padding:2px 8px;background:white;border-radius:10px;">${data.siteStatus}</span>` : ''}
+    </div>` : '';
+
+    // Score badge
+    const qualification = data.scoreTotal >= 12 ? '🔥 Prospect Chaud' : data.scoreTotal >= 8 ? '🌤️ Prospect Tiède' : '';
+    const scoreBadgeHTML = (data.scoreTotal && data.nbAnalyses) ? `
+    <div style="background:#1a1a2e;color:white;padding:10px 16px;margin-top:14px;display:flex;align-items:center;justify-content:space-between;">
+        <div style="font-size:0.75rem;color:rgba(255,255,255,0.6);">
+            Sélectionné parmi <strong style="color:#C8A96E;">${data.nbAnalyses}</strong> entreprises analysées
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+            <span style="font-size:0.75rem;color:rgba(255,255,255,0.5);">Score qualification</span>
+            <span style="font-size:1.3rem;font-weight:900;color:#C8A96E;">${data.scoreTotal}<span style="font-size:0.8rem;font-weight:400;color:rgba(255,255,255,0.3)">/15</span></span>
+            <span style="background:${data.scoreTotal >= 12 ? '#16a34a' : '#d97706'};color:white;font-size:0.75rem;font-weight:700;padding:3px 10px;">${qualification}</span>
+        </div>
+    </div>` : '';
+
+    // Manque à gagner
+    let manqueAgagnerHTML = '';
+    if (data.panierMoyen && parseInt(data.panierMoyen) > 0) {
+        const panier = parseInt(data.panierMoyen);
+        const leadsMin = 10, leadsMax = 25;
+        const caMin = (panier * leadsMin).toLocaleString('fr-FR');
+        const caMax = (panier * leadsMax).toLocaleString('fr-FR');
+        manqueAgagnerHTML = `
+    <div style="background:#fff5f5;border:1.5px solid #fecaca;border-left:4px solid #dc2626;padding:12px 16px;margin-bottom:14px;">
+        <p style="font-size:0.82rem;font-weight:800;color:#b91c1c;margin:0 0 6px;">💸 Ce que vous perdez chaque mois sans site performant :</p>
+        <div style="display:flex;gap:20px;align-items:center;">
+            <div style="text-align:center;">
+                <div style="font-size:1.6rem;font-weight:900;color:#dc2626;">${leadsMin}–${leadsMax}</div>
+                <div style="font-size:0.7rem;color:#666;">leads/mois estimés</div>
+            </div>
+            <div style="font-size:1.4rem;color:#ddd;">×</div>
+            <div style="text-align:center;">
+                <div style="font-size:1.6rem;font-weight:900;color:#dc2626;">${panier.toLocaleString('fr-FR')} €</div>
+                <div style="font-size:0.7rem;color:#666;">panier moyen</div>
+            </div>
+            <div style="font-size:1.4rem;color:#ddd;">=</div>
+            <div style="text-align:center;background:#dc2626;color:white;padding:8px 16px;">
+                <div style="font-size:1.4rem;font-weight:900;">${caMin}–${caMax} €</div>
+                <div style="font-size:0.7rem;opacity:0.85;">manqués / mois</div>
+            </div>
+        </div>
+    </div>`;
+    }
+
+    // Concurrent
+    const concurrentHTML = (data.concurrentNom && data.concurrentSite) ? `
+    <div style="background:#fffbeb;border:1px solid #fde68a;border-left:4px solid #d97706;padding:10px 14px;margin-bottom:14px;">
+        <p style="font-size:0.8rem;font-weight:800;color:#92400e;margin:0 0 4px;">⚠️ Votre concurrent capte ces clients à votre place :</p>
+        <div style="display:flex;align-items:center;gap:12px;">
+            <img src="https://logo.clearbit.com/${data.concurrentSite}" style="height:24px;object-fit:contain;" onerror="this.style.display='none'">
+            <span style="font-size:0.82rem;font-weight:700;color:#78350f;">${data.concurrentNom}</span>
+            <span style="font-size:0.75rem;color:#92400e;">— ${data.concurrentSite}</span>
+        </div>
+    </div>` : '';
+
+    // Accroche
+    const accrocheHTML = data.accroche ? data.accroche :
+        (data.years ? `${data.years} ans d'expérience — votre site web le reflète-t-il ?` : `Votre entreprise mérite un site web à la hauteur.`);
+
     // Date courante
     const dateStr = new Date().toLocaleDateString(isCa ? 'ca-ES' : 'fr-FR', { month: 'long', year: 'numeric' });
 
@@ -472,10 +571,12 @@ function generateAuditHTML(data, lang = 'fr') {
                 ${isCa ? 'Auditoria Digital' : 'Audit Digital'} &nbsp;·&nbsp; ${data.industry} &nbsp;·&nbsp; ${loc} &nbsp;·&nbsp; ${dateStr}
             </div>
             <h1 class="pdf-title">${c}</h1>
-            <p style="font-size:0.82rem;color:#555;margin:4px 0 0;font-style:italic;line-height:1.4;">
-                ${data.years
-                    ? (isCa ? `${data.years} anys d'experiència — el vostre lloc web ho reflecteix?` : `${data.years} ans d'expérience — votre site web le reflète-t-il ?`)
-                    : (isCa ? `La vostra empresa mereix un lloc web a la seva alçada.` : `Votre entreprise mérite un site web à la hauteur.`)}
+            ${googleBadge}
+            ${scoreBadgeHTML}
+            <p style="font-size:0.88rem;color:#555;margin:6px 0 0;font-style:italic;line-height:1.4;border-left:3px solid #C8A96E;padding-left:10px;">
+                ${isCa
+                    ? (data.years ? `${data.years} anys d'experiència — el vostre lloc web ho reflecteix?` : `La vostra empresa mereix un lloc web a la seva alçada.`)
+                    : accrocheHTML}
             </p>
         </div>
     </div>
@@ -535,14 +636,9 @@ function generateAuditHTML(data, lang = 'fr') {
             <p style="font-size:0.82rem;font-weight:800;margin:0 0 12px;">🎯 ${isCa ? `Accions prioritàries per a ${c} :` : `Actions prioritaires pour ${c} :`}</p>
             ${sc.ops.map(op => `<div style="display:flex;gap:8px;font-size:0.78rem;padding:6px 0;border-bottom:1px solid #eee;"><span style="color:var(--accent);font-weight:800;">→</span>${op}</div>`).join('')}
         </div>
-        <div class="audit-box-accent">
-            <p style="font-size:0.82rem;font-weight:800;margin:0 0 12px;">📊 ${isCa ? 'El que diuen els estudis :' : 'Ce que disent les études :'}</p>
-            <ul style="list-style:none;padding:0;margin:0;">
-                <li style="font-size:0.77rem;margin:7px 0;">✓ ${isCa ? '85% cerquen en línia abans de contactar' : '85% cherchent en ligne avant de contacter'}</li>
-                <li style="font-size:0.77rem;margin:7px 0;">✓ ${isCa ? '70% de les cerques es fan en mòbil' : '70% des recherches se font sur mobile'}</li>
-                <li style="font-size:0.77rem;margin:7px 0;">✓ ${isCa ? '90% llegeixen ressenyes abans de triar' : '90% lisent les avis avant de choisir'}</li>
-                <li style="font-size:0.77rem;margin:7px 0;">✓ ${isCa ? 'Lloc lent = 40% menys de visitants' : 'Site lent = 40% de visiteurs perdus'}</li>
-            </ul>
+        <div>
+            ${manqueAgagnerHTML}
+            ${concurrentHTML}
         </div>
     </div>
 
@@ -602,6 +698,8 @@ function generateAuditHTML(data, lang = 'fr') {
         <p style="font-size:0.98rem;font-weight:800;margin:0 0 6px;">${isCa ? 'Parlem del vostre projecte' : 'Parlons de votre projet'}</p>
         <p style="font-size:0.82rem;margin:0 0 6px;color:#555;">${isCa ? '15 minuts per fer el punt junts, sense compromís.' : '15 minutes pour faire le point ensemble, sans engagement.'}</p>
         <p style="font-size:0.8rem;font-weight:700;margin:0;color:var(--accent);">contact@htmcagency.com &nbsp;·&nbsp; htmcagency.com</p>
+        ${data.prenomCommercial ? `<p style="font-size:0.78rem;color:rgba(255,255,255,0.5);margin-top:6px;">Audit préparé par <strong style="color:#C8A96E;">${data.prenomCommercial}</strong> · HTMC Agency</p>` : ''}
+        ${data.dateExpiration ? `<p style="font-size:0.75rem;color:rgba(255,255,255,0.4);margin-top:4px;">⏳ Offre valable jusqu'au <strong style="color:rgba(255,255,255,0.7);">${data.dateExpiration}</strong></p>` : ''}
     </div>
 
     ${footerHTML(isCa)}
