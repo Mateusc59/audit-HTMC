@@ -641,3 +641,216 @@ textarea {
     .section-title { font-size: 1.5rem; }
     .form-grid { grid-template-columns: 1fr; }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   FILTRE EN OR
+   ═══════════════════════════════════════════════════════════════ */
+
+.filtre-or-section {
+    border: 2px solid #D4A574;
+    background: linear-gradient(135deg, #fffef5 0%, #fffff8 100%);
+}
+
+.filtre-or-icon {
+    background: linear-gradient(135deg, #D4A574 0%, #B08D5F 100%) !important;
+    font-size: 1.3rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.filtre-or-criteria {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.filtre-or-criterion {
+    background: white;
+    border: 1px solid #e8dfc8;
+    border-radius: 12px;
+    padding: 16px 18px;
+}
+
+.filtre-or-criterion-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 12px;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.filtre-or-pills {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.filtre-or-pill {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 11px;
+    border-radius: 20px;
+    border: 1.5px solid #ddd;
+    background: white;
+    font-size: 0.76rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    color: #666;
+    line-height: 1.3;
+}
+
+.filtre-or-pill:hover {
+    border-color: var(--accent);
+    color: var(--accent-dark);
+}
+
+.filtre-or-pill.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+}
+
+.pill-num {
+    font-size: 0.82rem;
+    font-weight: 900;
+    opacity: 0.8;
+}
+
+.filtre-or-bonus-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 18px;
+    padding: 14px 18px;
+    background: white;
+    border: 1px solid #e8dfc8;
+    border-radius: 12px;
+    flex-wrap: wrap;
+}
+
+.filtre-or-bonus-label {
+    font-weight: 600;
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.filtre-or-toggle {
+    padding: 7px 22px;
+    border-radius: 20px;
+    border: 2px solid #ddd;
+    background: white;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    color: #666;
+}
+
+.filtre-or-toggle.active {
+    background: #16a34a;
+    border-color: #16a34a;
+    color: white;
+}
+
+.filtre-or-bonus-hint {
+    font-size: 0.78rem;
+    color: #999;
+    font-style: italic;
+}
+
+.filtre-or-score-panel {
+    background: white;
+    border: 1px solid #e8dfc8;
+    border-radius: 12px;
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.filtre-or-gauge {
+    width: 100%;
+    height: 14px;
+    background: #f0f0f0;
+    border-radius: 7px;
+    overflow: hidden;
+}
+
+.filtre-or-gauge-fill {
+    height: 100%;
+    border-radius: 7px;
+    transition: width 0.4s ease, background 0.4s ease;
+    background: #dc2626;
+    width: 0%;
+}
+
+.filtre-or-score-display {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.filtre-or-score-label {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #1a1a1a;
+}
+
+.filtre-or-score-badge {
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 7px 22px;
+    border-radius: 20px;
+    border: 1.5px solid #dc2626;
+    background: #fee2e2;
+    color: #991b1b;
+    transition: all 0.3s;
+}
+
+/* ── Badges score dans la sidebar ─────────────────────────────── */
+.prospect-score-badge {
+    font-size: 0.6rem;
+    font-weight: 700;
+    padding: 1px 7px;
+    border-radius: 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* ── Filtres score dans la sidebar ────────────────────────────── */
+.score-filter-pills {
+    padding: 4px 12px 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    flex-shrink: 0;
+    border-bottom: 1px solid #242424;
+}
+
+.score-pill {
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    background: #252525;
+    border: 1px solid #3a3a3a;
+    color: #555;
+    transition: all 0.2s;
+}
+
+.score-pill.active {
+    background: color-mix(in srgb, var(--pill-color, #888) 20%, transparent);
+    border-color: var(--pill-color, #888);
+    color: var(--pill-color, #888);
+}

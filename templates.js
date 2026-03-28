@@ -463,18 +463,15 @@ function generateAuditHTML(data, lang = 'fr') {
         ${data.siteStatus ? `<span style="font-size:0.75rem;font-weight:700;color:${data.siteStatus === 'HORS LIGNE' ? '#dc2626' : data.siteStatus === 'AUCUN' ? '#dc2626' : data.siteStatus === 'OBSOLÈTE' ? '#d97706' : '#16a34a'};margin-left:8px;padding:2px 8px;background:white;border-radius:10px;">${data.siteStatus}</span>` : ''}
     </div>` : '';
 
-    // Score badge
-    const qualification = data.scoreTotal >= 12 ? '🔥 Prospect Chaud' : data.scoreTotal >= 8 ? '🌤️ Prospect Tiède' : '';
-    const scoreBadgeHTML = (data.scoreTotal && data.nbAnalyses) ? `
-    <div style="background:#1a1a2e;color:white;padding:10px 16px;margin-top:14px;display:flex;align-items:center;justify-content:space-between;">
-        <div style="font-size:0.75rem;color:rgba(255,255,255,0.6);">
-            Sélectionné parmi <strong style="color:#C8A96E;">${data.nbAnalyses}</strong> entreprises analysées
-        </div>
-        <div style="display:flex;align-items:center;gap:10px;">
-            <span style="font-size:0.75rem;color:rgba(255,255,255,0.5);">Score qualification</span>
-            <span style="font-size:1.3rem;font-weight:900;color:#C8A96E;">${data.scoreTotal}<span style="font-size:0.8rem;font-weight:400;color:rgba(255,255,255,0.3)">/15</span></span>
-            <span style="background:${data.scoreTotal >= 12 ? '#16a34a' : '#d97706'};color:white;font-size:0.75rem;font-weight:700;padding:3px 10px;">${qualification}</span>
-        </div>
+    // Barre de contexte (remplace le score interne — visible par le prospect)
+    const contextParts = [];
+    if (data.nbAnalyses) contextParts.push(`Sélectionné parmi <strong style="color:#C8A96E;">${data.nbAnalyses}</strong> entreprises analysées`);
+    if (data.sourceProspect) contextParts.push(`📍 ${data.sourceProspect}`);
+    if (data.decisionnaire) contextParts.push(`👤 ${data.decisionnaire}`);
+    const scoreBadgeHTML = contextParts.length ? `
+    <div style="background:#1a1a2e;color:white;padding:10px 16px;margin-top:14px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+        ${contextParts.map(p => `<span style="font-size:0.75rem;color:rgba(255,255,255,0.7);">${p}</span>`).join('<span style="color:rgba(255,255,255,0.2);">·</span>')}
+        ${data.statutPipedrive === 'dans' ? `<span style="margin-left:auto;background:#16a34a22;border:1px solid #16a34a55;color:#4ade80;font-size:0.72rem;font-weight:700;padding:2px 10px;border-radius:10px;">✅ Pipedrive</span>` : ''}
     </div>` : '';
 
     // Manque à gagner
@@ -568,7 +565,7 @@ function generateAuditHTML(data, lang = 'fr') {
         ${logoHeaderHTML}
         <div style="flex:1;">
             <div style="font-size:0.7rem;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">
-                ${isCa ? 'Auditoria Digital' : 'Audit Digital'} &nbsp;·&nbsp; ${data.industry} &nbsp;·&nbsp; ${loc} &nbsp;·&nbsp; ${dateStr}
+                ${isCa ? 'Auditoria Digital' : 'Audit Digital'} &nbsp;·&nbsp; ${data.industry} &nbsp;·&nbsp; ${loc} &nbsp;·&nbsp; ${dateStr}${data.sourceProspect ? ` &nbsp;·&nbsp; 📍 ${data.sourceProspect}` : ''}
             </div>
             <h1 class="pdf-title">${c}</h1>
             ${googleBadge}
@@ -698,8 +695,8 @@ function generateAuditHTML(data, lang = 'fr') {
         <p style="font-size:0.98rem;font-weight:800;margin:0 0 6px;">${isCa ? 'Parlem del vostre projecte' : 'Parlons de votre projet'}</p>
         <p style="font-size:0.82rem;margin:0 0 6px;color:#555;">${isCa ? '15 minuts per fer el punt junts, sense compromís.' : '15 minutes pour faire le point ensemble, sans engagement.'}</p>
         <p style="font-size:0.8rem;font-weight:700;margin:0;color:var(--accent);">contact@htmcagency.com &nbsp;·&nbsp; htmcagency.com</p>
-        ${data.prenomCommercial ? `<p style="font-size:0.78rem;color:rgba(255,255,255,0.5);margin-top:6px;">Audit préparé par <strong style="color:#C8A96E;">${data.prenomCommercial}</strong> · HTMC Agency</p>` : ''}
-        ${data.dateExpiration ? `<p style="font-size:0.75rem;color:rgba(255,255,255,0.4);margin-top:4px;">⏳ Offre valable jusqu'au <strong style="color:rgba(255,255,255,0.7);">${data.dateExpiration}</strong></p>` : ''}
+        ${data.prenomCommercial ? `<p style="font-size:0.78rem;color:#555;margin-top:6px;">Audit préparé par <strong style="color:#B8860B;">${data.prenomCommercial}</strong> · HTMC Agency</p>` : ''}
+        ${data.dateExpiration ? `<p style="font-size:0.75rem;color:#FF6B00;font-weight:700;margin-top:4px;">⏳ Offre valable jusqu'au <strong style="color:#FF6B00;">${data.dateExpiration}</strong></p>` : ''}
     </div>
 
     ${footerHTML(isCa)}

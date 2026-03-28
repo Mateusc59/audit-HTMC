@@ -4,6 +4,125 @@ let logoData = null;
 let screenshotData = null;
 let autoFillCaData = null;
 
+// ─── FILTRE EN OR ─────────────────────────────────────────────────────────────
+const FILTRE_OR_CRITERIA = [
+    { emoji: '💰', title: 'Potentiel économique',                    levels: ['Micro-structure', 'PME modeste', 'PME établie', 'Fort CA / effectif conséquent'] },
+    { emoji: '🔍', title: 'Problèmes identifiés (site, SEO, présence)', levels: ['Site pro / bien référencé', 'Correct mais améliorable', 'Basique / vieillot', 'Hors ligne / inexistant'] },
+    { emoji: '🚀', title: 'Envie de croissance (activité, réseaux)',   levels: ['Aucune communication', 'Modéré', 'Actif réseaux', 'Très dynamique / Google Ads'] },
+    { emoji: '💚', title: 'Ressenti (avis, image, réputation)',        levels: ['Mauvais avis', 'Mitigés < 4.0', 'Bons 4.0–4.5 · 20+ avis', 'Excellent 4.5+ · 50+ avis'] },
+    { emoji: '🚨', title: 'Alertes (liquidation, procédures)',         levels: ['Alerte grave', 'Signaux négatifs', 'RAS', 'Signaux très positifs'] }
+];
+
+let filtreOrScores  = [0, 0, 0, 0, 0];
+let filtreOrBonus   = false;
+let filtreOrTouched = false;
+let currentProspectId = null;
+let activeScoreFilter = null; // null = tous
+
+function getFiltreOrScore() {
+    return filtreOrScores.reduce((a, b) => a + b, 0) + (filtreOrBonus ? 1 : 0);
+}
+
+function getScoreInfo(score) {
+    if (score >= 14) return { label: 'Prospect PRIORITAIRE', emoji: '🏆', gauge: '#D4A574', bg: '#fff8e8', border: '#D4A574', text: '#7a4a00', dark: '#16a34a', shortLabel: 'PRIORITAIRE' };
+    if (score >= 11) return { label: 'Bon prospect',         emoji: '🟢', gauge: '#16a34a', bg: '#f0fdf4', border: '#16a34a', text: '#14532d', dark: '#2563eb', shortLabel: 'BON' };
+    if (score >= 7)  return { label: 'À surveiller',         emoji: '🟡', gauge: '#d97706', bg: '#fffbeb', border: '#d97706', text: '#78350f', dark: '#d97706', shortLabel: 'SURVEILLER' };
+    return               { label: 'À écarter',              emoji: '🔴', gauge: '#dc2626', bg: '#fee2e2', border: '#dc2626', text: '#991b1b', dark: '#dc2626', shortLabel: 'ÉCARTER' };
+}
+
+function updateFiltreOrDisplay() {
+    const score = getFiltreOrScore();
+    const info  = getScoreInfo(score);
+    const pct   = Math.round((score / 15) * 100);
+
+    const gaugeFill  = document.getElementById('filtreOrGaugeFill');
+    const scoreLabel = document.getElementById('filtreOrScoreLabel');
+    const scoreBadge = document.getElementById('filtreOrScoreBadge');
+
+    if (gaugeFill)  { gaugeFill.style.width = pct + '%'; gaugeFill.style.background = info.gauge; }
+    if (scoreLabel)   scoreLabel.textContent = `Score : ${score}/15`;
+    if (scoreBadge) {
+        scoreBadge.textContent = `${info.emoji} ${info.label}`;
+        scoreBadge.style.background   = info.bg;
+        scoreBadge.style.borderColor  = info.border;
+        scoreBadge.style.color        = info.text;
+    }
+
+    // Auto-sync le champ scoreTotal (interne, non visible dans le PDF)
+    if (filtreOrTouched) {
+        const el = document.getElementById('scoreTotal');
+        if (el) el.value = score;
+    }
+}
+
+function initFiltreOrCriteria() {
+    const container = document.getElementById('filtreOrCriteria');
+    if (!container) return;
+
+    container.innerHTML = FILTRE_OR_CRITERIA.map((crit, i) => `
+        <div class="filtre-or-criterion">
+            <div class="filtre-or-criterion-title">${crit.emoji} ${crit.title}</div>
+            <div class="filtre-or-pills">
+                ${crit.levels.map((level, v) => `
+                    <button type="button"
+                            class="filtre-or-pill${filtreOrTouched && filtreOrScores[i] === v ? ' active' : ''}"
+                            data-criterion="${i}" data-value="${v}">
+                        <span class="pill-num">${v}</span>
+                        <span class="pill-label">${level}</span>
+                    </button>`).join('')}
+            </div>
+        </div>`).join('');
+
+    container.querySelectorAll('.filtre-or-pill').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const ci  = +btn.dataset.criterion;
+            const val = +btn.dataset.value;
+            filtreOrScores[ci] = val;
+            filtreOrTouched    = true;
+            container.querySelectorAll(`.filtre-or-pill[data-criterion="${ci}"]`)
+                .forEach(b => b.classList.toggle('active', +b.dataset.value === val));
+            updateFiltreOrDisplay();
+        });
+    });
+}
+
+function syncBonusToggle() {
+    const toggle = document.getElementById('bonusToggle');
+    if (!toggle) return;
+    toggle.textContent = filtreOrBonus ? 'Oui ✓' : 'Non';
+    toggle.classList.toggle('active', filtreOrBonus);
+}
+
+function saveFiltreOrScore(prospectId) {
+    if (!prospectId || !filtreOrTouched) return;
+    const all = JSON.parse(localStorage.getItem('filtreOr_scores') || '{}');
+    all[prospectId] = { criteria: [...filtreOrScores], bonus: filtreOrBonus, score: getFiltreOrScore(), ts: Date.now() };
+    localStorage.setItem('filtreOr_scores', JSON.stringify(all));
+}
+
+function loadFiltreOrScore(prospectId) {
+    const all  = JSON.parse(localStorage.getItem('filtreOr_scores') || '{}');
+    const data = all[prospectId];
+    if (data) {
+        filtreOrScores  = data.criteria || [0,0,0,0,0];
+        filtreOrBonus   = data.bonus   || false;
+        filtreOrTouched = true;
+    } else {
+        filtreOrScores  = [0,0,0,0,0];
+        filtreOrBonus   = false;
+        filtreOrTouched = false;
+    }
+    initFiltreOrCriteria();
+    syncBonusToggle();
+    updateFiltreOrDisplay();
+}
+
+function getStoredScore(prospectId) {
+    const all = JSON.parse(localStorage.getItem('filtreOr_scores') || '{}');
+    return all[prospectId] || null;
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
 // ─── SIDEBAR PIPEDRIVE ────────────────────────────────────────────────────────
 const STAGES = {
     12: { name: 'Identifié',  color: '#6B7280' },
@@ -51,7 +170,13 @@ function buildStageFilters() {
     const counts = {};
     allProspects.forEach(p => { counts[p.stage_id] = (counts[p.stage_id] || 0) + 1; });
 
-    container.innerHTML = Object.entries(STAGES)
+    const allActive = Object.keys(STAGES).filter(id => counts[+id]).every(id => activeStages.has(+id));
+
+    container.innerHTML = `
+        <button class="stage-pill ${allActive ? 'active' : ''}" id="stageAll" style="--pill-color: #D4A574">
+            Tous <span>${allProspects.length}</span>
+        </button>` +
+        Object.entries(STAGES)
         .filter(([id]) => counts[+id])
         .map(([id, s]) => `
             <button class="stage-pill ${activeStages.has(+id) ? 'active' : ''}"
@@ -61,11 +186,51 @@ function buildStageFilters() {
             </button>`
         ).join('');
 
-    container.querySelectorAll('.stage-pill').forEach(btn => {
+    container.querySelector('#stageAll').addEventListener('click', () => {
+        Object.keys(STAGES).filter(id => counts[+id]).forEach(id => activeStages.add(+id));
+        container.querySelectorAll('.stage-pill').forEach(b => b.classList.add('active'));
+        renderProspects();
+    });
+
+    container.querySelectorAll('.stage-pill[data-stage]').forEach(btn => {
         btn.addEventListener('click', () => {
             const id = +btn.dataset.stage;
             activeStages.has(id) ? activeStages.delete(id) : activeStages.add(id);
             btn.classList.toggle('active');
+            // Désactiver "Tous" si un stage est décoche
+            const allStageActive = Object.keys(STAGES).filter(i => counts[+i]).every(i => activeStages.has(+i));
+            container.querySelector('#stageAll')?.classList.toggle('active', allStageActive);
+            renderProspects();
+        });
+    });
+
+    // Filtres par score
+    buildScoreFilters();
+}
+
+function buildScoreFilters() {
+    const container = document.getElementById('scoreFilters');
+    if (!container) return;
+
+    const scoreLevels = [
+        { key: 'prioritaire', label: '🏆 Prioritaire', color: '#D4A574' },
+        { key: 'bon',         label: '🟢 Bon',          color: '#16a34a' },
+        { key: 'surveiller',  label: '🟡 Surveiller',   color: '#d97706' },
+        { key: 'ecarter',     label: '🔴 Écarter',      color: '#dc2626' }
+    ];
+
+    container.innerHTML = scoreLevels.map(({ key, label, color }) => `
+        <button class="score-pill ${activeScoreFilter === key ? 'active' : ''}"
+                data-score="${key}"
+                style="--pill-color: ${color}">
+            ${label}
+        </button>`).join('');
+
+    container.querySelectorAll('.score-pill').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const key = btn.dataset.score;
+            activeScoreFilter = activeScoreFilter === key ? null : key;
+            container.querySelectorAll('.score-pill').forEach(b => b.classList.toggle('active', b.dataset.score === activeScoreFilter));
             renderProspects();
         });
     });
@@ -78,6 +243,16 @@ function renderProspects() {
     const filtered = allProspects.filter(p => {
         if (!activeStages.has(p.stage_id)) return false;
         if (q && !cleanProspectName(p).toLowerCase().includes(q)) return false;
+        // Filtre par score
+        if (activeScoreFilter !== null) {
+            const stored = getStoredScore(p.id);
+            if (!stored) return false;
+            const sc = stored.score;
+            if (activeScoreFilter === 'prioritaire' && sc < 14) return false;
+            if (activeScoreFilter === 'bon'         && (sc < 11 || sc > 13)) return false;
+            if (activeScoreFilter === 'surveiller'  && (sc < 7  || sc > 10)) return false;
+            if (activeScoreFilter === 'ecarter'     && sc >= 7) return false;
+        }
         return true;
     });
 
@@ -87,11 +262,20 @@ function renderProspects() {
     }
 
     list.innerHTML = filtered.map(p => {
-        const name = cleanProspectName(p);
-        const s = STAGES[p.stage_id] || { name: '?', color: '#888' };
+        const name    = cleanProspectName(p);
+        const s       = STAGES[p.stage_id] || { name: '?', color: '#888' };
+        const stored  = getStoredScore(p.id);
+        let scoreBadge = '';
+        if (stored) {
+            const info = getScoreInfo(stored.score);
+            scoreBadge = `<span class="prospect-score-badge" style="background:${info.bg};color:${info.text};border:1px solid ${info.border};">${info.emoji} ${stored.score}</span>`;
+        }
         return `
             <div class="prospect-item" data-id="${p.id}">
-                <span class="prospect-name">${name}</span>
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:4px;">
+                    <span class="prospect-name">${name}</span>
+                    ${scoreBadge}
+                </div>
                 <span class="prospect-stage" style="background:${s.color}22;color:${s.color};border:1px solid ${s.color}44;">${s.name}</span>
             </div>`;
     }).join('');
@@ -108,6 +292,10 @@ async function selectProspect(id) {
     // Sélection visuelle
     document.querySelectorAll('.prospect-item').forEach(el => el.classList.remove('selected'));
     document.querySelector(`.prospect-item[data-id="${id}"]`)?.classList.add('selected');
+
+    // Mémoriser le prospect courant et charger ses scores Filtre en Or
+    currentProspectId = id;
+    loadFiltreOrScore(id);
 
     // Remplir le nom immédiatement
     document.getElementById('companyName').value = cleanProspectName(p);
@@ -144,6 +332,20 @@ document.addEventListener('DOMContentLoaded', function() {
         renderProspects();
     });
     document.getElementById('refreshProspects').addEventListener('click', loadProspects);
+
+    // Filtre en Or
+    initFiltreOrCriteria();
+    updateFiltreOrDisplay();
+
+    const bonusToggle = document.getElementById('bonusToggle');
+    if (bonusToggle) {
+        bonusToggle.addEventListener('click', () => {
+            filtreOrBonus   = !filtreOrBonus;
+            filtreOrTouched = true;
+            syncBonusToggle();
+            updateFiltreOrDisplay();
+        });
+    }
 });
 
 function initializeCheckboxes() {
@@ -325,7 +527,17 @@ async function generateAudit() {
 
     loadingText.textContent = 'Mise en page de l\'audit…';
 
-    const baseData = { companyName, industry, location, services, goals, years, uniqueValue, logo: logoData, screenshot: screenshotData, googleRating, nbAvis, siteStatus, websiteUrl, scoreTotal, nbAnalyses, panierMoyen, prenomCommercial, concurrentNom, concurrentSite, accroche, dateExpiration };
+    // Nouveaux champs
+    const sourceProspect  = document.getElementById('sourceProspect')?.value  || '';
+    const decisionnaire   = document.getElementById('decisionnaire')?.value?.trim() || '';
+    const statutPipedrive = document.getElementById('statutPipedrive')?.value || '';
+
+    // Sauvegarder le score Filtre en Or pour ce prospect
+    if (currentProspectId) saveFiltreOrScore(currentProspectId);
+    // Rafraîchir les badges dans la sidebar
+    renderProspects();
+
+    const baseData = { companyName, industry, location, services, goals, years, uniqueValue, logo: logoData, screenshot: screenshotData, googleRating, nbAvis, siteStatus, websiteUrl, scoreTotal, nbAnalyses, panierMoyen, prenomCommercial, concurrentNom, concurrentSite, accroche, dateExpiration, sourceProspect, decisionnaire, statutPipedrive };
 
     // Pour la version CA, utiliser les valeurs CA de l'auto-fill si disponibles
     const caOverrides = autoFillCaData ? {
@@ -358,8 +570,19 @@ function resetForm() {
         logoData = null;
         screenshotData = null;
         autoFillCaData = null;
+        currentProspectId = null;
+
+        // Reset Filtre en Or
+        filtreOrScores  = [0, 0, 0, 0, 0];
+        filtreOrBonus   = false;
+        filtreOrTouched = false;
+        initFiltreOrCriteria();
+        syncBonusToggle();
+        updateFiltreOrDisplay();
+
         document.getElementById('screenshotPreview').innerHTML = '';
         document.getElementById('result').classList.remove('active');
+        document.querySelectorAll('.prospect-item').forEach(el => el.classList.remove('selected'));
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 }

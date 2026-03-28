@@ -24,6 +24,10 @@
             <!-- Rempli dynamiquement -->
         </div>
 
+        <div class="score-filter-pills" id="scoreFilters">
+            <!-- Rempli dynamiquement -->
+        </div>
+
         <div class="sidebar-list" id="prospectList">
             <div class="sidebar-loading">Chargement…</div>
         </div>
@@ -35,6 +39,34 @@
             <h1>🚀 Générateur d'Audits</h1>
             <p class="subtitle">Créez des audits professionnels en quelques minutes</p>
         </header>
+
+        <!-- FILTRE EN OR -->
+        <div class="form-section filtre-or-section">
+            <h2 class="section-title">
+                <span class="section-number filtre-or-icon">🏅</span>
+                Qualification — Filtre en Or
+            </h2>
+
+            <div class="filtre-or-criteria" id="filtreOrCriteria">
+                <!-- Rempli par JS -->
+            </div>
+
+            <div class="filtre-or-bonus-row">
+                <span class="filtre-or-bonus-label">👤 Décisionnaire identifié ?</span>
+                <button type="button" class="filtre-or-toggle" id="bonusToggle">Non</button>
+                <span class="filtre-or-bonus-hint">+1 point si oui</span>
+            </div>
+
+            <div class="filtre-or-score-panel">
+                <div class="filtre-or-gauge">
+                    <div class="filtre-or-gauge-fill" id="filtreOrGaugeFill"></div>
+                </div>
+                <div class="filtre-or-score-display">
+                    <span class="filtre-or-score-label" id="filtreOrScoreLabel">Score : 0/15</span>
+                    <span class="filtre-or-score-badge" id="filtreOrScoreBadge">🔴 À écarter</span>
+                </div>
+            </div>
+        </div>
 
         <!-- FORMULAIRE -->
         <div class="form-section">
@@ -122,6 +154,32 @@
                 <div class="form-group">
                     <label for="nbAnalyses">Entreprises analysées</label>
                     <input type="number" id="nbAnalyses" placeholder="Ex: 14" value="14">
+                </div>
+
+                <div class="form-group">
+                    <label for="sourceProspect">📍 Source</label>
+                    <select id="sourceProspect">
+                        <option value="">Sélectionnez...</option>
+                        <option value="Google Maps">Google Maps</option>
+                        <option value="LinkedIn">LinkedIn</option>
+                        <option value="Référence">Référence</option>
+                        <option value="Réseaux sociaux">Réseaux sociaux</option>
+                        <option value="Autre">Autre</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="decisionnaire">👤 Décisionnaire</label>
+                    <input type="text" id="decisionnaire" placeholder="Ex: Jean Dupont — Gérant">
+                </div>
+
+                <div class="form-group">
+                    <label for="statutPipedrive">🔵 Statut Pipedrive</label>
+                    <select id="statutPipedrive">
+                        <option value="">Non vérifié</option>
+                        <option value="dans">✅ Dans Pipedrive</option>
+                        <option value="absent">❌ Absent Pipedrive</option>
+                    </select>
                 </div>
 
                 <div class="form-group">
